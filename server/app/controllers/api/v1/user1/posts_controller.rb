@@ -26,7 +26,7 @@ module Api
           # @post = Post.new(post_params)
           @post = current_user.posts.build(post_params)
           @post.image.attach(params[:post][:image])
-          if @post.save
+          if @post.valid?
             render json: {post: @post}, status: :ok
           else
             render json: {error: "Post false"}, status: :unprocessable_entity
