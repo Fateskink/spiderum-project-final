@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_25_175834) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_26_044733) do
   create_table "posts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_25_175834) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "view"
+    t.index ["created_at"], name: "index_posts_on_created_at"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -32,6 +33,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_25_175834) do
     t.string "activation_digest"
     t.boolean "activated", default: false
     t.datetime "activated_at"
+    t.string "reset_digest"
+    t.datetime "reset_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
