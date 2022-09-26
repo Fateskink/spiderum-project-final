@@ -25,7 +25,7 @@ module Api
         def create
           # @post = Post.new(post_params)
           @post = current_user.posts.build(post_params)
-          @post.image.attach(params[:post][:image])
+          # @post.images.attach(params[:post][:image])
           if @post.valid?
             render json: {post: @post}, status: :ok
           else
