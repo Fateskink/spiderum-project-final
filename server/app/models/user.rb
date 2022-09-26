@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token, :activation_token
+  attr_accessor :remember_token, :activation_token, :reset_token
   devise :database_authenticatable
   has_many :posts
   before_save :downcase_email
@@ -50,7 +50,19 @@ class User < ApplicationRecord
     UserMailer.account_activation(self).deliver_now
   end
 
-  private
+  # Sets the password reset attributes.
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attribute(:reset_digest, User.digest(reset_token))
+    update_attribute(:reset_sent_at, Time.zone.now)
+  end
+
+  # Sends password reset email.
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+private
   # Converts email to all lower-case.
   def downcase_email
     self.email = email.downcase
