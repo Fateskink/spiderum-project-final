@@ -68,8 +68,9 @@ class User < ApplicationRecord
   end
 
   def feed
-    @post.where("user_id = ?", id)
+    Post.where("user_id = ?", id)
   end
+  
 private
 
   # Converts email to all lower-case.
