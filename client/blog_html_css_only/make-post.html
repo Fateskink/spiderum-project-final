@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <title>Spiderum</title>
+</head>
+<body class="content-fix">
+    <form class="flex flex-col flex-gaps-30" action="">
+        <h2>Tạo bài viết của bạn</h2>
+        <input type="text" placeholder="Tiêu đề bài viết">
+        <textarea name="" id="" cols="" rows="30" placeholder="Nội dung bài viết"></textarea>
+        <div class="flex sp-between">
+            <div>
+                <label for="userName">Tên tác giả: </label>   
+                <input type="text" name="" id="userName">
+            </div>
+            <div>
+                <label for="">Chọn chuyên mục: </label>
+                <select name="" id="">
+                    <option value="">Quan điểm - Tranh luận</option>
+                    <option value="">Truyền cảm hứng</option>
+                    <option value="">Khoa học công nghệ</option>
+                    <option value="">Thể thao</option>
+                    <option value="">Game</option>
+                </select>
+            </div>
+        </div>
+        <button class="btn-gray">Gửi bài viết</button>
+    </form>
+    <div id="editor">
+
+    </div>
+</body>
+<script>
+var quill = new Quill('#editor', {
+    theme: 'snow'
+  });
+  var editor_content = quill.container.innerHTML
+</script>
+</html>
