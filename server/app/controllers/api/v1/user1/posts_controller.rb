@@ -2,10 +2,12 @@ module Api
   module V1
     module User1
       class PostsController < ApplicationController
+        before_action :set_user
         before_action :set_post, only: %i[show edit update destroy]
         
         def index
-          @posts = Post.all
+          @posts = Post.paginate(page: params[:page], per_page: 20)
+          render json: {posts: @posts}, status: :ok
         end
 
         def show
@@ -53,6 +55,10 @@ module Api
 
         def set_post
           @post = Post.find(params[:id])
+        end
+
+        def set_user
+          @user = User.find(params[:id])
         end
       end
     end

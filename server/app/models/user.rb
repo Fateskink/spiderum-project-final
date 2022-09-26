@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   attr_accessor :remember_token, :activation_token, :reset_token
   devise :database_authenticatable
-  has_many :posts
+  has_many :posts, dependent: :destroy
   before_save :downcase_email
   before_create :create_activation_digest
 
