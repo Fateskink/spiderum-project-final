@@ -51,6 +51,11 @@ GEM
       activemodel (>= 4.1, < 7.1)
       case_transform (>= 0.2)
       jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
+    active_storage_validations (0.9.8)
+      activejob (>= 5.2.0)
+      activemodel (>= 5.2.0)
+      activestorage (>= 5.2.0)
+      activesupport (>= 5.2.0)
     activejob (7.0.4)
       activesupport (= 7.0.4)
       globalid (>= 0.3.6)
@@ -119,6 +124,9 @@ GEM
     http-form_data (2.3.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
+    image_processing (1.12.2)
+      mini_magick (>= 4.9.5, < 5)
+      ruby-vips (>= 2.0.17, < 3)
     io-console (0.5.11)
     irb (1.4.1)
       reline (>= 0.3.0)
@@ -138,6 +146,7 @@ GEM
       trollop (>= 1.7)
     marcel (1.0.2)
     method_source (1.0.0)
+    mini_magick (4.11.0)
     mini_mime (1.1.2)
     minitest (5.16.3)
     msgpack (1.5.6)
@@ -209,6 +218,8 @@ GEM
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    ruby-vips (2.1.4)
+      ffi (~> 1.12)
     strscan (3.0.4)
     thor (1.2.1)
     timeout (0.3.0)
@@ -233,6 +244,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.10.0)
+  active_storage_validations
   bcrypt (~> 3.1.7)
   bootsnap
   byebug
@@ -240,6 +252,7 @@ DEPENDENCIES
   debug
   devise
   faker
+  image_processing (~> 1.2)
   jwt
   mailtrap (~> 0.2.1)
   mysql2 (~> 0.5)
