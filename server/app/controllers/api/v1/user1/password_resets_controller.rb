@@ -26,6 +26,7 @@ module Api
           if params[:user][:password].empty?
             render json: {message: "Password can't be empty"}, status: :unprocessable_entity
           elsif @user.update(user_params)
+            @user.update_attribute(:reset_digest, nil)
             render json: {message: "Password has been reset.", user: @user}, status: :ok
           else
             render json: {message: "False to reset password"}, status: :unprocessable_entity
@@ -33,6 +34,10 @@ module Api
         end
 
       private
+
+        def user_params
+          params.require(:user).permit(:password, :password_confirmation)
+        end
 
         def set_user
           @user = User.find_by(email: params[:email])
@@ -42,6 +47,12 @@ module Api
         def valid_user
           unless (@user && @user.activated? && @user.authenticated?(:reset, params[:id]))
             render json: {message: "You need to active your email first!"}, status: :unprocessable_entity
+          end
+        end
+
+        def check_expiration
+          if @user.password_reset_expired?
+            render json: {message: "Password reset has expired."}
           end
         end
       end
