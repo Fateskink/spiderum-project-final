@@ -23,7 +23,9 @@ module Api
         end
 
         def create
-          @post = Post.new(post_params)
+          # @post = Post.new(post_params)
+          @post = current_user.posts.build(post_params)
+          @post.image.attach(params[:post][:image])
           if @post.save
             render json: {post: @post}, status: :ok
           else
@@ -52,7 +54,7 @@ module Api
 
       private
         def post_params
-          params.require(:post).permit(:title, :content)
+          params.require(:post).permit(:title, :content, :image)
         end
 
         def set_post
