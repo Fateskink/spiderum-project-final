@@ -56,6 +56,10 @@ a {
     justify-content: space-between;
 }
 
+.sp-evenly{
+    justify-content: space-evenly;
+}
+
 .border-b-light-gray {
     border-bottom: #F2F6FC solid 1px;
 }
@@ -121,6 +125,7 @@ a {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     position: sticky;
     top:0;
+    z-index: 1;
 }
 
 .main {
@@ -265,4 +270,26 @@ a {
     background: #309BD6;
     border-radius: 5px;
     min-width: 400px;
+}
+
+.user-info-and-donate {
+    margin-top: -115px;
+    /* border: 1px solid #000; */
+    width: 300px;
+}
+
+.user-info {
+    text-align: center;
+    /* background-image: linear-gradient(rgb(255, 255, 255), rgb(170, 170, 170)); */
+}
+
+.user-bg-img {
+    width: 1280px;
+    height: 300px;
+}
+
+.user-avatar {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
 }

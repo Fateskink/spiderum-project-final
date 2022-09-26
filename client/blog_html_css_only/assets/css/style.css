@@ -274,13 +274,13 @@ a {
 
 .user-info-and-donate {
     margin-top: -115px;
-    border: 1px solid #000;
+    /* border: 1px solid #000; */
     width: 300px;
 }
 
 .user-info {
     text-align: center;
-    background-image: linear-gradient(rgb(255, 255, 255), rgb(170, 170, 170));
+    /* background-image: linear-gradient(rgb(255, 255, 255), rgb(170, 170, 170)); */
 }
 
 .user-bg-img {
@@ -292,19 +292,4 @@ a {
     width: 250px;
     height: 250px;
     border-radius: 50%;
-}
-/* test mode  */
-
-.box1 {
-    width: 500px;
-    height: 500px;
-    background: red;
-}
-.box2 {
-    width: 500px;
-    height: 500px;
-    background: blue;
-}
-.box-to {
-    margin-top: -250px;
 }
