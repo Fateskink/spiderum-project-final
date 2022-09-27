@@ -21,12 +21,12 @@ User.create!(name: "Admin",
 end
 
 # Generate posts for a subset of users.
-users = User.order(:created_at).take(8)
-30.times do
-  content = Faker::Lorem.sentence(word_count: 5)
-  title = "This is title"
-  users.each { |user| user.posts.create!(content: content, title: title) }
-end
+# users = User.order(:created_at).take(8)
+# 30.times do
+#   content = Faker::Lorem.sentence(word_count: 5)
+#   title = "This is title"
+#   users.each { |user| user.posts.create!(content: content, title: title) }
+# end
 
 # Create following relationships.
 users = User.all

@@ -8,7 +8,7 @@ class Post < ApplicationRecord
                     size:{ less_than: 5.megabytes, message: "should be less than 5MB" }
 
   # Returns a resized image for display.
-  def display_image
-    image.variant(resize_to_limit: [500, 500]) # maybe change image size, dependent on future feature
-  end
+  # def display_image
+  #   image.variant(resize_to_limit: [500, 500]) # maybe change image size, dependent on future feature
+  # end
 end
