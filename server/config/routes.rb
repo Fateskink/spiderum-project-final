@@ -29,6 +29,10 @@ Rails.application.routes.draw do
         end
 
         resource :relationships, only: [:create, :destroy]
+
+        resources :posts do
+          resources :votes, only: [:create, :destroy]
+        end
       end
     end
   end
