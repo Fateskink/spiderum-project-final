@@ -58,7 +58,7 @@ module Api
           render json: {users: @users}
         end
 
-        private
+      private
 
         # set user with params id
         def set_user

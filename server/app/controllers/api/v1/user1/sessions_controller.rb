@@ -2,12 +2,14 @@ module Api
   module V1
     module User1
       class SessionsController < ApplicationController
+
         def create
           @user = User.find_by(email: params[:email])
           if @user && @user.valid_password?(params[:password])
             if user.activated?
               # remember user
-              # params[:remember_me] == '1' ? remember(user) : forget(user) instead of line 10
+              params[:remember_me] == '1' ? remember(user) : forget(user) 
+              # instead of exec "remember user"
               # uncomment with view-check box, if checked >> 1 >> remmeber, else 0 >> forget
               # Tutorial book 10.2.3/586 forwarding url >> how to add it to API?
               token = JsonWebToken.encode({ user_id: @user.id })

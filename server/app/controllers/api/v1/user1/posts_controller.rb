@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class PostsController < ApplicationController
-        before_action :set_user
+        # before_action :set_user
         before_action :set_post, only: %i[show edit update destroy]
         before_action :logged_in_user
         before_action :correct_user, only: :destroy
@@ -54,7 +54,7 @@ module Api
 
       private
         def post_params
-          params.require(:post).permit(:title, :content, :image)
+          params.require(:post).permit(:title, :content)
           # permit :image for post
         end
 
