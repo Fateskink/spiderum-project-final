@@ -9,12 +9,13 @@ module Api
         
         def index
           @posts = Post.paginate(page: params[:page], per_page: 20)
+          # @posts = Post.all
           render json: {posts: @posts}, status: :ok
         end
 
         def show
           # +1 view when the post is loaded
-          @post.update(views: @post.view + 1)
+          @post.update(view: @post.view + 1)
           render json: {post: @post}, status: :ok
         end
 
@@ -23,13 +24,12 @@ module Api
         end
 
         def create
-          # @post = Post.new(post_params)
           @post = current_user.posts.build(post_params)
           @post.image.attach(params[:post][:image])
           if @post.save
             render json: {post: @post}, status: :ok
           else
-            render json: {error: "Post false"}, status: :unprocessable_entity
+            render json: @post.errors.full_messages, status: :unprocessable_entity
           end
         end
 
@@ -55,11 +55,16 @@ module Api
       private
         def post_params
           params.require(:post).permit(:title, :content, :image)
+          # permit :image for post  |  :images => []
         end
 
         def set_post
           @post = Post.find(params[:id])
         end
+
+        # def set_post
+        #   @post = Post.with_attached_other_images.find(params[:id])
+        # end
 
         def set_user
           @user = User.find(params[:id])
@@ -72,6 +77,7 @@ module Api
             render json: {message: "You have no right"}, status: :unauthorized
           end
         end
+
       end
     end
   end

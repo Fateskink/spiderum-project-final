@@ -1,25 +1,45 @@
 class User < ApplicationRecord
   attr_accessor :remember_token, :activation_token, :reset_token
+
   devise :database_authenticatable
   has_many :posts, dependent: :destroy
+  has_many :relationships
+  has_one_attached :image
   before_save :downcase_email
   before_create :create_activation_digest
+  has_many :active_relationships, class_name: 'Relationship',
+                                  foreign_key: 'follower_id', dependent: :destroy
+  has_many :passive_relationships, class_name: 'Relationship',
+                                   foreign_key: 'followed_id', dependent: :destroy
+  has_many :following, through: :active_relationships, source: :followed
+  has_many :followers, through: :passive_relationships, source: :follower
+  validates :image, content_type: { in: %w[image/jpeg image/gif image/png], message: "must be a valid image format" },
+                            size: { less_than: 5.megabytes, message: "should be less than 5MB" }
+
+  # Returns a resized image for display.
+  def display_image
+    image.variant(resize_to_limit: [200, 200]) # maybe change image size, dependent on future feature
+  end
 
   # Returns true if the given token matches the digest.
   def authenticated?(attribute, token)
     digest = send("#{attribute}_digest")
     return false if digest.nil?
+
     BCrypt::Password.new(digest).is_password?(token)
   end
 
   # Returns the hash digest of the given string.
-  def User.digest(string)
-    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
-    BCrypt::Engine.cost
-    BCrypt::Password.create(string, cost: cost)
+  def self.digest(string)
+    cost = if ActiveModel::SecurePassword.min_cost
+             BCrypt::Engine::MIN_COST
+           else
+             BCrypt::Engine.cost
+           end
+    BCrypt::Password.create(string, cost:)
   end
 
-  def User.new_token
+  def self.new_token
     SecureRandom.urlsafe_base64
   end
 
@@ -45,6 +65,7 @@ class User < ApplicationRecord
     update_attribute(:activated, true)
     update_attribute(:activated_at, Time.zone.now)
   end
+
   # Sends activation email.
   def send_activation_email
     UserMailer.account_activation(self).deliver_now
@@ -68,10 +89,28 @@ class User < ApplicationRecord
   end
 
   def feed
-    Post.where("user_id = ?", id)
+    following_ids = "SELECT followed_id FROM relationships
+                    WHERE follower_id = :user_id"
+    Post.where("user_id IN (#{following_ids})
+    OR user_id = :user_id", user_id: id).includes(:user, image_attachment: :blob)
   end
-  
-private
+
+  # Follows a user.
+  def follow(other_user)
+    following << other_user unless self == other_user
+  end
+
+  # Unfollows a user.
+  def unfollow(other_user)
+    following.delete(other_user)
+  end
+
+  # Returns true if the current user is following the other user.
+  def following?(other_user)
+    following.include?(other_user)
+  end
+
+  private
 
   # Converts email to all lower-case.
   def downcase_email

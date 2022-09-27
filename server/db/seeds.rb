@@ -23,7 +23,15 @@ end
 # Generate posts for a subset of users.
 users = User.order(:created_at).take(8)
 30.times do
-  title = "This is title"
   content = Faker::Lorem.sentence(word_count: 5)
+  title = "This is title"
   users.each { |user| user.posts.create!(content: content, title: title) }
 end
+
+# Create following relationships.
+users = User.all
+user = users.first
+following = users[2..20]
+followers = users[3..20]
+following.each { |followed| user.follow(followed) }
+followers.each { |follower| follower.follow(user) }

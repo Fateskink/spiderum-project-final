@@ -21,6 +21,14 @@ Rails.application.routes.draw do
         get '/posts/edit', to: 'posts#edit'
 
         resource :password_resets, only: %i[new create edit update]
+
+        resources :users do
+          member do
+            get :following, :followers
+          end
+        end
+
+        resource :relationships, only: [:create, :destroy]
       end
     end
   end
