@@ -6,9 +6,9 @@ module Api
         def create
           @user = User.find_by(email: params[:email])
           if @user && @user.valid_password?(params[:password])
-            if user.activated?
+            if @user.activated?
               # remember user
-              params[:remember_me] == '1' ? remember(user) : forget(user) 
+              params[:remember_me] == '1' ? remember(@user) : forget(@user) 
               # instead of exec "remember user"
               # uncomment with view-check box, if checked >> 1 >> remmeber, else 0 >> forget
               # Tutorial book 10.2.3/586 forwarding url >> how to add it to API?
