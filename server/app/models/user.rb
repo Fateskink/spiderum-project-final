@@ -75,7 +75,7 @@ class User < ApplicationRecord
   end
 
   def feed
-    Post.where("user_id = ?", id)
+    Post.where("user_id IN (?) OR user_id = ?", following_ids, id)
   end
 
   # Follows a user.
