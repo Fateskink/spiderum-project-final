@@ -2,6 +2,8 @@ class Post < ApplicationRecord
   belongs_to :user
   # has_many_attached :images
   has_one_attached :image
+  has_many :tag_lists, through: :taggings
+  has_many :taggings, dependent: :destroy
   default_scope -> { order(created_at: :desc) } # maybe remove when create new sorting
   validates :user_id, presence: true
   validates :content, presence: true
@@ -13,9 +15,4 @@ class Post < ApplicationRecord
     image.variant(resize_to_limit: [1000, 1000]) # maybe change image size, dependent on future feature
   end
 
-  # def increment
-  #   # self.views ||= 0
-  #   self.view + 1
-  #   self.save
-  # end
 end
