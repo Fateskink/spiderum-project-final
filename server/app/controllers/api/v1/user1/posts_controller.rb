@@ -9,6 +9,7 @@ module Api
         
         def index
           @posts = Post.paginate(page: params[:page], per_page: 20)
+          # @posts = Post.all
           render json: {posts: @posts}, status: :ok
         end
 
@@ -23,13 +24,13 @@ module Api
         end
 
         def create
-          @post = Post.new(post_params)
-          # @post = current_user.posts.build(post_params)
+          # @post = Post.new(post_params)
+          @post = current_user.posts.build(post_params)
           @post.image.attach(params[:post][:image])
           if @post.save
             render json: {post: @post}, status: :ok
           else
-            render json: {error: "Post false"}, status: :unprocessable_entity
+            render json: @post.errors.full_messages, status: :unprocessable_entity
           end
         end
 
