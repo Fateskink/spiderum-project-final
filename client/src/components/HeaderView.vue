@@ -15,6 +15,7 @@
                     <li><a href=""><img src="@/assets/img/navbar/icons8-notification-32.png" alt=""></a></li>
                     <li><router-link to="/addpost"><a class="btn-gray" href="">Viết bài</a></router-link></li>
                     <li><router-link to="/login"><a class="btn-gray">Đăng Nhập</a></router-link></li>
+                    <li><router-link to="/register"><a class="btn-gray">Đăng Ky</a></router-link></li>
                 </ul>
             </div>
         </div>

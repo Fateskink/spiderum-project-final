@@ -6,6 +6,8 @@ import DiscussView from '@/components/DiscussView'
 import AddPostView from '@/components/AddPostView'
 import showBlog from '@/components/showBlog'
 import singleBlog from '@/components/singleBlog'
+import NotFound from  '@/components/NotFound'
+import RegisterView from '@/views/RegisterView'
 
 Vue.use(VueRouter)
 
@@ -48,6 +50,16 @@ const routes = [
     name: '/showblog/singleBlog',
     component: singleBlog
   },
+  {
+    path: '/register',
+    name: '/register',
+    component: RegisterView
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: NotFound,
+    component: NotFound
+  }
 
 ]
 

@@ -64,11 +64,11 @@
 /* vue only */
 
 .boxchat-fade-enter-active {
-    animation: bounce-in 0.5s;
-  }
-  .boxchat-fade-leave-active {
-    animation: bounce-in 0.5s reverse;
-  }
+  animation: bounce-in 0.5s;
+}
+.boxchat-fade-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
   @keyframes bounce-in {
     0% {
       transform: scale(0);
@@ -80,3 +80,16 @@
       transform: scale(1);
     }
   }
+
+.viewfade-enter-active, .viewfade-leave-active {
+  transition: opacity .15s ease;
+}
+
+.viewfade-enter-active {
+  transition-delay: .15s;
+}
+
+.viewfade-enter, .viewfade-leave-to
+/* .component-fade-leave-active below version 2.1.8 */ {
+  opacity: 0 ;
+}
