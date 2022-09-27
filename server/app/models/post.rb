@@ -10,6 +10,6 @@ class Post < ApplicationRecord
 
   # Returns a resized image for display.
   def display_image
-    image.variant(resize_to_limit: [500, 500]) # maybe change image size, dependent on future feature
+    image.variant(resize_to_limit: [1000, 1000]) # maybe change image size, dependent on future feature
   end
 end

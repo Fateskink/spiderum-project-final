@@ -22,6 +22,7 @@ module Api
 
         def create
           @user = User.new(user_params)
+          @user.image.attach(params[:user][:image])
           if @user.save
             @user.send_activation_email
             render json: { message: 'Please check your email to active account' }, status: :ok
@@ -66,7 +67,7 @@ module Api
         end
 
         def user_params
-          params.permit(:name, :email, :password, :password_confirmation)
+          params.permit(:name, :email, :password, :password_confirmation, :image)
         end
 
         # Confirms a logged-in user.
