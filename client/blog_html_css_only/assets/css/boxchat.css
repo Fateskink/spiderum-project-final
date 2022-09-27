@@ -1,0 +1,52 @@
+.boxchat {
+    /* height: 360px; */
+    width: 300px;
+    background: white;
+    /* border: 1px solid #000; */
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    border-radius: 10px;
+    position: fixed;
+    bottom: 60px;
+    right: 60px;
+    z-index: 1;
+    /* background: red; */
+    display: none;
+}
+
+.boxchat-header  {
+    height: 30px;
+    background: #2FB5FA;
+    padding: 15px 15px;
+    align-items: center;
+    border-radius:10px 10px 0 0;
+}
+
+.boxchat-output {
+    height: 330px;
+    overflow: scroll;
+    background: rgb(231, 231, 231);
+}
+
+.boxchat-input {
+    height: 30px;
+    justify-content: space-evenly;
+    margin: 15px 0;
+}
+
+.boxchat-input input {
+    border: none;
+    background: rgb(231, 231, 231);
+    border-radius: 5px;
+    width: 70%;
+}
+
+.boxchat-send {
+    cursor: pointer;
+}
+
+.box1 {
+    position: fixed;
+    bottom: 60px;
+    left: 60px;
+    background: red;
+}
