@@ -25,7 +25,7 @@ module Api
         def create
           @post = Post.new(post_params)
           # @post = current_user.posts.build(post_params)
-          # @post.images.attach(params[:post][:image])
+          @post.image.attach(params[:post][:image])
           if @post.save
             render json: {post: @post}, status: :ok
           else
@@ -54,13 +54,17 @@ module Api
 
       private
         def post_params
-          params.require(:post).permit(:title, :content)
-          # permit :image for post
+          params.require(:post).permit(:title, :content, :image)
+          # permit :image for post  |  :images => []
         end
 
         def set_post
           @post = Post.find(params[:id])
         end
+
+        # def set_post
+        #   @post = Post.with_attached_other_images.find(params[:id])
+        # end
 
         def set_user
           @user = User.find(params[:id])

@@ -3,7 +3,7 @@ module Api
     module User1
       class RelationshipsController < ApplicationController
         before_action :logged_in_user
-        
+
         def create
           @user = User.find(params[:followed_id])
           current_user.active_relationships.build(followed_id: @user.id)
@@ -12,7 +12,7 @@ module Api
 
         def destroy
           # @user = Relationship.find(params[:id]).followed
-          @relationship = current_user.active_relationships.find_by(followed_id: @user.id)
+          current_user.active_relationships.find_by(followed_id: @user.id)
           if @relationship.valid?
             @relationship.destroy
             render json: { message: 'Unfollow' }, status: :ok
