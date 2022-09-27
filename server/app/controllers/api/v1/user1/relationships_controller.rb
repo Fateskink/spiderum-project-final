@@ -6,7 +6,7 @@ module Api
 
         def create
           @user = User.find(params[:followed_id])
-          current_user.active_relationships.build(followed_id: @user.id)
+          current_user.active_relationships.build(follower_id: @current_user.id,followed_id: @user.id)
           render json: { message: 'Follow' }, status: :ok
         end
 

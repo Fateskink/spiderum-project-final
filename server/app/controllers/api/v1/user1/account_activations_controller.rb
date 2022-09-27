@@ -9,7 +9,8 @@ module Api
             token = JsonWebToken.encode({ user_id: @user.id })
             render json: { message: 'Account activated!', user: @user, token: }, status: :ok
           else
-            render json: { message: 'Invalid activation link' }, status: :unprocessable_entity
+            render json: { message1: 'Invalid activation link', message2: @post.errors.full_messages }, 
+            status: :unprocessable_entity
           end
         end
       end
