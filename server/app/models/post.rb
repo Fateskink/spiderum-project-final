@@ -12,4 +12,10 @@ class Post < ApplicationRecord
   def display_image
     image.variant(resize_to_limit: [1000, 1000]) # maybe change image size, dependent on future feature
   end
+
+  # def increment
+  #   # self.views ||= 0
+  #   self.view + 1
+  #   self.save
+  # end
 end

@@ -14,7 +14,7 @@ module Api
 
         def show
           # +1 view when the post is loaded
-          @post.update(views: @post.view + 1)
+          @post.update(view: @post.view + 1)
           render json: {post: @post}, status: :ok
         end
 
@@ -77,6 +77,7 @@ module Api
             render json: {message: "You have no right"}, status: :unauthorized
           end
         end
+
       end
     end
   end
