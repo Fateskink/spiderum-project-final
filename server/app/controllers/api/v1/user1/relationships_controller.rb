@@ -12,7 +12,7 @@ module Api
 
         def destroy
           # @user = Relationship.find(params[:id]).followed
-          current_user.active_relationships.find_by(followed_id: @user.id)
+          @relationship = current_user.active_relationships.find_by(followed_id: @user.id)
           if @relationship.valid?
             @relationship.destroy
             render json: { message: 'Unfollow' }, status: :ok
