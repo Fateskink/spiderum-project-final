@@ -1,7 +1,7 @@
 module Api
   module V1
     module User1
-      class PasswordResetsController < ApplicationController
+      class CommentsController < ApplicationController
         before_action :find_commentable, only: :create
         before_action :logged_in_user
         before_action :correct_user, only: :destroy
@@ -12,8 +12,8 @@ module Api
         end
 
         def create
-          @comment_content.comments.build(comment_params)
-          if @comment_content.save
+          @commentable.comments.build(comment_params)
+          if @commentable.save
             render json: {commentable: @commentable}, status: :ok
           else
             render json: @commentable.errors.full_messages, status: :unprocessable_entity
