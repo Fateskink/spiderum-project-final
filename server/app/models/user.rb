@@ -3,9 +3,11 @@ class User < ApplicationRecord
 
   devise :database_authenticatable
 
+  belongs_to :commentable, polymorphic: true
   has_many :posts, dependent: :destroy
   has_many :relationships, dependent: :destroy
-  has_many :comments, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :votes, dependent: :destroy
   has_one_attached :image
 
   has_many :active_relationships, class_name: 'Relationship',
@@ -17,7 +19,7 @@ class User < ApplicationRecord
 
   before_save :downcase_email
   before_create :create_activation_digest
-  
+
   validates :image, content_type: { in: %w[image/jpeg image/gif image/png], message: "must be a valid image format" },
                             size: { less_than: 5.megabytes, message: "should be less than 5MB" }
 
