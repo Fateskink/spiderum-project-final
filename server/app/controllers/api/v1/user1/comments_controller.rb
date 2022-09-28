@@ -5,6 +5,7 @@ module Api
         before_action :find_commentable, only: :create
         before_action :logged_in_user
         before_action :correct_user, only: :destroy
+        before_action :admin?, only: :destroy
 
         def new
           @comment = Comment.new

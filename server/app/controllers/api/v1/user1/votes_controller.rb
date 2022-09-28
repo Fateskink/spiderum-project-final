@@ -3,7 +3,8 @@ module Api
     module User1
       class VotesController < ApplicationController
         before_action :logged_in_user
-        
+        before_action :find_votetable
+
         def new
         end
 
