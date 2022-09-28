@@ -9,14 +9,19 @@ module Api
         end
 
         def create
-          @votetable.update(vote: @votetable.vote + 1)
+          if @votetable.valid?
+            @votetable.destroy
+          else
+            @votetable.update(vote: @votetable.vote + 1)
+          end
         end
 
         def destroy
           @votetable.update(vote: @votetable.vote - 1)
         end
 
-      private
+        private
+
         def vote_params
           params(:vote).permit(:post_id, :comment_id)
         end

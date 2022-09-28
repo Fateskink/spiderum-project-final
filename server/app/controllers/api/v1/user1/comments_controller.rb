@@ -4,7 +4,7 @@ module Api
       class CommentsController < ApplicationController
         before_action :find_commentable, only: :create
         before_action :logged_in_user
-        before_action :correct_user, only: :destroy
+        before_action :correct_user, only: %i[edit update destroy]
         before_action :admin?, only: :destroy
 
         def new
@@ -12,7 +12,7 @@ module Api
         end
 
         def create
-          @comment_body = @commentable.comments.build(comment_params)
+          @comment = @commentable.comments.build(comment_params)
           if @commentable.save
             render json: {commentable: @commentable}, status: :ok
           else
@@ -25,6 +25,18 @@ module Api
             render json: {message: "Comment deleted"}, status: :ok
           else
             render json: @commentable.errors.full_messages, status: :unprocessable_entity
+          end
+        end
+
+        def edit
+        end
+
+        def update
+          @comment = Comment.find(params[:id])
+          if @comment.update(comment_params)
+            render json: {comment: @comment}, status: :ok
+          else
+            render json: @comment.errors.full_messages, status: :unprocessable_entity
           end
         end
 
