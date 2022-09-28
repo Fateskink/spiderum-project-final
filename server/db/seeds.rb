@@ -8,7 +8,7 @@ User.create!(name: "Admin",
   activated_at: Time.zone.now)
 
 # Generate a bunch of additional users.
-49.times do |n|
+29.times do |n|
   name = Faker::Name.name
   email = "example-#{n+1}@gmail.com"
   password = "123123"
@@ -22,7 +22,7 @@ end
 
 # Generate posts for a subset of users.
 users = User.order(:created_at).take(8)
-30.times do
+10.times do
   content = Faker::Lorem.sentence(word_count: 5)
   title = "This is title"
   users.each { |user| user.posts.create!(content: content, title: title) }
