@@ -31,20 +31,20 @@ Rails.application.routes.draw do
         resource :relationships, only: [:create, :destroy]
 
         resources :posts do
-          resources :comments
+          resources :debates
         end
       
-        resources :comments do
-          resources :comments
+        resources :debates do
+          resources :debates
         end
 
-        resources :posts do
-          resources :votes, only: [:create, :destroy]
-        end
+        # resources :posts do
+        #   resources :votes, only: [:create, :destroy]
+        # end
 
-        resources :comments do
-          resources :votes, only: [:create, :destroy]
-        end
+        # resources :debates do
+        #   resources :votes, only: [:create, :destroy]
+        # end
       end
     end
   end
