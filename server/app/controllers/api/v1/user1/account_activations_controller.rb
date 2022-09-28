@@ -7,7 +7,7 @@ module Api
           if @user && !@user.activated? && @user.authenticated?(:activation, params[:id])
             @user.activate
             token = JsonWebToken.encode({ user_id: @user.id })
-            render json: { message: 'Account activated!', user: @user, token: }, status: :ok
+            render json: { message: 'Account activated!', user: @user, token: token}, status: :ok
           else
             render json: { message1: 'Invalid activation link', message2: @post.errors.full_messages }, 
             status: :unprocessable_entity

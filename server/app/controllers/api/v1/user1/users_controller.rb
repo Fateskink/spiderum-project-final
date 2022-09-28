@@ -13,7 +13,8 @@ module Api
         end
 
         def show
-          render json: { user: @user }, status: :ok
+          token = JsonWebToken.encode({ user_id: @user.id })
+          render json: { user: @user , token: token}, status: :ok
         end
 
         def new

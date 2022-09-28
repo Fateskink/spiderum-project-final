@@ -12,12 +12,20 @@ module Api
         end
 
         def create
-          @commentable.comments.build(comment_params)
-          @commentable.save
+          @comment_content.comments.build(comment_params)
+          if @comment_content.save
+            render json: {commentable: @commentable}, status: :ok
+          else
+            render json: @commentable.errors.full_messages, status: :unprocessable_entity
+          end
         end
 
         def destroy
-          @commentable.comments.destroy
+          if @comment_content.comments.destroy
+            render json: {message: "Comment deleted"}, status: :ok
+          else
+            render json: @commentable.errors.full_messages, status: :unprocessable_entity
+          end
         end
 
         private
