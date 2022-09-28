@@ -2,11 +2,14 @@ class Post < ApplicationRecord
   belongs_to :user
   # has_many_attached :images
   has_one_attached :image
+
   has_many :tag_lists, through: :taggings
   has_many :taggings, dependent: :destroy
   has_many :votes, dependent: :destroy
+  has_many :votants, through: :votes, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
+
   default_scope -> { order(created_at: :desc) } # maybe remove when create new sorting
-  has_many :votes, dependent: :destroy
   validates :user_id, presence: true
   validates :content, presence: true
   validates :image, content_type: { in: %w[image/jpeg image/gif image/png], message: "must be a valid image format" },
