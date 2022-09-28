@@ -46,7 +46,7 @@ module Api
         def correct_user
           @comment = current_user.comments.find_by(id: params[:id])
           if @comment.nil?
-            render json: {message: "You have no right"}, status: :unauthorized
+            render json: {message: @comment.errors.full_messages , message: "You have no right"}, status: :unauthorized
           end
         end
       end

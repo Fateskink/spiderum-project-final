@@ -28,7 +28,7 @@ module Api
             @user.send_activation_email
             render json: { message: 'Please check your email to active account' }, status: :ok
           else
-            render json: { error: 'Sign up false' }, status: :unprocessable_entity
+            render json: @user.errors.full_messages, status: :unprocessable_entity
           end
         end
 
