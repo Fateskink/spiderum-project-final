@@ -6,6 +6,7 @@ import HeaderView from '@/components/HeaderView'
 import DiscussView from '@/components/DiscussView'
 import LoginView from '@/views/LoginView'
 import VueResource from 'vue-resource'
+import '@/axios'
 
 Vue.use(VueResource)
 

@@ -3,6 +3,7 @@
     <form class="flex flex-col flex-gaps-30" action="">
         <h2>Tạo bài viết của bạn</h2>
         <input type="text" placeholder="Tiêu đề bài viết" v-model="blogs.title">
+        <button v-on:click="addPara">Add Para</button>
         <textarea name="" id="" cols="" rows="30" placeholder="Nội dung bài viết" v-model="blogs.content"></textarea>
         <div class="flex sp-between">
             <div>
@@ -48,6 +49,9 @@ export default {
                 console.log(data)
             })
         }
+    },
+    computed: {
+       
     }
 }
 </script>

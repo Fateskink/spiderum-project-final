@@ -1,11 +1,13 @@
 <template>
   <div>
     <app-header></app-header>
-    <router-view></router-view>
+    <Transition name="viewfade">
+      <router-view></router-view>
+    </Transition>
     <app-footer></app-footer>
     <div class="bubble-chat" v-on:click="chat=!chat">Chat</div>
     <Transition name="boxchat-fade">
-      <div class="boxchat" v-if="chat">
+      <div class="boxchat" v-show="chat">
         <div class="boxchat-header flex sp-between">
             <div class="boxchat-username">Khoa Tran</div>
             <img v-on:click="chat=!chat" src="@/assets/img/boxchat/icons8-xbox-x-30.png" alt="">
