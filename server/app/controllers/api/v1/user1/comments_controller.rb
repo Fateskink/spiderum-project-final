@@ -12,7 +12,7 @@ module Api
         end
 
         def create
-          @comment = @commentable.comments.build(comment_params)
+          @comment_body = @commentable.comments.build(comment_params)
           if @commentable.save
             render json: {commentable: @commentable}, status: :ok
           else

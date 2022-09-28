@@ -3,7 +3,6 @@ class User < ApplicationRecord
 
   devise :database_authenticatable
 
-  belongs_to :commentable, polymorphic: true
   has_many :posts, dependent: :destroy
   has_many :relationships, dependent: :destroy
   has_many :comments, dependent: :destroy
