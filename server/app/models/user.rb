@@ -6,7 +6,7 @@ class User < ApplicationRecord
   belongs_to :commentable, polymorphic: true
   has_many :posts, dependent: :destroy
   has_many :relationships, dependent: :destroy
-  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_many :votes, dependent: :destroy
   has_one_attached :image
 
@@ -30,7 +30,7 @@ class User < ApplicationRecord
 
   # Returns true if the given token matches the digest.
   def authenticated?(attribute, token)
-    digest = send("#{attribute}_digest")
+    digest = send("#{attribute}_digest") # digest = activation_digest
     return false if digest.nil?
 
     BCrypt::Password.new(digest).is_password?(token)
