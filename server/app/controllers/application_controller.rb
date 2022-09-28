@@ -4,16 +4,6 @@ class ApplicationController < ActionController::API
   include SessionsHelper
   include ActionController::Cookies
 
-  protect_from_forgery with: :null_session
-
-  before_action :destroy_session
-
-  protected
-
-  def destroy_session
-    request.session_options[:skip] = true
-  end
-  
 private
   # Confirms a logged-in user.
   def logged_in_user
