@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_28_043020) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_28_073454) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -45,7 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_043020) do
     t.bigint "commentable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -103,8 +103,23 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_043020) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "votes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "votes", default: 0
+    t.bigint "users_id", null: false
+    t.bigint "posts_id", null: false
+    t.bigint "comments_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comments_id"], name: "index_votes_on_comments_id"
+    t.index ["posts_id"], name: "index_votes_on_posts_id"
+    t.index ["users_id"], name: "index_votes_on_users_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "users"
   add_foreign_key "posts", "users"
+  add_foreign_key "votes", "comments", column: "comments_id"
+  add_foreign_key "votes", "posts", column: "posts_id"
+  add_foreign_key "votes", "users", column: "users_id"
 end

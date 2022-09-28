@@ -12,8 +12,9 @@ module Api
         end
 
         def create
-          @comment = @commentable.comments.build(comment_params)
-          if @commentable.save
+          @comment = 
+          @comment = @commentable.current_user.comments.build(comment_params)
+          if @commentable.valid?
             render json: {commentable: @commentable}, status: :ok
           else
             render json: @commentable.errors.full_messages, status: :unprocessable_entity
