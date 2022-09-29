@@ -104,22 +104,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_073454) do
   end
 
   create_table "votes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "votes", default: 0
+    t.integer "vote_count"
     t.bigint "users_id", null: false
-    t.bigint "posts_id", null: false
-    t.bigint "comments_id", null: false
+    t.string "votetable_type", null: false
+    t.bigint "votetable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["comments_id"], name: "index_votes_on_comments_id"
-    t.index ["posts_id"], name: "index_votes_on_posts_id"
     t.index ["users_id"], name: "index_votes_on_users_id"
+    t.index ["votetable_type", "votetable_id"], name: "index_votes_on_votetable"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "users"
   add_foreign_key "posts", "users"
-  add_foreign_key "votes", "comments", column: "comments_id"
-  add_foreign_key "votes", "posts", column: "posts_id"
   add_foreign_key "votes", "users", column: "users_id"
 end

@@ -38,13 +38,13 @@ Rails.application.routes.draw do
           resources :comments
         end
 
-        # resources :posts do
-        #   resources :votes, only: [:create, :destroy]
-        # end
+        resources :posts do
+          resources :votes #, only: [:upvote, :downvote]
+        end
 
-        # resources :comments do
-        #   resources :votes, only: [:create, :destroy]
-        # end
+        resources :comments do
+          resources :votes #, only: [:upvote, :downvote]
+        end
       end
     end
   end

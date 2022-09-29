@@ -5,25 +5,31 @@ module Api
         before_action :logged_in_user
         before_action :find_votetable
 
-        def new
+        # def upvote
+        #   # unless @user && @user.followers.find_by(id: params[:id])
+        #   unless current_user.votetable.find_by(id: params[:id])
+        #     @votetable.votes.update(vote: @votetable.vote = 1)
+        #   else
+        #     @votetable.votes.delete
+        #   end
+        # end
+
+        def upvote
+          @vote = Vote.find_or_create_by(votetable_id: params[@votetable.id], user_id: current_user.id)
+          Vote.increment_counter(:vote_count, @vote.id)
+          render json: {count: @vote.vote_count}, status: :ok
         end
 
-        def create
-          if @votetable.valid?
-            @votetable.destroy
-          else
-            @votetable.update(vote: @votetable.vote + 1)
-          end
-        end
-
-        def destroy
-          @votetable.update(vote: @votetable.vote - 1)
+        def downvote
+          @vote = Vote.find_or_create_by(votetable_id: params[@votetable.id], user_id: current_user.id)
+          Vote.decrement_counter(:vote_count, @vote.id)
+          render json: {count: @vote.vote_count}, status: :ok
         end
 
         private
 
         def vote_params
-          params(:vote).permit(:post_id, :comment_id)
+          params.require(:vote).permit(:user)
         end
 
         def find_votetable
