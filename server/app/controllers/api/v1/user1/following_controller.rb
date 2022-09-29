@@ -4,63 +4,50 @@ module Api
       class FollowingResetsController < ApplicationController
         before_action :logged_in_user
 
-        #collection
-  def index
-    following = User.find(params[:user_id]).following
+        # collection
+        def index
+          @following = User.find(params[:user_id]).following
 
-    following = paginate(following)
+          @following = paginate(@following)
 
-    render(
-      json: ActiveModel::ArraySerializer.new(
-        following,
-        each_serializer: Api::V1::UserSerializer,
-        root: 'following',
-        meta: meta_attributes(following)
-      )
-    )
-  end
+          render json: { following: @following }, status: :ok
+        end
 
-  #collection
-  def update
-    authorize User.find(params[:user_id])
+        # collection
+        # def update
+        #   authorize User.find(params[:user_id])
 
-    User.find(params[:user_id]).following = params[:following_ids]
+        #   User.find(params[:user_id]).following = params[:following_ids]
 
-    head status: 204
-  end
+        #   head status: 204
+        # end
 
-  #member
-  def show
-    if User.find(params[:user_id]).following.find_by(id: params[:id])
-      return head status: 204
-    else
-      return head status: 404
-    end
-  end
+        # member
+        # def show
+        #   if User.find(params[:user_id]).following.find_by(id: params[:id])
+        #     head status: 204
+        #   else
+        #     head status: 404
+        #   end
+        # end
 
-  #member
-  def create
-    authorize User.find(params[:user_id])
+        # member
+        def create
+          @user = User.find(params[:user_id])
+          unless @user.following.find_by(id: params[:id])
+            @user.follow(User.find(params[:id]))
+            render json: { message: 'Follow' }, status: :ok
+          end
+        end
 
-    return head(status: 304) if User.find(params[:user_id]).following.find_by(id: params[:id])
-
-    User.find(params[:user_id]).follow(User.find(params[:id]))
-
-    head status: 204
-  end
-
-  #member
-  def destroy
-    authorize User.find(params[:user_id])
-
-    unless User.find(params[:user_id]).following.find_by(id: params[:id])
-      return head(status: 304)
-    end
-
-    User.find(params[:user_id]).unfollow(User.find(params[:id]))
-
-    head status: 204
-  end
+        # member
+        def destroy
+          @user = User.find(params[:user_id])
+          if @user.following.find_by(id: params[:id])
+            @user.unfollow(User.find(params[:id]))
+            render json: { message: 'Unfollow' }, status: :ok
+          end
+        end
       end
     end
   end
