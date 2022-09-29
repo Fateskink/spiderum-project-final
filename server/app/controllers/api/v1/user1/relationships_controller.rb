@@ -12,9 +12,10 @@ module Api
         # end
 
         def create
-          @user = User.find(params[:user_id])
-          unless @user.followers.find_by(id: params[:id])
-            User.find(params[:id]).follow(@user)
+          @user =  User.find_by(id: params[:user_id])
+          
+          unless @user && @user.followers.find_by(id: params[:id])
+            current_user.follow(@user)
             render json: { message: 'Follow' }, status: :ok
           end
         end
@@ -37,7 +38,6 @@ module Api
             render json: { message: 'Unfollow' }, status: :ok
           end
         end
-
       end
     end
   end
