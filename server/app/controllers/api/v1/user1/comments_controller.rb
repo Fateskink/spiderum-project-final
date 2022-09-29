@@ -12,17 +12,18 @@ module Api
         end
 
         def create
-          @comment = 
-          @comment = @commentable.current_user.comments.build(comment_params)
-          if @commentable.valid?
-            render json: {commentable: @commentable}, status: :ok
+          # @comment = 
+          @comment = @commentable.comments.build(comment_params)
+          if @comment.valid?
+            render json: {comment: @comment}, status: :ok
           else
             render json: @commentable.errors.full_messages, status: :unprocessable_entity
           end
         end
 
         def destroy
-          if @commentable.comments.destroy
+          @comment = Comment.find_by_id(id: params[:comment_id])
+          if @comment.comments.destroy
             render json: {message: "Comment deleted"}, status: :ok
           else
             render json: @commentable.errors.full_messages, status: :unprocessable_entity
