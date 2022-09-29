@@ -13,7 +13,8 @@ module Api
         end
 
         def show
-          render json: { user: @user }, status: :ok
+          token = JsonWebToken.encode({ user_id: @user.id })
+          render json: { user: @user , token: token}, status: :ok
         end
 
         def new
@@ -27,7 +28,7 @@ module Api
             @user.send_activation_email
             render json: { message: 'Please check your email to active account' }, status: :ok
           else
-            render json: { error: 'Sign up false' }, status: :unprocessable_entity
+            render json: @user.errors.full_messages, status: :unprocessable_entity
           end
         end
 

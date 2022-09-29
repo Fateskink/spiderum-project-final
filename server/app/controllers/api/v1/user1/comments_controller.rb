@@ -1,10 +1,10 @@
 module Api
   module V1
     module User1
-      class PasswordResetsController < ApplicationController
+      class CommentsController < ApplicationController
         before_action :find_commentable, only: :create
         before_action :logged_in_user
-        before_action :correct_user, only: :destroy
+        before_action :correct_user, only: %i[edit update destroy]
         before_action :admin?, only: :destroy
 
         def new
@@ -12,18 +12,40 @@ module Api
         end
 
         def create
-          @commentable.comments.build(comment_params)
-          @commentable.save
+          # @comment = 
+          @comment = @commentable.comments.build(comment_params)
+          if @comment.valid?
+            render json: {comment: @comment}, status: :ok
+          else
+            render json: @commentable.errors.full_messages, status: :unprocessable_entity
+          end
         end
 
         def destroy
-          @commentable.comments.destroy
+          @comment = Comment.find_by_id(id: params[:comment_id])
+          if @comment.comments.destroy
+            render json: {message: "Comment deleted"}, status: :ok
+          else
+            render json: @commentable.errors.full_messages, status: :unprocessable_entity
+          end
+        end
+
+        def edit
+        end
+
+        def update
+          @comment = Comment.find(params[:id])
+          if @comment.update(comment_params)
+            render json: {comment: @comment}, status: :ok
+          else
+            render json: @comment.errors.full_messages, status: :unprocessable_entity
+          end
         end
 
         private
 
         def comment_params
-          params.require(:comment).permit(:comment_body)
+          params.require(:comment).permit(:body)
         end
 
         def find_commentable
@@ -38,7 +60,7 @@ module Api
         def correct_user
           @comment = current_user.comments.find_by(id: params[:id])
           if @comment.nil?
-            render json: {message: "You have no right"}, status: :unauthorized
+            render json: {message: @comment.errors.full_messages , message: "You have no right"}, status: :unauthorized
           end
         end
       end

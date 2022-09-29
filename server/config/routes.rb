@@ -14,7 +14,7 @@ Rails.application.routes.draw do
         delete '/logout', to: 'sessions#destroy'
 
         # account activation controller
-        resource :account_activations, only: :edit
+        resource :account_activations, only: %i[edit]
 
         resources :posts
         get '/posts/new', to: 'posts#new'
@@ -38,13 +38,13 @@ Rails.application.routes.draw do
           resources :comments
         end
 
-        resources :posts do
-          resources :votes, only: [:create, :destroy]
-        end
+        # resources :posts do
+        #   resources :votes, only: [:create, :destroy]
+        # end
 
-        resources :comments do
-          resources :votes, only: [:create, :destroy]
-        end
+        # resources :comments do
+        #   resources :votes, only: [:create, :destroy]
+        # end
       end
     end
   end

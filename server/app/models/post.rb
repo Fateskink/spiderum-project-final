@@ -5,9 +5,9 @@ class Post < ApplicationRecord
 
   has_many :tag_lists, through: :taggings
   has_many :taggings, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
   has_many :votes, dependent: :destroy
   has_many :votants, through: :votes, dependent: :destroy
-  has_many :comments, as: :commentable, dependent: :destroy
 
   default_scope -> { order(created_at: :desc) } # maybe remove when create new sorting
   validates :user_id, presence: true

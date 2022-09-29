@@ -3,10 +3,9 @@ class User < ApplicationRecord
 
   devise :database_authenticatable
 
-  belongs_to :commentable, polymorphic: true
   has_many :posts, dependent: :destroy
   has_many :relationships, dependent: :destroy
-  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_many :votes, dependent: :destroy
   has_one_attached :image
 
@@ -30,7 +29,7 @@ class User < ApplicationRecord
 
   # Returns true if the given token matches the digest.
   def authenticated?(attribute, token)
-    digest = send("#{attribute}_digest")
+    digest = send("#{attribute}_digest") # digest = activation_digest
     return false if digest.nil?
 
     BCrypt::Password.new(digest).is_password?(token)
@@ -54,13 +53,13 @@ class User < ApplicationRecord
   def remember
     self.remember_token = User.new_token
     update_attribute(:remember_digest, User.digest(remember_token))
-    remember_digest
+    # remember_digest
   end
 
   # Reuse the remember digest for convenience.
-  def session_token
-    remember_digest || remember
-  end
+  # def session_token
+  #   remember_digest || remember
+  # end
 
   # Forgets a user.
   def forget
@@ -126,7 +125,7 @@ class User < ApplicationRecord
 
   # Creates and assigns the activation token and digest.
   def create_activation_digest
-    self.activation_token = User.new_token
-    self.activation_digest = User.digest(activation_token)
+    self.activation_token = User.new_token # string
+    self.activation_digest = User.digest(activation_token) #digest
   end
 end
