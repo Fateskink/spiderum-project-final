@@ -22,7 +22,7 @@ module Api
         end
 
         def destroy
-          @comment = Comment.find(params[:comment_id])
+          @comment = Comment.find(params[:id])
           if @comment.destroy
             render json: {message: "Comment deleted"}, status: :ok
           else
