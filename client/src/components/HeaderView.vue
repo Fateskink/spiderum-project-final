@@ -11,11 +11,12 @@
             </div>
             <div>
                 <ul class="right-navbar flex flex-align-center">
-                    <li><a href=""><img src="@/assets/img/navbar/icons8-search.svg" alt=""></a></li>
-                    <li><a href=""><img src="@/assets/img/navbar/icons8-notification-32.png" alt=""></a></li>
-                    <li><router-link to="/addpost"><a class="btn-gray" href="">Viết bài</a></router-link></li>
-                    <li><router-link to="/login"><a class="btn-gray">Đăng Nhập</a></router-link></li>
-                    <li><router-link to="/register"><a class="btn-gray">Đăng Ky</a></router-link></li>
+                    <li v-if="currentUser.token !== null"><a href=""><img src="@/assets/img/navbar/icons8-search.svg" alt=""></a></li>
+                    <li v-if="currentUser.token !== null"><a href=""><img src="@/assets/img/navbar/icons8-notification-32.png" alt=""></a></li>
+                    <li v-if="currentUser.token !== null"><router-link to="/addpost" class="btn-gray">Viết bài</router-link></li>
+                    <li v-if="currentUser.token === null"><router-link to="/login" class="btn-gray">Đăng Nhập</router-link></li>
+                    <li v-if="currentUser.token === null"><router-link to="/register" class="btn-gray">Đăng Ky</router-link></li>
+                    <li v-if="currentUser.token !== null"><button to="/discuss" class="btn-red" @click="signOut($store.state)">Đăng Xuat</button></li>
                 </ul>
             </div>
         </div>
@@ -33,8 +34,16 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex'
 export default {
-
+computed:mapState(['currentUser']),
+methods: mapMutations(['signOut'])
+// methods: {
+//     signOut (state) {
+//         state.currentUser.token = null;
+//         console.log('test')
+//     }
+// }
 }
 </script>
 

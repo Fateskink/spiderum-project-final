@@ -152,6 +152,18 @@ a {
     background: rgb(212, 212, 212);
 }
 
+.btn-red {
+    padding: 15px;
+    background: rgb(241, 57, 57);
+    border-radius: 6px;
+    transition: 500ms;
+    margin: 0 5px;
+}
+
+.btn-red:hover {
+    background: rgb(204, 41, 41);
+}
+
 .navbar-categories {
     position: -webkit-sticky;
     position: sticky;
