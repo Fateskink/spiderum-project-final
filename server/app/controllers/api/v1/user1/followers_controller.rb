@@ -10,7 +10,7 @@ module Api
 
           @followers = paginate(followers)
 
-          render json: {followers: @followers}, status: :ok
+          render json: { followers: @followers }, status: :ok
         end
 
         # collection
@@ -34,24 +34,18 @@ module Api
         # member
         def create
           @user = User.find(params[:user_id])
-
           unless @user.followers.find_by(id: params[:id])
-
-          User.find(params[:id]).follow(@user)
-
-          render json: {message: "Follow"}, status: :ok
+            User.find(params[:id]).follow(@user)
+            render json: { message: 'Follow' }, status: :ok
           end
         end
 
         # member
         def destroy
           @user = User.find(params[:user_id])
-
           if @user.followers.find_by(id: params[:id])
-
-          User.find(params[:id]).unfollow(@user)
-
-          render json: {message: "Unfollow"}, status: :ok
+            User.find(params[:id]).unfollow(@user)
+            render json: { message: 'Unfollow' }, status: :ok
           end
         end
       end
