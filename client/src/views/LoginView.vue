@@ -22,7 +22,12 @@ export default {
     },
     computed: mapState(["currentUser"]),
     methods:{
-        ...mapActions(["signIn"])
+        ...mapActions(["signIn"]),
+        // login(){
+        //     if(this.$store.state.token != '' || this.$store.state.token != null || this.$store.state.token.length != 0){
+        //         this.$router.push("/discuss")
+        //     }
+        // }
     }
 }
 </script>

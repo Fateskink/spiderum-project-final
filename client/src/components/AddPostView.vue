@@ -2,21 +2,21 @@
   <body class="content-fix m-t-15">
     <form class="flex flex-col flex-gaps-30" action="">
         <h2>Tạo bài viết của bạn</h2>
-        <input type="text" placeholder="Tiêu đề bài viết" v-model="blogs.title">
-        <button v-on:click="addPara">Add Para</button>
-        <textarea name="" id="" cols="" rows="30" placeholder="Nội dung bài viết" v-model="blogs.content"></textarea>
+        <input type="text" placeholder="Tiêu đề bài viết" v-model="blog.title">
+        <!-- <button v-on:click="addPara">Add Para</button> -->
+        <textarea name="" id="" cols="" rows="30" placeholder="Nội dung bài viết" v-model="blog.content"></textarea>
         <div class="flex sp-between">
             <div>
                 <label for="userName">Tên tác giả: </label>   
-                <input type="text" name="" id="userName" v-model="blogs.author">
+                <input type="text" name="" id="userName" v-model="blog.author">
             </div>
             <div class="flex flex-col">
                 <label for="">Chọn chuyên mục: </label>
-                <div><label for="">Quan điểm - Tranh luận</label><input type="checkbox" value="Quan điểm - Tranh luận" v-model="blogs.categories"></div>
-                <div><label for="">Truyền cảm hứng</label><input type="checkbox" value="Truyền cảm hứng" v-model="blogs.categories"></div>
-                <div><label for="">Khoa học công nghệ</label><input type="checkbox" value="Khoa học công nghệ" v-model="blogs.categories"></div>
-                <div><label for="">Thể thao</label><input type="checkbox" value="Thể thao" v-model="blogs.categories"></div>
-                <div><label for="">Game</label><input type="checkbox" value="Game" v-model="blogs.categories"></div>
+                <div><label for="">Quan điểm - Tranh luận</label><input type="checkbox" value="Quan điểm - Tranh luận" v-model="blog.categories"></div>
+                <div><label for="">Truyền cảm hứng</label><input type="checkbox" value="Truyền cảm hứng" v-model="blog.categories"></div>
+                <div><label for="">Khoa học công nghệ</label><input type="checkbox" value="Khoa học công nghệ" v-model="blog.categories"></div>
+                <div><label for="">Thể thao</label><input type="checkbox" value="Thể thao" v-model="blog.categories"></div>
+                <div><label for="">Game</label><input type="checkbox" value="Game" v-model="blog.categories"></div>
                 <!-- <select name="" id="">
                     <option value="">Quan điểm - Tranh luận</option>
                     <option value="">Truyền cảm hứng</option>
@@ -26,33 +26,29 @@
                 </select> -->
             </div>
         </div>
-        <button class="btn-gray" v-on:click.prevent="post">Gửi bài viết</button>
+        <button class="btn-gray" v-on:click.prevent="upPost">Gửi bài viết</button>
     </form>
 </body>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
 export default {
     data() {
-        return {
-            blogs: {
-                title:'',
-                content: '',
-                categories: [],
-                author: ''
-            }
-        }
+        return {}
     },
-    methods: {
-        post: function () {
-            this.$http.post('https://khoatd-2f63c-default-rtdb.asia-southeast1.firebasedatabase.app/testdb.json', this.blogs).then(function(data){
-                console.log(data)
-            })
-        }
-    },
-    computed: {
+    computed: mapState(["blog"]),
+    // methods: {
+    //     post: function () {
+    //         this.$http.post('https://khoatd-2f63c-default-rtdb.asia-southeast1.firebasedatabase.app/testdb.json', this.blogs).then(function(data){
+    //             console.log(data)
+    //         })
+    //     }
+    // },
+    // computed: {
        
-    }
+    // }
+    methods: mapActions(['upPost'])
 }
 </script>
 
