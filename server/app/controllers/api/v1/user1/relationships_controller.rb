@@ -19,17 +19,6 @@ module Api
             render json: { message: 'Unfollow' }, status: :ok
           end
         end
-
-                # def destroy
-        #   @user = Relationship.find_by_id(id: params[:followed_id])
-        #   current_user.unfollow(@user)
-        #   render json: { message: 'Unfollow' }, status: :ok
-        #   # @relationship = current_user.active_relationships.find_by(followed_id: @user.id)
-        #   # if @relationship.valid?
-        #   #   @relationship.destroy
-        #   #   render json: { message: 'Unfollow' }, status: :ok
-        #   # end
-        # end
       end
     end
   end

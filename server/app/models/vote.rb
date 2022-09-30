@@ -1,5 +1,5 @@
 class Vote < ApplicationRecord
-  belongs_to :users
+  belongs_to :user
   belongs_to :votetable, polymorphic: true
 
   validates :post, uniqueness: { scope: :user }

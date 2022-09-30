@@ -11,6 +11,7 @@ class Post < ApplicationRecord
 
   default_scope -> { order(created_at: :desc) } # maybe remove when create new sorting
   validates :user_id, presence: true
+  validates :title, presence: true
   validates :content, presence: true
   validates :image, content_type: { in: %w[image/jpeg image/gif image/png], message: "must be a valid image format" },
                             size: { less_than: 5.megabytes, message: "should be less than 5MB" }

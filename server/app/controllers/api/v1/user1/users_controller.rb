@@ -60,6 +60,13 @@ module Api
           render json: {users: @users}
         end
 
+        def voting
+          @title = 'Voting'
+          @vote = Vote.find(params[:id])
+          @votes = @vote.voting.paginate(page: params[:page])
+          render json: {votes: @votes }, status: :ok
+        end
+
       private
 
         # set user with params id

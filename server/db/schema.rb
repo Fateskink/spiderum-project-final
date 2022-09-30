@@ -105,12 +105,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_073454) do
 
   create_table "votes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "vote_score"
-    t.bigint "users_id", null: false
+    t.bigint "user_id", null: false
     t.string "votetable_type", null: false
     t.bigint "votetable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["users_id"], name: "index_votes_on_users_id"
+    t.index ["user_id"], name: "index_votes_on_user_id"
     t.index ["votetable_type", "votetable_id"], name: "index_votes_on_votetable"
   end
 
@@ -118,5 +118,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_073454) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "users"
   add_foreign_key "posts", "users"
-  add_foreign_key "votes", "users", column: "users_id"
+  add_foreign_key "votes", "users"
 end
