@@ -104,7 +104,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_073454) do
   end
 
   create_table "votes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "vote_count"
+    t.integer "vote_score"
     t.bigint "users_id", null: false
     t.string "votetable_type", null: false
     t.bigint "votetable_id", null: false

@@ -5,31 +5,43 @@ module Api
         before_action :logged_in_user
         before_action :find_votetable
 
-        # def upvote
-        #   # unless @user && @user.followers.find_by(id: params[:id])
-        #   unless current_user.votetable.find_by(id: params[:id])
-        #     @votetable.votes.update(vote: @votetable.vote = 1)
-        #   else
-        #     @votetable.votes.delete
-        #   end
-        # end
-
-        def upvote
-          @vote = Vote.find_or_create_by(votetable_id: params[@votetable.id], user_id: current_user.id)
-          Vote.increment_counter(:vote_count, @vote.id)
-          render json: {count: @vote.vote_count}, status: :ok
+        def create
+          # @vote = Vote.find_by(votetable_id: params[@votetable.id], user_id: current_user.id)
+          unless @votetable.voting.find_by(id: params[:id])
+            current_user.upvote(@votetable)
+            # @vote.update(:vote_score, @vote.vote_score+1)
+            render json: { count: @vote.vote_score }, status: :ok
+          else
+            current_user.downvote(@votetable)
+            # @vote = @votetable.votes.build(vote_params)
+          end
         end
 
-        def downvote
-          @vote = Vote.find_or_create_by(votetable_id: params[@votetable.id], user_id: current_user.id)
-          Vote.decrement_counter(:vote_count, @vote.id)
-          render json: {count: @vote.vote_count}, status: :ok
+        def destroy
+          if @votetable.voting.find_by(id: params[:id])
+            current_user.upvote(@votetable)
+            # @vote.update(:vote_score, @vote.vote_score+1)
+            render json: { count: @vote.vote_score }, status: :ok
+          else
+            current_user.downvote(@votetable)
+          # @vote = Vote.find_by(votetable_id: params[@votetable.id], user_id: current_user.id)
+          # @vote = @votetable.votes.build(vote_params)
+          # @vote.update(:vote_score, @vote.vote_score - 1)
+          # render json: { count: @vote.vote_score }, status: :ok
+          end
+        end
+
+        def voting
+          @title = 'Voting'
+          @vote = Vote.find(params[:id])
+          @votes = @vote.voting.paginate(page: params[:page])
+          render json: { votes: @votes }, status: :ok
         end
 
         private
 
         def vote_params
-          params.require(:vote).permit(:user)
+          params.require(:vote).permit(:user, :votetable)
         end
 
         def find_votetable
