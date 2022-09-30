@@ -5,28 +5,28 @@ module Api
         before_action :find_commentable, only: :create
         before_action :logged_in_user
         before_action :correct_user, only: %i[edit update destroy]
-        before_action :admin?, only: :destroy
+        # before_action :admin?, only: :destroy
 
         def new
           @comment = Comment.new
         end
 
         def create
-          # @comment = 
           @comment = @commentable.comments.build(comment_params)
-          if @comment.valid?
+          @comment.user_id = current_user.id
+          if @comment.save
             render json: {comment: @comment}, status: :ok
           else
-            render json: @commentable.errors.full_messages, status: :unprocessable_entity
+            render json: @comment.errors.full_messages, status: :unprocessable_entity
           end
         end
 
         def destroy
-          @comment = Comment.find_by_id(id: params[:comment_id])
-          if @comment.comments.destroy
+          @comment = Comment.find(params[:id])
+          if @comment.destroy
             render json: {message: "Comment deleted"}, status: :ok
           else
-            render json: @commentable.errors.full_messages, status: :unprocessable_entity
+            render json: @comment.errors.full_messages, status: :unprocessable_entity
           end
         end
 
