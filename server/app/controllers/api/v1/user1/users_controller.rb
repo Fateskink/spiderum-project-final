@@ -43,7 +43,8 @@ module Api
         end
 
         def destroy
-          # it is for ban feature which only admin can use
+          @user.update(banned: true)
+          render json: {message: "User has been banned"}, status: :ok
         end
 
         def following
