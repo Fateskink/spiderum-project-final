@@ -14,7 +14,6 @@ module Api
           elsif @vote.save
             render json: { vote: @vote }, status: :ok
           end
-
         end
 
         # def create
