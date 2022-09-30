@@ -16,32 +16,6 @@ module Api
           end
         end
 
-        # def create
-        #   @comment = @commentable.comments.build(comment_params)
-        #   @comment.user_id = current_user.id
-        #   if @comment.save
-        #     render json: {comment: @comment}, status: :ok
-        #   else
-        #     render json: @comment.errors.full_messages, status: :unprocessable_entity
-        #   end
-        # end
-
-        # unless @votetable.voting.find_by(id: params[:id])
-        #   current_user.upvote(@votetable)
-        #   render json: { count: @vote.vote_score }, status: :ok
-        # else
-        #   current_user.downvote(@votetable)
-        # end
-
-        # @list = List.find(params[:list_id])
-        # @vote = Vote.find_or_create_by(list_id: params[:id], user_id: current_user.id)
-        # Vote.increment_counter(:vote_count, @vote)
-        # redirect_to list_path(@list), notice: 'Voted Up.'
-
-        # @vote = Vote.find_by(votetable_id: params[@votetable.id], user_id: current_user.id)
-        # @vote.update(:vote_score, @vote.vote_score+1)
-        # @vote = @votetable.votes.build(vote_params)
-
         def destroy
           @vote = @votetable.votes.build(:vote_score)
           @vote.user_id = current_user.id
