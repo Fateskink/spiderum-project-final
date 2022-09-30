@@ -43,7 +43,7 @@ module Api
         end
 
         def destroy
-          @user.update(banned: true)
+          @user.update(banned: true) unless !@user.activated?
           render json: {message: "User has been banned"}, status: :ok
         end
 

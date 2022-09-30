@@ -7,8 +7,6 @@ module Api
 
         def create
           @vote = @votetable.votes.build(vote_params)
-          # @vote.user_id = current_user.id
-          # render json: @vote
           @vote.user_id = current_user.id
           if @vote = Vote.find_by_id(params[@vote.id])
             current_user.clear_vote(@vote)
