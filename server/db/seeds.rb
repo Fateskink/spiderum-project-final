@@ -35,3 +35,14 @@ following = users[2..20]
 followers = users[3..20]
 following.each { |followed| user.follow(followed) }
 followers.each { |follower| follower.follow(user) }
+
+#create tag name
+Tag.create(tag_name: 'Inspire')
+Tag.create(tag_name: 'Controversial opinion')
+Tag.create(tag_name: 'Science')
+Tag.create(tag_name: 'Sport')
+Tag.create(tag_name: 'Content Creator')
+Tag.create(tag_name: 'Film')
+Tag.create(tag_name: 'Music')
+Tag.create(tag_name: 'English zone')
+Tag.create(tag_name: 'Skill')

@@ -45,6 +45,8 @@ Rails.application.routes.draw do
         resources :comments do
           resources :votes , only: [:create, :destroy]
         end
+
+        resources :tags, only: %i[index create destroy]
       end
     end
   end
