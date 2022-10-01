@@ -25,6 +25,7 @@ module Api
 
         def create
           @post = current_user.posts.build(post_params)
+          # @post.taggings.tag_id = Tag.find(params[:tag_id])
           @post.image.attach(params[:post][:image])
           if @post.save
             render json: {post: @post}, status: :ok
@@ -54,7 +55,7 @@ module Api
 
       private
         def post_params
-          params.require(:post).permit(:title, :content, :image, :tag)
+          params.require(:post).permit(:title, :content, :image, :tag_id)
           # permit :image for post  |  :images => []
         end
 

@@ -2,6 +2,7 @@ module Api
   module V1
     module User1
       class TagsController < ApplicationController
+        before_action :admin_user, only: %i[create destroy]
         
         def index
           @tags = Tag.all
