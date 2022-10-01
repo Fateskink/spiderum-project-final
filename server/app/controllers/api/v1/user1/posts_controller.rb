@@ -24,7 +24,9 @@ module Api
         end
 
         def create
-          @post = current_user.posts.build(post_params)
+          @tag = Tag.find(params[:tag_id])
+          @post = @tag.posts.build(post_params)
+          @post.user_id = current_user.id
           # @post.taggings.tag_id = Tag.find(params[:tag_id])
           @post.image.attach(params[:post][:image])
           if @post.save
@@ -55,7 +57,7 @@ module Api
 
       private
         def post_params
-          params.require(:post).permit(:title, :content, :image, :tag_id)
+          params.require(:post).permit(:title, :content, :image, :tag)
           # permit :image for post  |  :images => []
         end
 

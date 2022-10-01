@@ -3,8 +3,7 @@ class Post < ApplicationRecord
   # has_many_attached :images
   has_one_attached :image
 
-  has_many :tags, through: :taggings
-  has_many :taggings, dependent: :destroy
+  belongs_to :tag
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :votes, as: :votetable, dependent: :destroy
   # has_many :votants, through: :votes

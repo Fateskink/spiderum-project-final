@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_30_100039) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_01_025442) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -57,7 +57,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_30_100039) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "view", default: 0
+    t.bigint "tag_id", null: false
     t.index ["created_at"], name: "index_posts_on_created_at"
+    t.index ["tag_id"], name: "index_posts_on_tag_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -69,15 +71,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_30_100039) do
     t.index ["followed_id"], name: "index_relationships_on_followed_id"
     t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
-  end
-
-  create_table "taggings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "tag_id"
-    t.integer "post_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["tag_id", "post_id"], name: "index_taggings_on_tag_id_and_post_id", unique: true
-    t.index ["tag_id"], name: "index_taggings_on_tag_id"
   end
 
   create_table "tags", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -118,6 +111,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_30_100039) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "users"
+  add_foreign_key "posts", "tags"
   add_foreign_key "posts", "users"
   add_foreign_key "votes", "users"
 end
