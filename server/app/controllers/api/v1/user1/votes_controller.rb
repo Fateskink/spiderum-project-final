@@ -6,7 +6,7 @@ module Api
         before_action :find_votetable
 
         def create
-          @vote = @votetable.votes.build(vote_params)
+          @vote = @votetable.votes.build #(vote_params)
           @vote.user_id = current_user.id
           if @vote = Vote.find_by_id(params[@vote.id])
             current_user.clear_vote(@vote)
