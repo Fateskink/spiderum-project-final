@@ -2,33 +2,32 @@
   <main class="login flex flex-col">
         <div class="login-box flex flex-col">
             <img src="@/assets/img/log-in-page/spiderum-logo.png" alt="">
-            <lable>Tên đăng nhập</lable><input type="email" v-model="email">
+            <lable>Tên đăng nhập</lable><input type="email" v-model="currentUser.email">
             <br>
-            <lable>Mật khẩu</lable><input type="password" v-model="password">
+            <lable>Mật khẩu</lable><input type="password" v-model="currentUser.password">
             <br>
             <button class="btn-login m-b-15" v-on:click="signIn">Đăng Nhap</button>
-            {{email}}{{password}}
         </div>
     </main>
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+import { mapActions, mapState } from 'vuex';
 export default {
     data() {
         return {
-            email:'',
-            password:''
+            
         }
     },
-    methods: {
-        async signIn () {
-            const respone = await axios.post('/api/v1/user1/login', {
-                email: this.email,
-                password: this.password
-            });
-            console.log(respone)
-        }
+    computed: mapState(["currentUser"]),
+    methods:{
+        ...mapActions(["signIn"]),
+        // login(){
+        //     if(this.$store.state.token != '' || this.$store.state.token != null || this.$store.state.token.length != 0){
+        //         this.$router.push("/discuss")
+        //     }
+        // }
     }
 }
 </script>

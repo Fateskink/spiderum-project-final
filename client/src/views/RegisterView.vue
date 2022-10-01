@@ -2,11 +2,11 @@
     <main class="login flex flex-col">
           <div class="login-box flex flex-col">
               <img src="@/assets/img/log-in-page/spiderum-logo.png" alt="">
-              <lable>Họ và tên</lable><input type="text" v-model="users.name">
-              <lable>Email</lable><input type="email" v-model="users.email">
+              <label>Họ và tên</label><input type="text" v-model="users.name">
+              <label>Email</label><input type="email" v-model="users.email">
               <br>
-              <lable>Mật khẩu</lable><input type="password" v-model="users.password">
-              <lable>Nhập lại mật khẩu</lable><input type="password" v-model="users.password_confirmation">
+              <label>Mật khẩu</label><input type="password" v-model="users.password">
+              <label>Nhập lại mật khẩu</label><input type="password" v-model="users.password_confirmation">
               <br>
               <button class="btn-login m-b-15" v-on:click="signUp">Đăng Ký</button>
           </div>

@@ -14,6 +14,8 @@
 </template>
 
 <script>
+// import { mapActions } from 'vuex';
+import axios from 'axios';
 export default {
 
     data(){
@@ -24,28 +26,40 @@ export default {
         }
     },
     methods: {
+        // ...mapActions(['showBlog']),
         showData: function () {
             console.log(this.blogs);
             // console.log(blog)
         }
     },
     created () {
-        // alert("created");
-        this.$http.get('https://khoatd-2f63c-default-rtdb.asia-southeast1.firebasedatabase.app/testdb.json').then(function(data){
-            // this.blogs = data.body;
-            // console.log(data);
-            return data.json();
-        }).then(function(data){
-            var blogArray = [];
-            // console.log(data);
-            for (let key in data){
-                console.log(data[key]);
-                data[key].id = key;
-                blogArray.push(data[key])
-            }
-            // console.log(blogArray)
-            this.blogs = blogArray
-        })
+        // // alert("created");
+        // this.$http.get('https://khoatd-2f63c-default-rtdb.asia-southeast1.firebasedatabase.app/testdb.json').then(function(data){
+        //     // this.blogs = data.body;
+        //     // console.log(data);
+        //     return data.json();
+        // }).then(function(data){
+        //     var blogArray = [];
+        //     // console.log(data);
+        //     for (let key in data){
+        //         console.log(data[key]);
+        //         data[key].id = key;
+        //         blogArray.push(data[key])
+        //     }
+        //     // console.log(blogArray)
+        //     this.blogs = blogArray
+        // })
+
+        alert("created")
+        try {
+            axios.get('/api/v1/user1/posts',{
+
+            }).then (
+                (response) => {console.log(response)}
+            )
+        } catch (error) {
+            console.log(error)
+        }
     },
     // beforeMount() {
     //     console.log(this.blogs)
