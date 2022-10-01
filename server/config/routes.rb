@@ -47,6 +47,10 @@ Rails.application.routes.draw do
         end
 
         resources :tags, only: %i[index create destroy]
+
+        resources :posts do
+          resources :favourites, only: %i[create index]
+        end
       end
     end
   end
