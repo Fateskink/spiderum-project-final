@@ -19,7 +19,7 @@ Rails.application.routes.draw do
         resources :posts
         get '/posts/new', to: 'posts#new'
         get '/posts/edit', to: 'posts#edit'
-        
+
         resource :password_resets, only: %i[new create edit update]
 
         resources :users do
@@ -28,22 +28,22 @@ Rails.application.routes.draw do
           end
         end
 
-        resource :relationships, only: [:create, :destroy]
+        resource :relationships, only: %i[create destroy]
 
         resources :posts do
           resources :comments
         end
-      
+
         resources :comments do
           resources :comments
         end
 
         resources :posts do
-          resources :votes , only: [:create, :destroy]
+          resources :votes, only: %i[create destroy]
         end
 
         resources :comments do
-          resources :votes , only: [:create, :destroy]
+          resources :votes, only: %i[create destroy]
         end
 
         resources :tags, only: %i[index create destroy]

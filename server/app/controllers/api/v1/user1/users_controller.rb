@@ -90,10 +90,6 @@ module Api
           render josn: { message: 'You have no right to do this!' } unless @user == current_user
         end
 
-        # Confirms an admin user.
-        def admin_user
-          current_user.admin?
-        end
       end
     end
   end
