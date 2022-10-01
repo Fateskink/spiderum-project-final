@@ -16,31 +16,32 @@ module Api
           #   @favourite.destroy
           #   render json: { message: 'Not favourite any more' }, status: :ok
           # else
-            @favourite = @post.favourite.build
-            @favourite.user_id = current_user.id
-            if @favourite.save
-              render json: { favourite: @favourite }, status: :ok
-            else
-              render json: { message: 'Error' }, status: :unprocessable_entity
-            end
+          @favourite = @post.favourite.build
+          @favourite.user_id = current_user.id
+          if @favourite.save
+            render json: { favourite: @favourite }, status: :ok
+          else
+            render json: { message: 'Error' }, status: :unprocessable_entity
+          end
           # end
         end
 
         def destroy
-                    if @favourite = Favourite.find_by(params[:favourite_id])
+          if @favourite = Favourite.find_by(params[:favourite_id])
             @favourite.destroy
             render json: { message: 'Not favourite any more' }, status: :ok
-                    end
-                  end
+          end
+        end
+
         private
 
-          def set_post
-            @post = Post.find_by_id(params[:post_id])
-          end
+        def set_post
+          @post = Post.find_by_id(params[:post_id])
+        end
 
-          def set_favourite
-            @favourite = Favourite.find_by_id(params[:favourite_id])
-          end
+        def set_favourite
+          @favourite = Favourite.find_by_id(params[:favourite_id])
+        end
       end
     end
   end
