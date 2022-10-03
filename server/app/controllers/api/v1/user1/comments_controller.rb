@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class CommentsController < ApplicationController
-        before_action :find_commentable, only: :create
+        before_action :find_commentable, except: :new
         before_action :logged_in_user
         before_action :correct_user, only: %i[edit update destroy]
         before_action :admin?, only: :destroy
