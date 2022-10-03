@@ -14,6 +14,7 @@
                     <li v-if="currentUser.token !== null"><a href=""><img src="@/assets/img/navbar/icons8-search.svg" alt=""></a></li>
                     <li v-if="currentUser.token !== null"><a href=""><img src="@/assets/img/navbar/icons8-notification-32.png" alt=""></a></li>
                     <li v-if="currentUser.token !== null"><router-link to="/addpost" class="btn-gray">Viết bài</router-link></li>
+                    <li v-if="currentUser.token !== null">Xin chao {{currentUser.name}}</li>
                     <li v-if="currentUser.token === null"><router-link to="/login" class="btn-gray">Đăng Nhập</router-link></li>
                     <li v-if="currentUser.token === null"><router-link to="/register" class="btn-gray">Đăng Ky</router-link></li>
                     <li v-if="currentUser.token !== null"><button to="/discuss" class="btn-red" @click="signOut($store.state)">Đăng Xuat</button></li>

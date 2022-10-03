@@ -8,7 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     currentUser: {
-      name: '',
+      name: 'Khoa',
       email:'',
       password: '',
       password_comfimation:'',
@@ -47,7 +47,8 @@ export default new Vuex.Store({
             // state.currentUser.token = response.data.token
             commit("setToken", response.data.token);
             state.currentUser.email='',
-            state.currentUser.password=''
+            state.currentUser.password='',
+            state.currentUser.name = 'Admin'
             // self.$router.push('/discuss')
             alert('Dang nhap thanh cong')
           }
@@ -73,14 +74,24 @@ export default new Vuex.Store({
     async showBlog () {
       try {
         await axios.get('/api/v1/user1/posts',{
-
+          headers: {
+            Authorization: `Bearer${this.state.currentUser.token}`
+          }
         }).then (
           (response) => {console.log(response)}
         ) 
       } catch (error) {
         console.log(error)
       }
-    }
+    },
+
+    // singleBlog () {
+    //   try {
+    //     await axios.get('/api/v1/user1/posts/'+this.id)
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // }
   
   },
   plugins: [createPersistedState()],

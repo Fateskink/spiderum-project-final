@@ -20,9 +20,7 @@ export default {
 
     data(){
         return {
-            blogs:[
-                
-            ],
+            blogs:[]
         }
     },
     methods: {
@@ -32,7 +30,7 @@ export default {
             // console.log(blog)
         }
     },
-    created () {
+    async created () {
         // // alert("created");
         // this.$http.get('https://khoatd-2f63c-default-rtdb.asia-southeast1.firebasedatabase.app/testdb.json').then(function(data){
         //     // this.blogs = data.body;
@@ -52,10 +50,13 @@ export default {
 
         alert("created")
         try {
-            axios.get('/api/v1/user1/posts',{
-
+            await axios.get('/api/v1/user1/posts/',{
             }).then (
-                (response) => {console.log(response)}
+                (data) => {
+                    var blogArray = data.data.posts;
+                    console.log(blogArray)
+                    this.blogs = blogArray
+                }
             )
         } catch (error) {
             console.log(error)
@@ -71,7 +72,7 @@ export default {
         'shortArticle' : function (value) {
             return value.slice(0,350)+'...'
         }
-    }
+    },
 }
 </script>
 
