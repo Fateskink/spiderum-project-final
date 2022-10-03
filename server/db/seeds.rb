@@ -25,7 +25,7 @@ end
 # 10.times do
 #   content = Faker::Lorem.sentence(word_count: 5)
 #   title = "This is title"
-#   tag_id = [1..8]
+#   tag_id = 1
 #   users.each { |user| user.posts.create!(content: content, title: title, tag_id: tag_id) }
 # end
 
