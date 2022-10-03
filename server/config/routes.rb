@@ -19,6 +19,7 @@ Rails.application.routes.draw do
         resources :posts
         get '/posts/new', to: 'posts#new'
         get '/posts/edit', to: 'posts#edit'
+        get 'favourites/ranking', to: 'favourites#ranking'
 
         resource :password_resets, only: %i[new create edit update]
 

@@ -27,8 +27,20 @@ module Api
           end
         end
 
-        private
+        def ranking
+          time_range = (Time.now.midnight - 1.month)..Time.now.midnight
+          @posts = Post.joins(:favourite)
+                          .select('favourites.*, COUNT(posts.id) as ranking')
+                          .group('favourites.id')
+                          .where('posts.created_at' => time_range)
+                          .order('ranking DESC')
+                          .limit(10)
+          render json: @posts, status: :ok
+  
+        end
 
+        private
+        
         def set_post
           @post = Post.find_by_id(params[:post_id])
         end
