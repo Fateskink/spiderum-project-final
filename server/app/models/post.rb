@@ -7,6 +7,7 @@ class Post < ApplicationRecord
   has_many :favourites
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :votes, as: :votetable, dependent: :destroy
+  has_many :users, through: :votes # new vlidate
   # has_many :votants, through: :votes
 
   default_scope -> { order(created_at: :desc) } # maybe remove when create new sorting
@@ -15,10 +16,6 @@ class Post < ApplicationRecord
   validates :content, presence: true
   validates :image, content_type: { in: %w[image/jpeg image/gif image/png], message: "must be a valid image format" },
                             size: { less_than: 5.megabytes, message: "should be less than 5MB" }
-
-  def score
-    votes.count
-  end
 
   # Returns a resized image for display.
   def display_image
