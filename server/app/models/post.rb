@@ -7,6 +7,7 @@ class Post < ApplicationRecord
   has_many :favourites
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :votes, as: :votetable, dependent: :destroy
+  has_many :users, through: :votes # new vlidate
   # has_many :votants, through: :votes
 
   default_scope -> { order(created_at: :desc) } # maybe remove when create new sorting
