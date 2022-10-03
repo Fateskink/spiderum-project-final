@@ -4,7 +4,7 @@ module Api
       class PostsController < ApplicationController
         # before_action :set_user
         before_action :set_post, only: %i[show edit update destroy]
-        before_action :logged_in_user
+        before_action :logged_in_user, only: %i[create update destroy]
         before_action :correct_user, only: :destroy
         
         def index
@@ -24,7 +24,10 @@ module Api
         end
 
         def create
-          @post = current_user.posts.build(post_params)
+          @tag = Tag.find(params[:tag_id])
+          @post = @tag.posts.build(post_params)
+          @post.user_id = current_user.id
+          # @post.taggings.tag_id = Tag.find(params[:tag_id])
           @post.image.attach(params[:post][:image])
           if @post.save
             render json: {post: @post}, status: :ok
@@ -54,7 +57,7 @@ module Api
 
       private
         def post_params
-          params.require(:post).permit(:title, :content, :image)
+          params.require(:post).permit(:title, :content, :image, :tag)
           # permit :image for post  |  :images => []
         end
 

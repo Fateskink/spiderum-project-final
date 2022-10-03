@@ -1,9 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  tag_name: MyString
-  posts: one
+  user: one
 
 two:
-  tag_name: MyString
-  posts: two
+  user: two

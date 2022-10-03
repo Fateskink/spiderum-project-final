@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_28_073454) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_01_055815) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -50,6 +50,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_073454) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "favourites", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "post_id", null: false
+    t.index ["post_id"], name: "index_favourites_on_post_id"
+    t.index ["user_id"], name: "index_favourites_on_user_id"
+  end
+
   create_table "posts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -57,7 +66,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_073454) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "view", default: 0
+    t.bigint "tag_id", null: false
     t.index ["created_at"], name: "index_posts_on_created_at"
+    t.index ["tag_id"], name: "index_posts_on_tag_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -71,20 +82,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_073454) do
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
-  create_table "tag_lists", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "tags", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "tag_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tag_name"], name: "index_tag_lists_on_tag_name", unique: true
-  end
-
-  create_table "taggings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "tag_id"
-    t.integer "post_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["tag_id", "post_id"], name: "index_taggings_on_tag_id_and_post_id", unique: true
-    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+    t.index ["tag_name"], name: "index_tags_on_tag_name", unique: true
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -100,26 +102,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_073454) do
     t.datetime "activated_at"
     t.string "reset_digest"
     t.datetime "reset_sent_at"
+    t.boolean "banned", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
-  end
-
-  create_table "votes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "votes", default: 0
-    t.bigint "users_id", null: false
-    t.bigint "posts_id", null: false
-    t.bigint "comments_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["comments_id"], name: "index_votes_on_comments_id"
-    t.index ["posts_id"], name: "index_votes_on_posts_id"
-    t.index ["users_id"], name: "index_votes_on_users_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "users"
+  add_foreign_key "favourites", "posts"
+  add_foreign_key "favourites", "users"
+  add_foreign_key "posts", "tags"
   add_foreign_key "posts", "users"
-  add_foreign_key "votes", "comments", column: "comments_id"
-  add_foreign_key "votes", "posts", column: "posts_id"
-  add_foreign_key "votes", "users", column: "users_id"
 end

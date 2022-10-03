@@ -43,7 +43,8 @@ module Api
         end
 
         def destroy
-          # it is for ban feature which only admin can use
+          @user.update(banned: true) unless !@user.activated?
+          render json: {message: "User has been banned"}, status: :ok
         end
 
         def following
@@ -58,6 +59,13 @@ module Api
           @user = User.find(params[:id])
           @users = @user.followers.paginate(page: params[:page])
           render json: {users: @users}
+        end
+
+        def voting
+          @title = 'Voting'
+          @vote = Vote.find(params[:id])
+          @votes = @vote.voting.paginate(page: params[:page])
+          render json: {votes: @votes }, status: :ok
         end
 
       private
@@ -82,10 +90,6 @@ module Api
           render josn: { message: 'You have no right to do this!' } unless @user == current_user
         end
 
-        # Confirms an admin user.
-        def admin_user
-          current_user.admin?
-        end
       end
     end
   end

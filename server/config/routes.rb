@@ -28,23 +28,29 @@ Rails.application.routes.draw do
           end
         end
 
-        resource :relationships, only: [:create, :destroy]
+        resource :relationships, only: %i[create destroy]
 
         resources :posts do
           resources :comments
         end
-      
+
         resources :comments do
           resources :comments
         end
 
-        # resources :posts do
-        #   resources :votes, only: [:create, :destroy]
-        # end
+        resources :posts do
+          resources :votes, only: %i[create destroy]
+        end
 
-        # resources :comments do
-        #   resources :votes, only: [:create, :destroy]
-        # end
+        resources :comments do
+          resources :votes, only: %i[create destroy]
+        end
+
+        resources :tags, only: %i[index create destroy]
+
+        resources :posts do
+          resources :favourites, only: %i[create index destroy]
+        end
       end
     end
   end

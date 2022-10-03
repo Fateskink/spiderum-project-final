@@ -2,28 +2,26 @@ module Api
   module V1
     module User1
       class VotesController < ApplicationController
-        before_action :logged_in_user
+        # before_action :logged_in_user
         before_action :find_votetable
 
-        def new
-        end
-
         def create
-          if @votetable.valid?
-            @votetable.destroy
-          else
-            @votetable.update(vote: @votetable.vote + 1)
-          end
+          @vote = @votetable.votes.build
+          # @vote = Vote.new
+          @vote.user_id = 2
+          # render json: @vote
+          # @vote.update(upvote: @vote.upvote = 1)
+          render json: { vote: @vote }, status: :ok if @vote.save
         end
 
-        def destroy
-          @votetable.update(vote: @votetable.vote - 1)
+        def clear_vote(some_vote)
+          Vote.destroy(some_vote)
         end
 
-        private
+      private
 
         def vote_params
-          params(:vote).permit(:post_id, :comment_id)
+          params.require(:vote).permit(:vote_score)
         end
 
         def find_votetable

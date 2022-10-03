@@ -21,12 +21,13 @@ User.create!(name: "Admin",
 end
 
 # Generate posts for a subset of users.
-users = User.order(:created_at).take(8)
-10.times do
-  content = Faker::Lorem.sentence(word_count: 5)
-  title = "This is title"
-  users.each { |user| user.posts.create!(content: content, title: title) }
-end
+# users = User.order(:created_at).take(8)
+# 10.times do
+#   content = Faker::Lorem.sentence(word_count: 5)
+#   title = "This is title"
+#   tag_id = [1..8]
+#   users.each { |user| user.posts.create!(content: content, title: title, tag_id: tag_id) }
+# end
 
 # Create following relationships.
 users = User.all
@@ -35,3 +36,14 @@ following = users[2..20]
 followers = users[3..20]
 following.each { |followed| user.follow(followed) }
 followers.each { |follower| follower.follow(user) }
+
+#create tag name
+Tag.create(tag_name: 'Inspire')
+Tag.create(tag_name: 'Controversial opinion')
+Tag.create(tag_name: 'Science')
+Tag.create(tag_name: 'Sport')
+Tag.create(tag_name: 'Content Creator')
+Tag.create(tag_name: 'Film')
+Tag.create(tag_name: 'Music')
+Tag.create(tag_name: 'English zone')
+Tag.create(tag_name: 'Skill')
