@@ -5,7 +5,7 @@ module Api
         before_action :logged_in_user
         before_action :find_votetable
 
-        def create
+        def upvote
           @vote = @votetable.votes.build
           @vote.user_id = current_user.id
           @vote.update(vote_score: @vote.vote_score + 1)
@@ -16,18 +16,24 @@ module Api
           end
         end
 
+        def downvote
+          @vote = @votetable.votes.build
+          @vote.user_id = current_user.id
+          @vote.update(vote_score: @vote.vote_score - 1)
+          if @vote.save
+            render json: { vote: @vote }, status: :ok
+          else
+            render json: @vote.errors.full_messages, status: :unprocessable_entity
+          end
+        end
+
         def destroy
           @vote = Vote.find_by(params[:vote_id])
-          if @vote.vote_score == 0
-            @vote.update(vote_score: @vote.vote_score - 1)
-          elsif @vote.vote_score == 1
-            @vote.update(vote_score: @vote.vote_score - 2)
+          if @vote.destroy
+            render json: { message: 'unvote' }, status: :ok
+          else
+            render json: @vote.errors.full_messages, status: :unprocessable_entity
           end
-            if @vote.save
-              render json: { vote: @vote }, status: :ok
-            else
-              render json: @vote.errors.full_messages, status: :unprocessable_entity
-            end
         end
 
         private
