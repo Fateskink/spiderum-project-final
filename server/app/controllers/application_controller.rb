@@ -1,6 +1,4 @@
-# require 'json_web_token'
 class ApplicationController < ActionController::API
-  # include UsersHelper
   # include ActionController::Cookies
 
   def paginate(resource)
@@ -53,18 +51,9 @@ class ApplicationController < ActionController::API
 
   private
 
-  # Confirms a logged-in user.
-  def logged_in_user
-    render json: { message: 'Please log in.' }, status: :unprocessable_entity unless logged_in?
-  end
-
   # Confirms an admin user.
   def admin_user
     @current_user.admin?
-  end
-
-  def logged_in?
-    !current_user.nil?
   end
 
   def log_out

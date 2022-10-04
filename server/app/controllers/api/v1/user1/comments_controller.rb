@@ -5,7 +5,7 @@ module Api
         before_action :find_commentable
         before_action :authorize
         before_action :correct_user, only: %i[edit update destroy]
-        before_action :admin?, only: :destroy
+        # before_action :admin_user, only: :destroy
 
         def new
           @comment = Comment.new

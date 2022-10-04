@@ -4,7 +4,6 @@ module Api
       class UsersController < ApplicationController
         before_action :authorize, only: %i[index edit update destroy]
         before_action :set_user, only: %i[show edit update destroy]
-        # before_action :logged_in_user, only: %i[index edit update destroy]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
 
@@ -63,13 +62,6 @@ module Api
           render json: {users: @users}
         end
 
-        # def voting
-        #   @title = 'Voting'
-        #   @vote = Vote.find(params[:id])
-        #   @votes = @vote.voting.paginate(page: params[:page])
-        #   render json: {votes: @votes }, status: :ok
-        # end
-
       private
 
         # set user with params id
@@ -80,11 +72,6 @@ module Api
         def user_params
           params.permit(:name, :email, :password, :password_confirmation, :image)
         end
-
-        # Confirms a logged-in user.
-        # def logged_in_user
-        #   render json: { message: 'Please log in.' }, status: :unprocessable_entity unless logged_in?
-        # end
 
         # Confirms the correct user.
         def correct_user

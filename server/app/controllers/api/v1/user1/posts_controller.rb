@@ -2,11 +2,10 @@ module Api
   module V1
     module User1
       class PostsController < ApplicationController
-        # before_action :set_user
         before_action :authorize, only: %i[create update destroy]
         before_action :set_post, only: %i[show edit update destroy]
-        before_action :admin_user, only: :destroy
-        # before_action :correct_user, only: %i[destroy update]
+        # before_action :admin_user, only: :destroy
+        before_action :correct_user, only: %i[edit update destroy]
         
         def index
           @posts = Post.paginate(page: params[:page], per_page: 20)
