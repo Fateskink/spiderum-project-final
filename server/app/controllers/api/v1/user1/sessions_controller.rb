@@ -25,7 +25,7 @@ module Api
         end
 
         def destroy
-          current_user = nil
+          @current_user = nil
           render json: { message: 'Logged out' }, status: :ok
         end
       end
