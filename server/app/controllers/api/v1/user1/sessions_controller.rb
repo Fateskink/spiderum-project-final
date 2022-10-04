@@ -13,7 +13,7 @@ module Api
               # Tutorial book 10.2.3/586 forwarding url >> how to convert it to API?
               # token = JsonWebToken.encode({ user_id: @user.id })
               token = encode_token({user_id: @user.id})
-              render json: { user: @user, token: }, status: :ok
+              render json: {user: @user, token: token }, status: :ok
             else
               render json: { message1: 'Account not activated.',
                              message2: 'Check your email for the activation link.' }
