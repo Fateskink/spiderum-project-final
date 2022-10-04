@@ -61,12 +61,12 @@ module Api
           render json: {users: @users}
         end
 
-        def voting
-          @title = 'Voting'
-          @vote = Vote.find(params[:id])
-          @votes = @vote.voting.paginate(page: params[:page])
-          render json: {votes: @votes }, status: :ok
-        end
+        # def voting
+        #   @title = 'Voting'
+        #   @vote = Vote.find(params[:id])
+        #   @votes = @vote.voting.paginate(page: params[:page])
+        #   render json: {votes: @votes }, status: :ok
+        # end
 
       private
 
@@ -89,7 +89,6 @@ module Api
           @user = User.find(params[:id])
           render josn: { message: 'You have no right to do this!' } unless @user == current_user
         end
-
       end
     end
   end

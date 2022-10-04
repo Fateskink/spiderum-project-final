@@ -39,11 +39,15 @@ Rails.application.routes.draw do
         end
 
         resources :posts do
-          resources :votes, only: %i[create destroy]
+          resources :votes, only: %i[destroy]
+          post 'votes/upvote', to: 'votes#upvote'
+          post 'votes/downvote', to: 'votes#downvote'
         end
 
         resources :comments do
-          resources :votes, only: %i[create destroy]
+          resources :votes, only: %i[destroy]
+          post 'votes/upvote', to: 'votes#upvote'
+          post 'votes/downvote', to: 'votes#downvote'
         end
 
         resources :tags, only: %i[index create destroy]

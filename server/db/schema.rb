@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_01_055815) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_03_035450) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -72,6 +72,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_01_055815) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "rankings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "favourite_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["favourite_id"], name: "index_rankings_on_favourite_id"
+  end
+
   create_table "relationships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
@@ -106,6 +113,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_01_055815) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "votes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "votetable_type", null: false
+    t.bigint "votetable_id", null: false
+    t.integer "vote_score", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_votes_on_user_id"
+    t.index ["votetable_type", "votetable_id"], name: "index_votes_on_votetable"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "users"
@@ -113,4 +131,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_01_055815) do
   add_foreign_key "favourites", "users"
   add_foreign_key "posts", "tags"
   add_foreign_key "posts", "users"
+  add_foreign_key "rankings", "favourites"
+  add_foreign_key "votes", "users"
 end
