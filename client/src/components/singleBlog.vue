@@ -11,6 +11,7 @@
                 <h4>User id {{comments.user_id}}:  <span>{{comments.body}}</span></h4>
             </div>
         </div>
+        <button @click="showData">Console log data</button>
     <!-- </div> -->
   </div>
  
@@ -39,12 +40,18 @@ export default {
     methods: {
         showData: function () {
             console.log(this.blogs);
+            console.log(this.currentUser.token)
             // console.log(blog)
         },
         async postComment () {
             try {
                 await axios.post('/api/v1/user1/posts/'+ this.id +'/comments', {
                     body: this.comments.activeComment
+                },
+                {
+                    Headers: {
+                        Authorization: `Bearer${this.currentUser.token}`
+                    }
                 })
                 
             } catch (error) {

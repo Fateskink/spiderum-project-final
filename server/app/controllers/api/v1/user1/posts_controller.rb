@@ -4,7 +4,7 @@ module Api
       class PostsController < ApplicationController
         # before_action :set_user
         before_action :set_post, only: %i[show edit update destroy]
-        before_action :logged_in_user, only: %i[create update destroy]
+        # before_action :logged_in_user, only: %i[create update destroy]
         before_action :correct_user, only: :destroy
         
         def index

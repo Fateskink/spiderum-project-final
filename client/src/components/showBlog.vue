@@ -62,12 +62,6 @@ export default {
             console.log(error)
         }
     },
-    // beforeMount() {
-    //     console.log(this.blogs)
-    // },
-    // mounted() {
-    //     console.log(this.blogs)
-    // },
     filters: {
         'shortArticle' : function (value) {
             return value.slice(0,350)+'...'

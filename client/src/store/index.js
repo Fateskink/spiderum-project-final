@@ -66,6 +66,10 @@ export default new Vuex.Store({
           title: state.blog.title,
           content: state.blog.content,
           // id: 1  
+        },{
+          headers : {
+            Authorization: `Bearer${this.state.currentUser.token}`
+          }
         }).then (
           (response) => {console.log(response)}
         )
