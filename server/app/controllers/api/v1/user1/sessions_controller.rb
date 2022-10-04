@@ -8,7 +8,7 @@ module Api
             if @user.banned?
               render json: { message: 'You fukin bastard has been banned .l..' }, status: :ok 
             elsif @user.activated?
-              params[:remember_me] == '1' ? remember(@user) : forget(@user)
+              # params[:remember_me] == '1' ? remember(@user) : forget(@user)
               # Tutorial book 10.2.3/586 forwarding url >> how to convert it to API?
               token = JsonWebToken.encode({ user_id: @user.id })
               render json: { user: @user, token: }, status: :ok
