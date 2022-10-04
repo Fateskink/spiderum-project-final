@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class RelationshipsController < ApplicationController
-        before_action :logged_in_user
+        before_action :authorize
 
         def create
           @user =  User.find_by(id: params[:user_id])
