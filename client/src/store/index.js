@@ -12,7 +12,8 @@ export default new Vuex.Store({
       email:'',
       password: '',
       password_comfimation:'',
-      token: null
+      token: null,
+      remember_me: '1'
     },
     blog : {
       title: '',
@@ -35,11 +36,12 @@ export default new Vuex.Store({
   },
   actions: {
     async signIn({state, commit}) {
-      // const self = this
+      const self = this
       try {
         await axios.post('/api/v1/user1/login',{
           email: state.currentUser.email,
-          password: state.currentUser.password
+          password: state.currentUser.password,
+          remember_me: 1
         }).then (
           (response) => {
             // localStorage.setItem("accessToken", response.data.token);
@@ -49,7 +51,7 @@ export default new Vuex.Store({
             state.currentUser.email='',
             state.currentUser.password='',
             state.currentUser.name = 'Admin'
-            // self.$router.push('/discuss')
+            self.$router.push('/discuss')
             alert('Dang nhap thanh cong')
           }
         )
@@ -63,7 +65,7 @@ export default new Vuex.Store({
         await axios.post('/api/v1/user1/posts', {
           title: state.blog.title,
           content: state.blog.content,
-          id: 1
+          // id: 1  
         }).then (
           (response) => {console.log(response)}
         )
@@ -84,6 +86,13 @@ export default new Vuex.Store({
         console.log(error)
       }
     },
+    // async signOut () {
+    //   try {
+    //     await axios.delete('')
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // }
 
     // singleBlog () {
     //   try {
