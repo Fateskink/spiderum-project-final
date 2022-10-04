@@ -2,8 +2,8 @@ module Api
   module V1
     module User1
       class UsersController < ApplicationController
+        before_action :authorize, only: %i[index edit update destroy]
         before_action :set_user, only: %i[show edit update destroy]
-        before_action :logged_in_user, only: %i[index edit update destroy]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
 
@@ -13,7 +13,7 @@ module Api
         end
 
         def show
-          token = JsonWebToken.encode({ user_id: @user.id })
+          token = encode_token({user_id: @user.id})
           render json: { user: @user , token: token}, status: :ok
         end
 
@@ -32,7 +32,8 @@ module Api
           end
         end
 
-        def edit; end
+        def edit
+        end
 
         def update
           if @user.update(user_params)
@@ -61,13 +62,6 @@ module Api
           render json: {users: @users}
         end
 
-        # def voting
-        #   @title = 'Voting'
-        #   @vote = Vote.find(params[:id])
-        #   @votes = @vote.voting.paginate(page: params[:page])
-        #   render json: {votes: @votes }, status: :ok
-        # end
-
       private
 
         # set user with params id
@@ -79,15 +73,10 @@ module Api
           params.permit(:name, :email, :password, :password_confirmation, :image)
         end
 
-        # Confirms a logged-in user.
-        def logged_in_user
-          render json: { message: 'Please log in.' }, status: :unprocessable_entity unless logged_in?
-        end
-
         # Confirms the correct user.
         def correct_user
           @user = User.find(params[:id])
-          render josn: { message: 'You have no right to do this!' } unless @user == current_user
+          render josn: { message: 'You have no right to do this!' } unless @user == @current_user
         end
       end
     end

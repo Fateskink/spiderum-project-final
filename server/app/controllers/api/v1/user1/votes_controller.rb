@@ -2,12 +2,12 @@ module Api
   module V1
     module User1
       class VotesController < ApplicationController
-        before_action :logged_in_user
+        before_action :authorize
         before_action :find_votetable
 
         def upvote
           @vote = @votetable.votes.build
-          @vote.user_id = current_user.id
+          @vote.user_id = @current_user.id
           @vote.update(vote_score: @vote.vote_score + 1)
           if @vote.save
             render json: { vote: @vote }, status: :ok
@@ -18,7 +18,7 @@ module Api
 
         def downvote
           @vote = @votetable.votes.build
-          @vote.user_id = current_user.id
+          @vote.user_id = @current_user.id
           @vote.update(vote_score: @vote.vote_score - 1)
           if @vote.save
             render json: { vote: @vote }, status: :ok

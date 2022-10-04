@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :relationships, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :votes, dependent: :destroy
+  has_many :notifications, dependent: :destroy
   has_one_attached :image
 
   has_many :active_relationships, class_name: 'Relationship',
@@ -54,16 +55,6 @@ class User < ApplicationRecord
     self.remember_token = User.new_token
     update_attribute(:remember_digest, User.digest(remember_token))
     # remember_digest
-  end
-
-  # Reuse the remember digest for convenience.
-  # def session_token
-  #   remember_digest || remember
-  # end
-
-  # Forgets a user.
-  def forget
-    update_attribute(:remember_digest, nil)
   end
 
   # Activates an account.
