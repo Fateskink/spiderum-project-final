@@ -60,7 +60,7 @@ class ApplicationController < ActionController::API
 
   # Confirms an admin user.
   def admin_user
-    current_user.admin?
+    @current_user.admin?
   end
 
   def logged_in?

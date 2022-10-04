@@ -5,7 +5,8 @@ module Api
         # before_action :set_user
         before_action :authorize, only: %i[create update destroy]
         before_action :set_post, only: %i[show edit update destroy]
-        before_action :correct_user, only: :destroy
+        before_action :admin_user, only: :destroy
+        # before_action :correct_user, only: %i[destroy update]
         
         def index
           @posts = Post.paginate(page: params[:page], per_page: 20)
