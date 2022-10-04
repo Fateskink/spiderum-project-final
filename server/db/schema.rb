@@ -88,13 +88,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_03_153937) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
-  create_table "rankings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "favourite_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["favourite_id"], name: "index_rankings_on_favourite_id"
-  end
-
   create_table "relationships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
@@ -148,6 +141,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_03_153937) do
   add_foreign_key "notifications", "users"
   add_foreign_key "posts", "tags"
   add_foreign_key "posts", "users"
-  add_foreign_key "rankings", "favourites"
   add_foreign_key "votes", "users"
 end
