@@ -58,9 +58,9 @@ class User < ApplicationRecord
   end
 
   # Forgets a user.
-  def forget
-    update_attribute(:remember_digest, nil)
-  end
+  # def forget
+  #   update_attribute(:remember_digest, nil)
+  # end
 
   # Activates an account.
   def activate
