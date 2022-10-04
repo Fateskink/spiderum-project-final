@@ -87,7 +87,7 @@ module Api
         # Confirms the correct user.
         def correct_user
           @user = User.find(params[:id])
-          render josn: { message: 'You have no right to do this!' } unless @user == current_user
+          render josn: { message: 'You have no right to do this!' } unless @user == @current_user
         end
       end
     end
