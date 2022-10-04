@@ -5,4 +5,5 @@ class Vote < ApplicationRecord
 
   # validates :post, uniqueness: { scope: :user }
   # validates :user, uniqueness: { scope: :post }
+  # validates :user, uniqueness: { scope: :comment }
 end

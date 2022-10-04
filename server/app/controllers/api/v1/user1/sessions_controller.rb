@@ -2,6 +2,8 @@ module Api
   module V1
     module User1
       class SessionsController < ApplicationController
+        before_action :authorize, only: :destroy
+
         def create
           @user = User.find_by(email: params[:email])
           if @user && @user.valid_password?(params[:password])
@@ -24,7 +26,8 @@ module Api
         end
 
         def destroy
-          log_out if logged_in?
+          current_user = nil
+          # log_out if logged_in?
           render json: { message: 'Logged out' }, status: :ok
         end
       end
