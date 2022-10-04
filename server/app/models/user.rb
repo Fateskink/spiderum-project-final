@@ -57,11 +57,6 @@ class User < ApplicationRecord
     # remember_digest
   end
 
-  # Reuse the remember digest for convenience.
-  # def session_token
-  #   remember_digest || remember
-  # end
-
   # Forgets a user.
   def forget
     update_attribute(:remember_digest, nil)
