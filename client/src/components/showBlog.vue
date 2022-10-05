@@ -5,7 +5,7 @@
     </h1>
     <div class="m-t-15 bg-gray " v-for="blog in blogs" :key="blog">
         <router-link v-bind:to="'/showBlog/singleBlog/'+blog.id"><h2>{{blog.title}}</h2></router-link>
-        <article>{{blog.content | shortArticle}}</article>
+        <article v-html="$options.filters.shortArticle(blog.content)"></article>
         <h3>Author: {{blog.author}}</h3>
         <p>The loai: {{blog.categories}}</p>
     </div>

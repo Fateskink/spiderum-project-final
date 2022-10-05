@@ -3,7 +3,7 @@
         <div class="navbar flex flex-align-center sp-between content-fix">
             <div>
                 <ul class="left-navbar flex flex-align-center">
-                    <li><a class="p-15" href=""><img class="main-logo" src="@/assets/img/wideLogo.png" alt=""></a></li>
+                    <li><router-link class="p-15" to="/discuss"><img class="main-logo" src="@/assets/img/wideLogo.png" alt=""></router-link></li>
                     <li><a class="p-15" href=""><img class="nav-logo" src="@/assets/img/navbar/icons8-facebook-circled.gif" alt=""></a></li>
                     <li><a class="p-15" href=""><img class="nav-logo" src="@/assets/img/navbar/icons8-youtube-logo.gif" alt=""></a></li>
                     <li><a class="p-15" href=""><img class="nav-logo" src="@/assets/img/navbar/icons8-spotify.gif" alt=""></a></li>
@@ -39,12 +39,6 @@ import { mapMutations, mapState } from 'vuex'
 export default {
 computed:mapState(['currentUser']),
 methods: mapMutations(['signOut'])
-// methods: {
-//     signOut (state) {
-//         state.currentUser.token = null;
-//         console.log('test')
-//     }
-// }
 }
 </script>
 

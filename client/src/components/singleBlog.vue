@@ -2,7 +2,7 @@
   <div class="content-fix m-t-15">
     <!-- <div class="m-t-15" v-for="blog in blogs" :key="blog"> -->
         <h2 class="m-t-15">{{blogs.title}}</h2>
-        <article class="m-t-15">{{blogs.content}}</article>
+        <article class="m-t-15" v-html="blogs.content"></article>
         <div class="post-comment">
             <h3>Bình luận</h3>
             <textarea cols="30" rows="10" placeholder="Mời nhập bình lụân của bạn" v-model="comments.activeComment"></textarea>
@@ -32,12 +32,15 @@ export default {
             comments: {
                 user_id: '',
                 body: '',
-                activeComment:'this is binh luan'
+                activeComment:''
             },
             id: this.$route.params.id
         }
     },
     methods: {
+        to64(){
+            return btoa(this.blogs.content)
+        },
         showData: function () {
             console.log(this.blogs);
             console.log(this.currentUser.token)

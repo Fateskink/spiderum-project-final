@@ -4,7 +4,7 @@
         <h2>Tạo bài viết của bạn</h2>
         <input type="text" placeholder="Tiêu đề bài viết" v-model="blog.title">
         <!-- <button v-on:click="addPara">Add Para</button> -->
-        <textarea name="" id="" cols="" rows="30" placeholder="Nội dung bài viết" v-model="blog.content"></textarea>
+        <VueEditor v-model="blog.content"/>
         <div class="flex sp-between">
             <div>
                 <label for="userName">Tên tác giả: </label>   
@@ -33,9 +33,13 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import { VueEditor } from "vue2-editor";
 export default {
     data() {
         return {}
+    },
+    components: {
+        VueEditor
     },
     computed: mapState(["blog"]),
     // methods: {

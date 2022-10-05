@@ -2,18 +2,27 @@ import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate';
+import router from "@/router"
 
 Vue.use(Vuex)
+
+// const dataState = createPersistedState({
+//   paths: ['currentUser.token','currentUser.name']
+// })
+
+// function navigate (url) {
+//   this.$router.push(url)
+// }
 
 export default new Vuex.Store({
   state: {
     currentUser: {
-      name: 'Khoa',
+      name: '',
       email:'',
       password: '',
       password_comfimation:'',
       token: null,
-      remember_me: '1'
+      // remember_me: '1'
     },
     blog : {
       title: '',
@@ -31,12 +40,12 @@ export default new Vuex.Store({
     },
     signOut(state) {
       state.currentUser.token = null;
+      router.push('/discuss')
     },
     
   },
   actions: {
     async signIn({state, commit}) {
-      const self = this
       try {
         await axios.post('/api/v1/user1/login',{
           email: state.currentUser.email,
@@ -44,15 +53,13 @@ export default new Vuex.Store({
           remember_me: 1
         }).then (
           (response) => {
-            // localStorage.setItem("accessToken", response.data.token);
             console.log(response),
-            // state.currentUser.token = response.data.token
             commit("setToken", response.data.token);
             state.currentUser.email='',
             state.currentUser.password='',
-            state.currentUser.name = 'Admin'
-            self.$router.push('/discuss')
+            state.currentUser.name = response.data.user.name
             alert('Dang nhap thanh cong')
+            router.push('/discuss')
           }
         )
       } catch (error) {
@@ -110,6 +117,7 @@ export default new Vuex.Store({
   
   },
   plugins: [createPersistedState()],
+  // plugins: [dataState],
   modules: {
   }
 })
