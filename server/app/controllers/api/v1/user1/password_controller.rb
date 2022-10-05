@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class PasswordController < ApplicationController
-
+        before_action :authorize
         def forgot
           if params[:email].blank?
             return render json: {error: 'Email is invalid'}
@@ -40,7 +40,7 @@ module Api
             return
           end
         
-          if @current_user.reset_password(params[:password])
+          if @current_user.reset_password!(params[:password])
             render json: {status: 'Password is reset'}, status: :ok
           else
             render json: {errors: current_user.errors.full_messages}, status: :unprocessable_entity

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
         end
         # get 'email_update', to: 'users#email_update'
         get 'confirm', to: 'users#confirm'
-        get 'password/forgot', to: 'password#forgot'
+        post 'password/forgot', to: 'password#forgot'
         get 'password/reset', to: 'password#reset'
         put 'password/update', to: 'password#update'
 
