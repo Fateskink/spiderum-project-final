@@ -3,10 +3,10 @@ module Api
     module User1
       class UsersController < ApplicationController
         before_action :authorize, only: %i[index edit update destroy]
-        before_action :set_user, only: %i[show edit update destroy]
+        before_action :set_user, only: %i[show destroy]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
-        before_action :validate_email_update
+        # before_action :validate_email_update
 
         def index
           @users = User.paginate(page: params[:page], per_page: 20)
@@ -37,25 +37,32 @@ module Api
         end
 
         def update
-          if @current_user.update_new_email!(@new_email)
-            @user.send_update_email
-            render json: { status: 'Email Confirmation has been sent to your new Email.' }, status: :ok
+          if @user.update(user_params)
+            render json: {user: @user}, status: :ok
           else
-            render json: { errors: @current_user.errors.full_messages }, status: :unprocessable_entity
+            render json: @user.errors.full_messages, status: :unprocessable_entity
           end
         end
+        # def update
+        #   if @current_user.update_new_email!(@new_email)
+        #     @user.send_update_email
+        #     render json: { status: 'Email Confirmation has been sent to your new Email.' }, status: :ok
+        #   else
+        #     render json: { errors: @current_user.errors.full_messages }, status: :unprocessable_entity
+        #   end
+        # end
 
         # update | change email
-        def email_update
-          token = params[:token].to_s
-          @user = User.find_by(confirmation_token: token)
-          if !@user || !@user.confirmation_token_valid?
-            render json: {error: 'The email link seems to be invalid / expired. Try requesting for a new one.'}, status: 404
-          else
-            @user.update_new_email!
-            render json: {status: 'Email updated successfully'}, status: :ok
-          end
-        end
+        # def email_update
+        #   token = params[:token].to_s
+        #   @user = User.find_by(confirmation_token: token)
+        #   if !@user || !@user.confirmation_token_valid?
+        #     render json: {error: 'The email link seems to be invalid / expired. Try requesting for a new one.'}, status: 404
+        #   else
+        #     @user.update_new_email!
+        #     render json: {status: 'Email updated successfully'}, status: :ok
+        #   end
+        # end
 
         # Confirm email, active account
         def confirm
@@ -115,7 +122,7 @@ module Api
             return render json: { status: 'Email cannot be blank' }, status: :bad_request
           end
     
-          if  @new_email == current_user.email
+          if  @new_email == @current_user.email
             return render json: { status: 'Current Email and New email cannot be the same' }, status: :bad_request
           end
     
