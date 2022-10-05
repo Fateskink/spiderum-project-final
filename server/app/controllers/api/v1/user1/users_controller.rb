@@ -41,24 +41,39 @@ module Api
             @user.send_update_email
             render json: { status: 'Email Confirmation has been sent to your new Email.' }, status: :ok
           else
-            render json: { errors: @current_user.errors.values.full_messages }, status: :bad_request
+            render json: { errors: @current_user.errors.full_messages }, status: :unprocessable_entity
           end
         end
 
+        # update | change email
         def email_update
           token = params[:token].to_s
           @user = User.find_by(confirmation_token: token)
-        
           if !@user || !@user.confirmation_token_valid?
-            render json: {error: 'The email link seems to be invalid / expired. Try requesting for a new one.'}, status: :not_found
+            render json: {error: 'The email link seems to be invalid / expired. Try requesting for a new one.'}, status: 404
           else
             @user.update_new_email!
             render json: {status: 'Email updated successfully'}, status: :ok
           end
         end
 
+        # Confirm email, active account
+        def confirm
+          token = params[:token].to_s
+          @user = User.find_by(confirmation_token: token)
+          if @user.present? && @user.confirmation_sent_at + 30.days > Time.now.utc
+            @user.confirmation_token = nil
+            @user.confirmed_at = Time.now.utc
+            @user.save
+            render json: {status: 'User confirmed successfully'}, status: :ok
+          else
+            render json: {status: 'Invalid token'}, status: :not_found
+          end
+        end
+
+        # Ban user
         def destroy
-          @user.update(banned: true) unless !@user.activated?
+          @user.update(banned: true)
           render json: {message: "User has been banned"}, status: :ok
         end
 
@@ -74,19 +89,6 @@ module Api
           @user = User.find(params[:id])
           @users = @user.followers.paginate(page: params[:page])
           render json: {users: @users}
-        end
-
-        def confirm
-          token = params[:token].to_s
-          @user = User.find_by(confirmation_token: token)
-          if @user.present? && @user.confirmation_sent_at + 30.days > Time.now.utc
-            @user.confirmation_token = nil
-            @user.confirmed_at = Time.now.utc
-            @user.save
-            render json: {status: 'User confirmed successfully'}, status: :ok
-          else
-            render json: {status: 'Invalid token'}, status: :not_found
-          end
         end
 
       private

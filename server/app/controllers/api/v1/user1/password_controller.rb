@@ -2,9 +2,6 @@ module Api
   module V1
     module User1
       class PasswordController < ApplicationController
-        # before_action :set_user, only: [:edit, :update]
-        # before_action :valid_user, only: [:edit, :update]
-        # before_action :check_expiration, only: [:edit, :update]
 
         def forgot
           if params[:email].blank?
@@ -47,29 +44,6 @@ module Api
             render json: {status: 'Password is reset'}, status: :ok
           else
             render json: {errors: current_user.errors.full_messages}, status: :unprocessable_entity
-          end
-        end
-
-      private
-
-        def user_params
-          params.require(:user).permit(:password, :password_confirmation)
-        end
-
-        def set_user
-          @user = User.find_by(email: params[:email])
-        end
-
-        # Confirms a valid user.
-        def valid_user
-          unless (@user && @user.activated? && @user.authenticated?(:reset, params[:id]))
-            render json: {message: "You need to active your email first!"}, status: :unprocessable_entity
-          end
-        end
-
-        def check_expiration
-          if @user.password_reset_expired?
-            render json: {message: "Password reset has expired."}
           end
         end
       end
