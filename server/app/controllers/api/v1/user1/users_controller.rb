@@ -36,10 +36,11 @@ module Api
         end
 
         def update
-          if @user.update(user_params)
-            render json: { user: @user }, status: :ok
+          if @current_user.update_new_email!(@new_email)
+            @user.send_update_email
+            render json: { status: 'Email Confirmation has been sent to your new Email.' }, status: :ok
           else
-            render json: { error: 'Update false' }, status: :unprocessable_entity
+            render json: { errors: @current_user.errors.values.full_messages }, status: :bad_request
           end
         end
 

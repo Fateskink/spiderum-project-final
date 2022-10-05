@@ -4,10 +4,18 @@ Rails.application.routes.draw do
     namespace :v1 do
       namespace :user1 do
         resources :users
+
+        resources :users, only: [:create, :update] do
+          collection do
+            post 'email_update'
+          end
+        end
+        # get 'email_update', to: 'users#email_update'
         get 'confirm', to: 'users#confirm'
         get 'password/forgot', to: 'password#forgot'
         get 'password/reset', to: 'password#reset'
         put 'password/update', to: 'password#update'
+
         get '/edit', to: 'users#edit'
         get '/signup', to: 'users#new'
         post '/signup', to: 'users#create'
