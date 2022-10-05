@@ -115,8 +115,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_04_024242) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.boolean "admin", default: false
-    t.string "reset_digest"
-    t.datetime "reset_sent_at"
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
     t.boolean "banned", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end

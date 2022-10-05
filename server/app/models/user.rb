@@ -34,11 +34,11 @@ class User < ApplicationRecord
   end
 
   # Sets the password reset attributes.
-  def create_reset_digest
-    self.reset_token = User.new_token
-    update_attribute(:reset_digest, User.digest(reset_token))
-    update_attribute(:reset_sent_at, Time.zone.now)
-  end
+  # def create_reset_digest
+  #   self.reset_token = User.new_token
+  #   update_attribute(:reset_digest, User.digest(reset_token))
+  #   update_attribute(:reset_sent_at, Time.zone.now)
+  # end
 
   # Sends password reset email.
   def send_password_reset_email
@@ -47,7 +47,7 @@ class User < ApplicationRecord
 
   # Returns true if a password reset has expired.
   def password_reset_expired?
-    reset_sent_at < 2.hours.ago
+    reset_password_sent_at < 2.hours.ago
   end
 
   def feed
@@ -72,6 +72,22 @@ class User < ApplicationRecord
     following.include?(other_user)
   end
 
+  def generate_password_token!
+    self.reset_password_token = generate_token
+    self.reset_password_sent_at = Time.now.utc
+    save!
+  end
+  
+  def password_token_valid?
+    (self.reset_password_sent_at + 4.hours) > Time.now.utc
+  end
+  
+  def reset_password! password 
+    self.reset_password_token = nil
+    self.password = password
+    save!
+  end
+
   private
 
   # Converts email to all lower-case.
@@ -92,6 +108,10 @@ class User < ApplicationRecord
     self.confirmation_token = nil
     self.confirmed_at = Time.now.utc
     save
+  end
+
+  def generate_token
+    SecureRandom.hex(10)
   end
 
 end
