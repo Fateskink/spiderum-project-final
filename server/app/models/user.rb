@@ -18,7 +18,7 @@ class User < ApplicationRecord
   has_many :followers, through: :passive_relationships, source: :follower
 
   before_save :downcase_email
-  before_create :create_activation_digest
+  before_create :generate_confirmation_instructions
 
   validates :image, content_type: { in: %w[image/jpeg image/gif image/png], message: "must be a valid image format" },
                             size: { less_than: 5.megabytes, message: "should be less than 5MB" }
@@ -26,41 +26,6 @@ class User < ApplicationRecord
   # Returns a resized image for display.
   def display_image
     image.variant(resize_to_limit: [200, 200]) # maybe change image size, dependent on future feature
-  end
-
-  # Returns true if the given token matches the digest.
-  def authenticated?(attribute, token)
-    digest = send("#{attribute}_digest") # digest = activation_digest
-    return false if digest.nil?
-
-    BCrypt::Password.new(digest).is_password?(token)
-  end
-
-  # Returns the hash digest of the given string.
-  def self.digest(string)
-    cost = if ActiveModel::SecurePassword.min_cost
-             BCrypt::Engine::MIN_COST
-           else
-             BCrypt::Engine.cost
-           end
-    BCrypt::Password.create(string, cost:)
-  end
-
-  def self.new_token
-    SecureRandom.urlsafe_base64
-  end
-
-  # write new token to column remember_digest
-  def remember
-    self.remember_token = User.new_token
-    update_attribute(:remember_digest, User.digest(remember_token))
-    # remember_digest
-  end
-
-  # Activates an account.
-  def activate
-    update_attribute(:activated, true)
-    update_attribute(:activated_at, Time.zone.now)
   end
 
   # Sends activation email.
@@ -114,9 +79,19 @@ class User < ApplicationRecord
     self.email = email.downcase
   end
 
-  # Creates and assigns the activation token and digest.
-  def create_activation_digest
-    self.activation_token = User.new_token # string
-    self.activation_digest = User.digest(activation_token) #digest
+  def generate_confirmation_instructions
+    self.confirmation_token = SecureRandom.hex(10)
+    self.confirmation_sent_at = Time.now.utc
   end
+
+  def confirmation_token_valid?
+    (self.confirmation_sent_at + 30.days) > Time.now.utc
+  end
+  
+  def mark_as_confirmed!
+    self.confirmation_token = nil
+    self.confirmed_at = Time.now.utc
+    save
+  end
+
 end

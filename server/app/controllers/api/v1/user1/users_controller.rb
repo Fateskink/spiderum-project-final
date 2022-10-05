@@ -62,6 +62,19 @@ module Api
           render json: {users: @users}
         end
 
+        def confirm
+          token = params[:token].to_s
+          @user = User.find_by(confirmation_token: token)
+          if @user.present? && @user.confirmation_sent_at + 30.days > Time.now.utc
+            @user.confirmation_token = nil
+            @user.confirmed_at = Time.now.utc
+            @user.save
+            render json: {status: 'User confirmed successfully'}, status: :ok
+          else
+            render json: {status: 'Invalid token'}, status: :not_found
+          end
+        end
+
       private
 
         # set user with params id

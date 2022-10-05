@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       namespace :user1 do
         resources :users
+        get 'confirm', to: 'users#confirm'
         get '/edit', to: 'users#edit'
         get '/signup', to: 'users#new'
         post '/signup', to: 'users#create'
