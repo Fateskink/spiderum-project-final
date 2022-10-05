@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
         resources :users, only: [:create, :update] do
           collection do
-            post 'email_update'
+            get 'email_update'
           end
         end
         # get 'email_update', to: 'users#email_update'

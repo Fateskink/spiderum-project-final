@@ -45,6 +45,11 @@ class User < ApplicationRecord
     UserMailer.password_reset(self).deliver_now
   end
 
+    # Sends update email.
+    def send_update_email
+      UserMailer.update_email(self).deliver_now
+    end
+
   # Returns true if a password reset has expired.
   def password_reset_expired?
     reset_password_sent_at < 2.hours.ago
@@ -87,6 +92,28 @@ class User < ApplicationRecord
     self.password = password
     save!
   end
+
+  def update_new_email!(email)
+    self.unconfirmed_email = email
+    self.generate_confirmation_instructions
+    save
+   end
+   
+  def update_new_email!
+    self.email = self.unconfirmed_email
+    self.unconfirmed_email = nil
+    self.mark_as_confirmed!
+  end
+
+   def self.email_used?(email)
+    existing_user = find_by("email = ?", email)
+    if existing_user.present?
+      return true
+    else
+      waiting_for_confirmation = find_by("unconfirmed_email = ?", email)
+      return waiting_for_confirmation.present? && waiting_for_confirmation.confirmation_token_valid?
+    end
+   end
 
   private
 

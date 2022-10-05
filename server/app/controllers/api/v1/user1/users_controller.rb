@@ -6,6 +6,7 @@ module Api
         before_action :set_user, only: %i[show edit update destroy]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
+        before_action :validate_email_update
 
         def index
           @users = User.paginate(page: params[:page], per_page: 20)
@@ -41,6 +42,18 @@ module Api
             render json: { status: 'Email Confirmation has been sent to your new Email.' }, status: :ok
           else
             render json: { errors: @current_user.errors.values.full_messages }, status: :bad_request
+          end
+        end
+
+        def email_update
+          token = params[:token].to_s
+          @user = User.find_by(confirmation_token: token)
+        
+          if !@user || !@user.confirmation_token_valid?
+            render json: {error: 'The email link seems to be invalid / expired. Try requesting for a new one.'}, status: :not_found
+          else
+            @user.update_new_email!
+            render json: {status: 'Email updated successfully'}, status: :ok
           end
         end
 
@@ -91,6 +104,22 @@ module Api
         def correct_user
           @user = User.find(params[:id])
           render josn: { message: 'You have no right to do this!' } unless @user == @current_user
+        end
+
+        def validate_email_update
+          @new_email = params[:email].to_s.downcase
+    
+          if @new_email.blank?
+            return render json: { status: 'Email cannot be blank' }, status: :bad_request
+          end
+    
+          if  @new_email == current_user.email
+            return render json: { status: 'Current Email and New email cannot be the same' }, status: :bad_request
+          end
+    
+          if User.email_used?(@new_email)
+            return render json: { error: 'Email is already in use.' }, status: :unprocessable_entity
+          end
         end
       end
     end
