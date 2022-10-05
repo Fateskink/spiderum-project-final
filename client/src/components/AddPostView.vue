@@ -1,10 +1,11 @@
 <template>
   <body class="content-fix m-t-15">
-    <form class="flex flex-col flex-gaps-30" action="">
+    <form class="flex flex-col flex-gaps-30" @submit.prevent="upPost">
         <h2>Tạo bài viết của bạn</h2>
         <input type="text" placeholder="Tiêu đề bài viết" v-model="blog.title">
         <!-- <button v-on:click="addPara">Add Para</button> -->
         <VueEditor v-model="blog.content"/>
+        <input type="file" name="img" id="img">
         <div class="flex sp-between">
             <div>
                 <label for="userName">Tên tác giả: </label>   
@@ -26,7 +27,7 @@
                 </select> -->
             </div>
         </div>
-        <button class="btn-gray" v-on:click.prevent="upPost">Gửi bài viết</button>
+        <input type="submit" value="UpPost">
     </form>
 </body>
 </template>

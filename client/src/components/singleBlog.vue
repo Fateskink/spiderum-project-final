@@ -38,9 +38,6 @@ export default {
         }
     },
     methods: {
-        to64(){
-            return btoa(this.blogs.content)
-        },
         showData: function () {
             console.log(this.blogs);
             console.log(this.currentUser.token)
@@ -52,8 +49,8 @@ export default {
                     body: this.comments.activeComment
                 },
                 {
-                    Headers: {
-                        Authorization: `Bearer${this.currentUser.token}`
+                    headers: {
+                        Authorization: `Bearer ${this.currentUser.token}`
                     }
                 })
                 
