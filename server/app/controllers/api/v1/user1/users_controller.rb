@@ -3,7 +3,7 @@ module Api
     module User1
       class UsersController < ApplicationController
         before_action :authorize, only: %i[index edit update destroy]
-        before_action :set_user, only: %i[show destroy]
+        before_action :set_user, only: %i[show edit update destroy]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
         # before_action :validate_email_update
@@ -43,6 +43,7 @@ module Api
             render json: @user.errors.full_messages, status: :unprocessable_entity
           end
         end
+
         # def update
         #   if @current_user.update_new_email!(@new_email)
         #     @user.send_update_email
