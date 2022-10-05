@@ -65,13 +65,15 @@ export default new Vuex.Store({
         await axios.post('/api/v1/user1/posts', {
           title: state.blog.title,
           content: state.blog.content,
-          // id: 1  
+          tag_id: 1
         },{
           headers : {
-            Authorization: `Bearer${this.state.currentUser.token}`
+            Authorization: `Bearer ${this.state.currentUser.token}`
           }
         }).then (
-          (response) => {console.log(response)}
+          (response) => {console.log(response)},
+          state.blog.title = '',
+          state.blog.content = ''
         )
       } catch (error) {
         console.log(error)
