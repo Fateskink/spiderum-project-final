@@ -9,9 +9,7 @@ module Api
           if @user && @user.valid_password?(params[:password])
             if @user.banned?
               render json: { message: 'You fukin bastard has been banned .l..' }, status: :ok 
-            elsif @user.activated?
-              # Tutorial book 10.2.3/586 forwarding url >> how to convert it to API?
-              # token = JsonWebToken.encode({ user_id: @user.id })
+            elsif !@user.confirmation_token?
               token = encode_token({user_id: @user.id})
               render json: {user: @user, token: token }, status: :ok
             else

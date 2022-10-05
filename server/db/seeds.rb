@@ -4,8 +4,8 @@ User.create!(name: "Admin",
   password: "123123",
   password_confirmation: "123123",
   admin: true,
-  activated: true,
-  activated_at: Time.zone.now)
+  confirmation_token: :null,
+  confirmed_at: Time.zone.now)
 
 # Generate a bunch of additional users.
 29.times do |n|
@@ -16,8 +16,8 @@ User.create!(name: "Admin",
   email: email,
   password: password,
   password_confirmation: password,
-  activated: true,
-  activated_at: Time.zone.now)
+  confirmation_token: :null,
+  confirmed_at: Time.zone.now)
 end
 
 # Generate posts for a subset of users.

@@ -6,6 +6,7 @@ module Api
         before_action :set_user, only: %i[show edit update destroy]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
+        before_action :validate_email_update
 
         def index
           @users = User.paginate(page: params[:page], per_page: 20)
@@ -36,15 +37,43 @@ module Api
         end
 
         def update
-          if @user.update(user_params)
-            render json: { user: @user }, status: :ok
+          if @current_user.update_new_email!(@new_email)
+            @user.send_update_email
+            render json: { status: 'Email Confirmation has been sent to your new Email.' }, status: :ok
           else
-            render json: { error: 'Update false' }, status: :unprocessable_entity
+            render json: { errors: @current_user.errors.full_messages }, status: :unprocessable_entity
           end
         end
 
+        # update | change email
+        def email_update
+          token = params[:token].to_s
+          @user = User.find_by(confirmation_token: token)
+          if !@user || !@user.confirmation_token_valid?
+            render json: {error: 'The email link seems to be invalid / expired. Try requesting for a new one.'}, status: 404
+          else
+            @user.update_new_email!
+            render json: {status: 'Email updated successfully'}, status: :ok
+          end
+        end
+
+        # Confirm email, active account
+        def confirm
+          token = params[:token].to_s
+          @user = User.find_by(confirmation_token: token)
+          if @user.present? && @user.confirmation_sent_at + 30.days > Time.now.utc
+            @user.confirmation_token = nil
+            @user.confirmed_at = Time.now.utc
+            @user.save
+            render json: {status: 'User confirmed successfully'}, status: :ok
+          else
+            render json: {status: 'Invalid token'}, status: :not_found
+          end
+        end
+
+        # Ban user
         def destroy
-          @user.update(banned: true) unless !@user.activated?
+          @user.update(banned: true)
           render json: {message: "User has been banned"}, status: :ok
         end
 
@@ -77,6 +106,22 @@ module Api
         def correct_user
           @user = User.find(params[:id])
           render josn: { message: 'You have no right to do this!' } unless @user == @current_user
+        end
+
+        def validate_email_update
+          @new_email = params[:email].to_s.downcase
+    
+          if @new_email.blank?
+            return render json: { status: 'Email cannot be blank' }, status: :bad_request
+          end
+    
+          if  @new_email == current_user.email
+            return render json: { status: 'Current Email and New email cannot be the same' }, status: :bad_request
+          end
+    
+          if User.email_used?(@new_email)
+            return render json: { error: 'Email is already in use.' }, status: :unprocessable_entity
+          end
         end
       end
     end

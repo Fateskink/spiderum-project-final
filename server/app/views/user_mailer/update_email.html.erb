@@ -3,4 +3,4 @@
 <p>
 Welcome to the Sample App! Click on the link below to activate your account:
 </p>
-<%= link_to "Confirm", api_v1_user1_confirm_url(token: @user.confirmation_token, email: @user.email) %>
+<%= link_to "Update email", email_update_api_v1_user1_users_url(token: @user.confirmation_token, email: @user.email) %>

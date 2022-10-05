@@ -11,78 +11,21 @@ class User < ApplicationRecord
   has_one_attached :image
 
   has_many :active_relationships, class_name: 'Relationship',
-  foreign_key: 'follower_id', dependent: :destroy
+                                  foreign_key: 'follower_id', dependent: :destroy
   has_many :passive_relationships, class_name: 'Relationship',
-  foreign_key: 'followed_id', dependent: :destroy
+                                   foreign_key: 'followed_id', dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
 
   before_save :downcase_email
-  before_create :create_activation_digest
+  before_create :generate_confirmation_instructions
 
-  validates :image, content_type: { in: %w[image/jpeg image/gif image/png], message: "must be a valid image format" },
-                            size: { less_than: 5.megabytes, message: "should be less than 5MB" }
+  validates :image, content_type: { in: %w[image/jpeg image/gif image/png], message: 'must be a valid image format' },
+                    size: { less_than: 5.megabytes, message: 'should be less than 5MB' }
 
   # Returns a resized image for display.
   def display_image
     image.variant(resize_to_limit: [200, 200]) # maybe change image size, dependent on future feature
-  end
-
-  # Returns true if the given token matches the digest.
-  def authenticated?(attribute, token)
-    digest = send("#{attribute}_digest") # digest = activation_digest
-    return false if digest.nil?
-
-    BCrypt::Password.new(digest).is_password?(token)
-  end
-
-  # Returns the hash digest of the given string.
-  def self.digest(string)
-    cost = if ActiveModel::SecurePassword.min_cost
-             BCrypt::Engine::MIN_COST
-           else
-             BCrypt::Engine.cost
-           end
-    BCrypt::Password.create(string, cost:)
-  end
-
-  def self.new_token
-    SecureRandom.urlsafe_base64
-  end
-
-  # write new token to column remember_digest
-  def remember
-    self.remember_token = User.new_token
-    update_attribute(:remember_digest, User.digest(remember_token))
-    # remember_digest
-  end
-
-  # Activates an account.
-  def activate
-    update_attribute(:activated, true)
-    update_attribute(:activated_at, Time.zone.now)
-  end
-
-  # Sends activation email.
-  def send_activation_email
-    UserMailer.account_activation(self).deliver_now
-  end
-
-  # Sets the password reset attributes.
-  def create_reset_digest
-    self.reset_token = User.new_token
-    update_attribute(:reset_digest, User.digest(reset_token))
-    update_attribute(:reset_sent_at, Time.zone.now)
-  end
-
-  # Sends password reset email.
-  def send_password_reset_email
-    UserMailer.password_reset(self).deliver_now
-  end
-
-  # Returns true if a password reset has expired.
-  def password_reset_expired?
-    reset_sent_at < 2.hours.ago
   end
 
   def feed
@@ -107,6 +50,76 @@ class User < ApplicationRecord
     following.include?(other_user)
   end
 
+  # Sends activation email.
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
+  end
+
+  # Sends password reset email.
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  # Sends update email.
+  def send_update_email
+    UserMailer.update_email(self).deliver_now
+  end
+
+  # Create new token for confirmation account
+  def generate_confirmation_instructions
+    self.confirmation_token = SecureRandom.hex(10)
+    self.confirmation_sent_at = Time.now.utc
+  end
+
+  def confirmation_token_valid?
+    (confirmation_sent_at + 30.days) > Time.now.utc
+  end
+
+  def mark_as_confirmed!
+    self.confirmation_token = nil
+    self.confirmed_at = Time.now.utc
+    save
+  end
+
+  # Create new token for reset password
+  def generate_password_token!
+    self.reset_password_token = generate_token
+    self.reset_password_sent_at = Time.now.utc
+    save!
+  end
+
+  def password_token_valid?
+    (reset_password_sent_at + 2.hours) > Time.now.utc
+  end
+
+  def reset_password!(password)
+    self.reset_password_token = nil
+    self.password = password
+    save!
+  end
+
+  def update_new_email!(email)
+    self.unconfirmed_email = email
+    generate_confirmation_instructions
+    save
+  end
+
+  def update_new_email!
+    self.email = unconfirmed_email
+    self.unconfirmed_email = nil
+    mark_as_confirmed!
+  end
+
+  def self.email_used?(email)
+    existing_user = find_by('email = ?', email)
+    if existing_user.present?
+      true
+    else
+      waiting_for_confirmation = find_by('unconfirmed_email = ?', email)
+      waiting_for_confirmation.present? && waiting_for_confirmation.confirmation_token_valid?
+    end
+  end
+
   private
 
   # Converts email to all lower-case.
@@ -114,9 +127,7 @@ class User < ApplicationRecord
     self.email = email.downcase
   end
 
-  # Creates and assigns the activation token and digest.
-  def create_activation_digest
-    self.activation_token = User.new_token # string
-    self.activation_digest = User.digest(activation_token) #digest
+  def generate_token
+    SecureRandom.hex(10)
   end
 end
