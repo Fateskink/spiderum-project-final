@@ -25,7 +25,8 @@ class Post < ApplicationRecord
 
   # All users is following the post owner
   def recipients
-    @recipients = self.user.followers
+    # @recipients = self.user.followers
+    self.user.followers
   end
 
   def create_notifications
@@ -34,5 +35,4 @@ class Post < ApplicationRecord
         action: 'posted', notificationable: self)
     end
   end
-
 end
