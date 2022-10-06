@@ -2,6 +2,7 @@ class Favourite < ApplicationRecord
   belongs_to :user
   belongs_to :post
   has_many :notifications, as: :notificationable
+  has_one :ranking
   validates :post, uniqueness: { scope: :user }
   validates :user, uniqueness: { scope: :post }
   after_create :create_notifications
