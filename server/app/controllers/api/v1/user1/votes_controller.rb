@@ -36,20 +36,36 @@ module Api
           end
         end
 
-        # def create
-        #   @like = @liketable.likes
-        #   if @like.count == 0
-        #     @like = @liketable.likes.build
-        #     @like.user_id = @current_user.id
-        #     @like.update(liked: @like.liked + 1)
-        #     @like.save
-        #     render json: { messages: 'Liked' }
+        # def upvote
+        #   @vote = @votetable.votes
+        #   if @vote.vote_score == 0
+        #     @vote = @votetable.votes.build
+        #     @vote.user_id = @current_user.id
+        #     @vote.update(vote_score: @vote.vote_score + 1)
+        #     @vote.save
+        #     render json: { messages: 'Upvote' }
         #   else
-        #     @like = Like.find_by(params[:id])
-        #     @like.destroy
-        #     render json: {message:"Unlike"}
+        #     @vote = vote.find_by(params[:id])
+        #     @vote.destroy
+        #     render json: {message:"Unvote"}
         #   end
         # end
+
+        # def downvote
+        #   @vote = @votetable.votes
+        #   if @vote.vote_score == 0
+        #     @vote = @votetable.votes.build
+        #     @vote.user_id = @current_user.id
+        #     @vote.update(vote_score: @vote.vote_score - 1)
+        #     @vote.save
+        #     render json: { messages: 'Downvote' }
+        #   else
+        #     @vote = vote.find_by(params[:id])
+        #     @vote.destroy
+        #     render json: { message: 'Unvote' }
+        #   end
+        # end
+
         private
 
         def find_votetable
