@@ -22,16 +22,18 @@ export default new Vuex.Store({
       password: '',
       password_comfimation:'',
       token: null,
-      // remember_me: '1'
     },
     blog : {
       title: '',
       content: '',
       author:'',
-      category:''
+      category:{},
+      id: '',
+      nametag:''
     },
     notification : {
-      status : false
+      status : false,
+      notification_lists:[],
     }
   },
   getters: {
@@ -43,7 +45,8 @@ export default new Vuex.Store({
     },
     signOut(state) {
       state.currentUser.token = null;
-      router.push('/discuss')
+      router.push('/discuss');
+      state.notification.status = false;
     },
     
   },
@@ -53,10 +56,9 @@ export default new Vuex.Store({
         await axios.post('/api/v1/user1/login',{
           email: state.currentUser.email,
           password: state.currentUser.password,
-          remember_me: 1
         }).then (
           (response) => {
-            console.log(response),
+            console.log(response.data),
             commit("setToken", response.data.token);
             state.currentUser.email='',
             state.currentUser.password='',
@@ -75,7 +77,8 @@ export default new Vuex.Store({
         await axios.post('/api/v1/user1/posts', {
           title: state.blog.title,
           content: state.blog.content,
-          tag_id: 1
+          tag_id: state.blog.category
+          // tag_id: 1
         },{
           headers : {
             Authorization: `Bearer ${this.state.currentUser.token}`
@@ -93,7 +96,7 @@ export default new Vuex.Store({
       try {
         await axios.get('/api/v1/user1/posts',{
           headers: {
-            Authorization: `Bearer${this.state.currentUser.token}`
+            Authorization: `Bearer ${this.state.currentUser.token}`
           }
         }).then (
           (response) => {console.log(response)}

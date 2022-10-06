@@ -1,15 +1,18 @@
 <template>
-  <div class="content-fix m-t-15">
-    <h1>
+  <div class="content-fix m-t-15 flex">
+    <div class="flex-7">
+        <h1>
         Tất cả bài viết
-    </h1>
-    <div class="m-t-15 bg-gray " v-for="blog in blogs" :key="blog">
-        <router-link v-bind:to="'/showBlog/singleBlog/'+blog.id"><h2>{{blog.title}}</h2></router-link>
-        <article v-html="$options.filters.shortArticle(blog.content)"></article>
-        <h3>Author: {{blog.author}}</h3>
-        <p>The loai: {{blog.categories}}</p>
+        </h1>
+        <div class="m-t-15 bg-gray " v-for="blog in blogs" :key="blog">
+            <router-link v-bind:to="'/showBlog/singleBlog/'+blog.id"><h2>{{blog.title}}</h2></router-link>
+            <article v-html="$options.filters.shortArticle(blog.content)"></article>
+            <h3>Author: {{blog.author}}</h3>
+            <p>The loai: {{blog.categories}}</p>
+        </div>
+        <button v-on:click="showData">ConsoleLog data</button>
     </div>
-    <button v-on:click="showData">ConsoleLog data</button>
+    <app-topauthor></app-topauthor>
   </div>
 </template>
 
@@ -48,7 +51,7 @@ export default {
         //     this.blogs = blogArray
         // })
 
-        alert("created")
+        // alert("created")
         try {
             await axios.get('/api/v1/user1/posts/',{
             }).then (
@@ -64,7 +67,7 @@ export default {
     },
     filters: {
         'shortArticle' : function (value) {
-            return value.slice(0,350)+'...'
+            return value.slice(0,150)+'...'
         }
     },
 }
@@ -73,6 +76,13 @@ export default {
 <style scoped>
 .bg-gray {
     background: rgb(224, 224, 224);
+}
+
+h1 {
+    color: rgb(22, 22, 22);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 30px
 }
 </style>>
 

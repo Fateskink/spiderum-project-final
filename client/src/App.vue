@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <app-header></app-header>
     <Transition name="viewfade">
       <router-view></router-view>
@@ -21,7 +21,9 @@
         </div>
       </div>
     </Transition>
-    <NotifView v-show="notification.status"></NotifView>
+    <Transition name="boxchat-fade">
+      <NotifView v-show="notification.status"></NotifView>
+    </Transition>
   </div>
 </template>
 
@@ -35,11 +37,12 @@ export default {
   components: {
     // 'app-header': HeaderViewVue,
     "app-footer": FooterViewVue,
-    NotifView
+    NotifView,
 },
   data () {
     return {
-      chat: false
+      chat: false,
+      notifStatus: false
     }
   },
   computed:{
@@ -53,4 +56,5 @@ export default {
 @import url(@/assets/css/style.css);
 @import url(@/assets/css/boxchat.css);
 @import url(@/assets/css/notifBox.css);
+@import url(@/assets/css/mobile.css);
 </style>

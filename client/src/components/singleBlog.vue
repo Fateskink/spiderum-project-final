@@ -1,7 +1,7 @@
 <template>
-  <div class="content-fix m-t-15">
+  <div class="content-fix m-t-15 single-blog">
     <!-- <div class="m-t-15" v-for="blog in blogs" :key="blog"> -->
-        <h2 class="m-t-15">{{blogs.title}}</h2>
+        <h1 class="m-t-15">{{blogs.title}}</h1>
         <article class="m-t-15" v-html="blogs.content"></article>
         <div class="post-comment">
             <h3>Bình luận</h3>
@@ -150,7 +150,13 @@ export default {
 </script>
 
 <style scoped>
-    h2 {
+    h1 {
         font-size: 36px;
+        font-size: 42px;
+        line-height: 58px;
+        text-align: center;
+        margin-bottom: 35px;
     }
+    @import "~vue2-editor/dist/vue2-editor.css";
+
 </style>

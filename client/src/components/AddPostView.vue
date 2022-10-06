@@ -5,12 +5,7 @@
         <input type="text" placeholder="Tiêu đề bài viết" v-model="blog.title">
         <!-- <button v-on:click="addPara">Add Para</button> -->
         <VueEditor v-model="blog.content"/>
-        <input type="file" name="img" id="img">
         <div class="flex sp-between">
-            <div>
-                <label for="userName">Tên tác giả: </label>   
-                <input type="text" name="" id="userName" v-model="blog.author">
-            </div>
             <div class="flex flex-col">
                 <!-- <label for="">Chọn chuyên mục: </label>
                 <div><label for="">Quan điểm - Tranh luận</label><input type="checkbox" value="Quan điểm - Tranh luận" v-model="blog.categories"></div>
@@ -18,13 +13,18 @@
                 <div><label for="">Khoa học công nghệ</label><input type="checkbox" value="Khoa học công nghệ" v-model="blog.categories"></div>
                 <div><label for="">Thể thao</label><input type="checkbox" value="Thể thao" v-model="blog.categories"></div>
                 <div><label for="">Game</label><input type="checkbox" value="Game" v-model="blog.categories"></div> -->
-                <label for="carte">The loai</label>
+                <label for="carte">Thể loại</label>
                 <select v-model="blog.category">
-                    <option v-for="category in categories" :key="category">{{category}}</option>
+                    <option :value='index+1' v-for="(category,index) in categories" :key="category+index">{{category}}</option>
                 </select>
+                <!-- {{blog.category}} -->
+                <!-- <button @click="run()">Console log</button> -->
             </div>
         </div>
-        <input type="submit" value="UpPost">
+        <div>
+            <input class="btn-lightblue" type="submit" value="Gửi bài viết">
+            <button class="btn-gray">Lưu bài viết</button>
+        </div>
     </form>
 </body>
 </template>
@@ -35,13 +35,27 @@ import { VueEditor } from "vue2-editor";
 export default {
     data() {
         return {
-            categories:['Truyền cảm hứng','Quan điểm - tranh luận','Khoa học','Thể Thao','Sáng tạo nội dung','Phim','Âm nhạc','English Zone','Skill'],
+            // category: '',
+            categories:[
+                'Truyền cảm hứng',
+                'Quan điểm - tranh luận',
+                'Khoa học',
+                'Thể thao',
+                'Sáng tạo nội dung',
+                'Phim',
+                'Âm nhạc',
+                'English Zone',
+                'Skill'
+            ],
+            
         }
     },
     components: {
         VueEditor
     },
-    computed: mapState(["blog"]),
+    computed: {
+        ...mapState(["blog"]),
+    },
     // methods: {
     //     post: function () {
     //         this.$http.post('https://khoatd-2f63c-default-rtdb.asia-southeast1.firebasedatabase.app/testdb.json', this.blogs).then(function(data){
@@ -52,10 +66,24 @@ export default {
     // computed: {
        
     // }
-    methods: mapActions(['upPost'])
+    methods: {
+        ...mapActions(['upPost']),
+        // run: function () {
+        //     return console.log (this.categories[1].nametag)
+        // },
+        // checkID(e){
+        //     console.log(e)
+        // }
+    }
 }
 </script>
 
-<style>
-
+<style scoped>
+    h2 {
+        margin-top: 30px;
+        font-size: 42px;
+        line-height: 58px;
+        text-align: center;
+        margin-bottom: 35px;
+    }
 </style>
