@@ -28,7 +28,10 @@ export default new Vuex.Store({
       title: '',
       content: '',
       author:'',
-      categories: ''
+      category:''
+    },
+    notification : {
+      status : false
     }
   },
   getters: {

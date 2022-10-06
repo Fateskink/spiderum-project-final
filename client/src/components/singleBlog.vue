@@ -126,7 +126,7 @@ export default {
         }
 
         try {
-            await axios.get('/api/v1/user1/posts/' + this.id + '/comments/23')
+            await axios.get('/api/v1/user1/posts/' + this.id + '/comments/1')
             .then(
                 (respone) => {
                     console.log(respone.data.comment.body);

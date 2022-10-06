@@ -21,23 +21,30 @@
         </div>
       </div>
     </Transition>
+    <NotifView v-show="notification.status"></NotifView>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 // import HeaderViewVue from "./components/HeaderView.vue";
 import FooterViewVue from "./components/FooterView.vue";
+import NotifView from "./components/NotifView.vue";
 
 export default {
   components: {
     // 'app-header': HeaderViewVue,
-    'app-footer': FooterViewVue
-  },
+    "app-footer": FooterViewVue,
+    NotifView
+},
   data () {
     return {
       chat: false
     }
   },
+  computed:{
+    ...mapState(['notification'])
+  }
 }
 
 </script>
@@ -45,4 +52,5 @@ export default {
 <style>
 @import url(@/assets/css/style.css);
 @import url(@/assets/css/boxchat.css);
+@import url(@/assets/css/notifBox.css);
 </style>

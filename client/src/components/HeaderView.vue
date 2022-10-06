@@ -11,13 +11,13 @@
             </div>
             <div>
                 <ul class="right-navbar flex flex-align-center">
-                    <li v-if="currentUser.token !== null"><a href=""><img src="@/assets/img/navbar/icons8-search.svg" alt=""></a></li>
-                    <li v-if="currentUser.token !== null"><a href=""><img src="@/assets/img/navbar/icons8-notification-32.png" alt=""></a></li>
-                    <li v-if="currentUser.token !== null"><router-link to="/addpost" class="btn-gray">Viết bài</router-link></li>
+                    <li v-if="currentUser.token !== null"><a><img src="@/assets/img/navbar/icons8-search.svg" alt=""></a></li>
+                    <li v-if="currentUser.token !== null"><a @click="notification.status=!notification.status"><img src="@/assets/img/navbar/icons8-notification-32.png" alt=""></a></li>
                     <li v-if="currentUser.token !== null"><router-link to="/userprofile">Xin chao {{currentUser.name}}</router-link></li>
+                    <li v-if="currentUser.token !== null"><router-link to="/addpost" class="btn-gray">Viết bài</router-link></li>
                     <li v-if="currentUser.token === null"><router-link to="/login" class="btn-gray">Đăng Nhập</router-link></li>
                     <li v-if="currentUser.token === null"><router-link to="/register" class="btn-gray">Đăng Ký</router-link></li>
-                    <li v-if="currentUser.token !== null"><button to="/discuss" class="btn-red" @click="signOut($store.state)">Đăng Xuat</button></li>
+                    <li v-if="currentUser.token !== null"><button to="/discuss" class="btn-red" @click="signOut($store.state)">Đăng Xuất</button></li>
                 </ul>
             </div>
         </div>
@@ -37,8 +37,11 @@
 <script>
 import { mapMutations, mapState } from 'vuex'
 export default {
-computed:mapState(['currentUser']),
-methods: mapMutations(['signOut'])
+computed:mapState(['currentUser','notification']),
+methods: {
+    ...mapMutations(['signOut']),
+},
+
 }
 </script>
 
