@@ -8,13 +8,9 @@ class Comment < ApplicationRecord
   after_create :create_notifications
 
   private
-  # def recipients
-  #   @recipient = self.
-  # end
+
   def create_notifications
-    # recipients.each do |recipient|
-      Notification.create(recipient: self.commentable.user, actor: self.user,
-        action: 'posted', notificationable: self)
-    # end
+    Notification.create(recipient: self.commentable.user, actor: self.user,
+                        action: 'posted', notificationable: self)
   end
 end
