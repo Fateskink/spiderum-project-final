@@ -6,7 +6,7 @@ module Api
         before_action :authorize
         before_action :correct_user, only: %i[edit update destroy]
         # before_action :admin_user, only: :destroy
-        after_create :create_notifications
+        # after_action :create_notifications
 
         def new
           @comment = Comment.new
@@ -51,12 +51,12 @@ module Api
         #   end
         # end
 
-        def create_notification(comment)
-          return if @comment.commentable.user_id == @current_user.id
+        # def create_notification(comment)
+        #   return if @comment.commentable.user_id == @current_user.id
 
-          @comment.commentable.notifications.build
-          @comment.notified_by_id = @comment.user_id
-        end
+        #   @comment.commentable.notifications.build
+        #   @comment.notified_by_id = @comment.user_id
+        # end
 
         private
 

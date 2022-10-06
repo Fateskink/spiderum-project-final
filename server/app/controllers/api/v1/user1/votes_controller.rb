@@ -36,6 +36,20 @@ module Api
           end
         end
 
+        # def create
+        #   @like = @liketable.likes
+        #   if @like.count == 0
+        #     @like = @liketable.likes.build
+        #     @like.user_id = @current_user.id
+        #     @like.update(liked: @like.liked + 1)
+        #     @like.save
+        #     render json: { messages: 'Liked' }
+        #   else
+        #     @like = Like.find_by(params[:id])
+        #     @like.destroy
+        #     render json: {message:"Unlike"}
+        #   end
+        # end
         private
 
         def find_votetable

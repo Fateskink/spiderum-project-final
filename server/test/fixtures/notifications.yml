@@ -1,7 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user: one
+  recipient_id: 1
+  actor_id: 1
+  read_at: 2022-10-06 09:55:41
+  action: MyString
 
 two:
-  user: two
+  recipient_id: 1
+  actor_id: 1
+  read_at: 2022-10-06 09:55:41
+  action: MyString
