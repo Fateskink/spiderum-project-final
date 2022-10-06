@@ -11,6 +11,6 @@ class Comment < ApplicationRecord
 
   def create_notifications
     Notification.create(recipient: self.commentable.user, actor: self.user,
-                        action: 'posted', notificationable: self)
+                        action: 'commented', notificationable: self)
   end
 end
