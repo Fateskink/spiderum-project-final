@@ -6,7 +6,6 @@ module Api
         before_action :authorize
         before_action :correct_user, only: %i[edit update destroy]
         # before_action :admin_user, only: :destroy
-        # after_action :create_notifications
 
         def new
           @comment = Comment.new
@@ -79,6 +78,12 @@ module Api
             render json: { message: @comment.errors.full_messages, message: 'You have no right' }, status: :unauthorized
           end
         end
+
+        # def recipients
+        #   # Up to your own implementation
+        # end
+      
+
       end
     end
   end

@@ -5,5 +5,16 @@ class Comment < ApplicationRecord
   has_many :votes, as: :votetable, dependent: :destroy
   has_many :users, through: :votes # new vlidate
   has_many :notifications, as: :notificationable, dependent: :destroy
+  after_create :create_notifications
 
+  private
+  # def recipients
+  #   @recipient = self.
+  # end
+  def create_notifications
+    # recipients.each do |recipient|
+      Notification.create(recipient: self.commentable.user, actor: self.user,
+        action: 'posted', notificationable: self)
+    # end
+  end
 end

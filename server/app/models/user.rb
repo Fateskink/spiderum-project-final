@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :relationships, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :votes, dependent: :destroy
-  has_many :notifications, dependent: :destroy
+  has_many :notifications, dependent: :destroy, foreign_key: :recipient_id
   has_one_attached :image
 
   has_many :active_relationships, class_name: 'Relationship',
