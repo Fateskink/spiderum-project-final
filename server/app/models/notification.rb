@@ -1,5 +1,7 @@
 class Notification < ApplicationRecord
-  belongs_to :notified_by, class_name: 'User'
-  belongs_to :user
+  belongs_to :recipient, class_name: 'User'
+  belongs_to :actor, class_name: 'User'
   belongs_to :notificationable, polymorphic: true
+
+  scope :unread, -> { where(read_at: nil) }
 end

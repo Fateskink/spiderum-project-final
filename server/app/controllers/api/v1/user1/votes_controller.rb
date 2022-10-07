@@ -36,6 +36,36 @@ module Api
           end
         end
 
+        # def upvote
+        #   @vote = @votetable.votes
+        #   if @vote.vote_score == 0
+        #     @vote = @votetable.votes.build
+        #     @vote.user_id = @current_user.id
+        #     @vote.update(vote_score: @vote.vote_score + 1)
+        #     @vote.save
+        #     render json: { messages: 'Upvote' }
+        #   else
+        #     @vote = vote.find_by(params[:id])
+        #     @vote.destroy
+        #     render json: {message:"Unvote"}
+        #   end
+        # end
+
+        # def downvote
+        #   @vote = @votetable.votes
+        #   if @vote.vote_score == 0
+        #     @vote = @votetable.votes.build
+        #     @vote.user_id = @current_user.id
+        #     @vote.update(vote_score: @vote.vote_score - 1)
+        #     @vote.save
+        #     render json: { messages: 'Downvote' }
+        #   else
+        #     @vote = vote.find_by(params[:id])
+        #     @vote.destroy
+        #     render json: { message: 'Unvote' }
+        #   end
+        # end
+
         private
 
         def find_votetable

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_05_050244) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_06_072629) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -60,19 +60,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_050244) do
   end
 
   create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.integer "recipient_id"
+    t.integer "actor_id"
     t.string "notificationable_type", null: false
     t.bigint "notificationable_id", null: false
-    t.integer "notified_by_id", null: false
-    t.boolean "read", default: false
-    t.boolean "checked", default: false
+    t.datetime "read_at"
+    t.string "action"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["notificationable_id", "notificationable_type"], name: "fk_notificationables"
     t.index ["notificationable_type", "notificationable_id"], name: "index_notifications_on_notificationable"
-    t.index ["notified_by_id"], name: "index_notifications_on_notified_by_id"
-    t.index ["read", "checked"], name: "index_notifications_on_read_and_checked"
-    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "posts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -86,6 +82,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_050244) do
     t.index ["created_at"], name: "index_posts_on_created_at"
     t.index ["tag_id"], name: "index_posts_on_tag_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
+  create_table "rankings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "favourite_id", null: false
+    t.integer "favourite_count", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["favourite_id"], name: "index_rankings_on_favourite_id"
   end
 
   create_table "relationships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -138,8 +142,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_050244) do
   add_foreign_key "comments", "users"
   add_foreign_key "favourites", "posts"
   add_foreign_key "favourites", "users"
-  add_foreign_key "notifications", "users"
   add_foreign_key "posts", "tags"
   add_foreign_key "posts", "users"
+  add_foreign_key "rankings", "favourites"
   add_foreign_key "votes", "users"
 end

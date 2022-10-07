@@ -26,7 +26,8 @@ module Api
           @user = User.new(user_params)
           @user.image.attach(params[:user][:image])
           if @user.save
-            @user.send_activation_email
+            # @user.send_activation_email
+            SendMailJob.perform_later @user
             render json: { message: 'Please check your email to active account' }, status: :ok
           else
             render json: @user.errors.full_messages, status: :unprocessable_entity

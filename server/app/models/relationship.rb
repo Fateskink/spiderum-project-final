@@ -4,4 +4,13 @@ class Relationship < ApplicationRecord
   # has_many :notifications, as: :notificationable
   validates :follower_id, presence: true
   validates :followed_id, presence: true
+  has_many :notifications, as: :notificationable
+  after_create :create_notifications
+
+  private
+
+  def create_notifications
+    Notification.create(recipient: self.followed, actor: self.follower,
+                        action: 'followed', notificationable: self)
+  end
 end

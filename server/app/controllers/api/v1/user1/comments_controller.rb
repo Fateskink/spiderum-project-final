@@ -41,21 +41,21 @@ module Api
           end
         end
 
-        respond_to do |format|
-          if @comment.save
-            @notification = create_notification @comment
-            render josn: { notification: @notification }, status: :ok
-          else
-            render json: @comment.errors.full_messages, status: :unprocessable_entity
-          end
-        end
+        # respond_to do |_format|
+        #   if @comment.save
+        #     @notification = create_notification(@comment)
+        #     format.json {render json: { notification: @notification }}, status: :ok
+        #   else
+        #     render json: @comment.errors.full_messages, status: :unprocessable_entity
+        #   end
+        # end
 
-        def create_notification(comment)
-          return if comment.commentable.user_id == current_user.id
+        # def create_notification(comment)
+        #   return if @comment.commentable.user_id == @current_user.id
 
-          comment.commentable.notifications.build
-          comment.notified_by_id = comment.user_id
-        end
+        #   @comment.commentable.notifications.build
+        #   @comment.notified_by_id = @comment.user_id
+        # end
 
         private
 
@@ -78,6 +78,12 @@ module Api
             render json: { message: @comment.errors.full_messages, message: 'You have no right' }, status: :unauthorized
           end
         end
+
+        # def recipients
+        #   # Up to your own implementation
+        # end
+      
+
       end
     end
   end
