@@ -62,7 +62,7 @@ Rails.application.routes.draw do
           post 'votes/downvote', to: 'votes#downvote'
         end
 
-        resources :tags, only: %i[index create destroy]
+        resources :tags, only: %i[index create destroy show]
 
         resources :posts do
           resources :favourites, only: %i[create index destroy]

@@ -3,29 +3,34 @@ module Api
     module User1
       class TagsController < ApplicationController
         before_action :admin_user, only: %i[create destroy]
-        
+
         def index
           @tags = Tag.all
-          render json: {tags: @tags}, status: :ok
+          render json: { tags: @tags }, status: :ok
+        end
+
+        def show
+          @tag = Tag.find_by(params[:id])
+          @posts = @tag.posts.paginate(page: params[:page], per_page: 20)
+          render json: { posts: @posts }, status: :ok
         end
 
         def create
           @tag = Tag.new(tag_params)
           if @tag.save
-            render json: {tag: @tag}, status: :ok
+            render json: { tag: @tag }, status: :ok
           else
-            render json: {message: "False to create new tag"}, status: :unprocessable_entity
+            render json: { message: 'False to create new tag' }, status: :unprocessable_entity
           end
         end
 
         def destroy
           @tag = Tag.find(params[:id])
-          if @tag.destroy
-            render json: "Tag deleted", status: :ok
-          end
+          render json: 'Tag deleted', status: :ok if @tag.destroy
         end
 
-      private
+        private
+
         def tag_params
           params.require(:tag).permit(:tag_name)
         end
