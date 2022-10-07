@@ -1,8 +1,8 @@
 class Favourite < ApplicationRecord
   belongs_to :user
   belongs_to :post
+  belongs_to :ranking
   has_many :notifications, as: :notificationable
-  has_one :ranking
   validates :post, uniqueness: { scope: :user }
   validates :user, uniqueness: { scope: :post }
   after_create :create_notifications
@@ -16,7 +16,7 @@ class Favourite < ApplicationRecord
   end
 
   def create_ranking
-    @ranking = @favourite.rankings.find_by(params[:favourite_id])
+    @ranking = @favourite.ranking.find_by(params[:favourite_id])
     if !@ranking
       @ranking = @favourite.rankings.build
       @ranking.update(favourite_count: @ranking.favourite_count + 1)

@@ -5,6 +5,7 @@ class Post < ApplicationRecord
   has_one_attached :image
   
   has_many :favourites
+  has_one :ranking, dependent: :destroy
   has_one :ranking, through: :favourite
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :votes, as: :votetable, dependent: :destroy

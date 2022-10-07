@@ -1,6 +1,6 @@
 class Ranking < ApplicationRecord
-  belongs_to :favourite
   belongs_to :post
+  has_many :favourites
 
   # @post.readers.where('reader_links.created_at >= ?', 45.minutes.ago).any?
   # ranking.posts.where('created_at >=?', 1.month.ago)
