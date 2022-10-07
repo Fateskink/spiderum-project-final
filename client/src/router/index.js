@@ -9,6 +9,7 @@ import singleBlog from '@/components/singleBlog'
 import NotFound from  '@/components/NotFound'
 import RegisterView from '@/views/RegisterView'
 import UserProfile from '@/components/UserProfile'
+import EditPost from '@/components/editPost'
 
 Vue.use(VueRouter)
 
@@ -60,6 +61,11 @@ const routes = [
     path: '/userprofile',
     name: '/userprofile',
     component: UserProfile
+  },
+  {
+    path: '/editpost/:id',
+    name: '/editpost',
+    component: EditPost
   },
   {
     path: '/:catchAll(.*)',

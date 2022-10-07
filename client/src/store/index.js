@@ -86,12 +86,34 @@ export default new Vuex.Store({
         }).then (
           (response) => {console.log(response)},
           state.blog.title = '',
-          state.blog.content = ''
+          state.blog.content = '',
+          router.push('/showblog')
         )
       } catch (error) {
         console.log(error)
       }
     },
+    // async upPost({state}) {
+    //   try {
+    //     await axios.post('/api/v1/user1/posts', {
+    //       title: state.blog.title,
+    //       content: state.blog.content,
+    //       tag_id: state.blog.category
+    //       // tag_id: 1
+    //     },{
+    //       headers : {
+    //         Authorization: `Bearer ${this.state.currentUser.token}`
+    //       }
+    //     }).then (
+    //       (response) => {console.log(response)},
+    //       state.blog.title = '',
+    //       state.blog.content = '',
+    //       router.push('/showblog')
+    //     )
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // },
     async showBlog () {
       try {
         await axios.get('/api/v1/user1/posts',{

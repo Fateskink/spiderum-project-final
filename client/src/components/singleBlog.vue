@@ -1,6 +1,7 @@
 <template>
   <div class="content-fix m-t-15 single-blog">
     <!-- <div class="m-t-15" v-for="blog in blogs" :key="blog"> -->
+        <button @click="editPost">Sửa bài viết</button>
         <h1 class="m-t-15">{{blogs.title}}</h1>
         <article class="m-t-15" v-html="blogs.content"></article>
         <div class="post-comment">
@@ -58,6 +59,9 @@ export default {
                 console.log(error);
                 // console.log(this.comments.activeComment)
             }
+        },
+        editPost: function () {
+            this.$router.push(`/editpost/${this.id}`)
         }
 
         // async postComment(){
