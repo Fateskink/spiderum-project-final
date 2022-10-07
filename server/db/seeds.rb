@@ -20,23 +20,6 @@ User.create!(name: "Admin",
   confirmed_at: Time.zone.now)
 end
 
-# Generate posts for a subset of users.
-# users = User.order(:created_at).take(8)
-# 10.times do
-#   content = Faker::Lorem.sentence(word_count: 5)
-#   title = "This is title"
-#   tag_id = 1
-#   users.each { |user| user.posts.create!(content: content, title: title, tag_id: tag_id) }
-# end
-
-# Create following relationships.
-users = User.all
-user = users.first
-following = users[2..20]
-followers = users[3..20]
-following.each { |followed| user.follow(followed) }
-followers.each { |follower| follower.follow(user) }
-
 #create tag name
 Tag.create(tag_name: 'Inspire')
 Tag.create(tag_name: 'Controversial opinion')
@@ -47,3 +30,21 @@ Tag.create(tag_name: 'Film')
 Tag.create(tag_name: 'Music')
 Tag.create(tag_name: 'English zone')
 Tag.create(tag_name: 'Skill')
+
+# Generate posts for a subset of users.
+users = User.order(:created_at).take(8)
+10.times do
+  content = Faker::Lorem.sentence(word_count: 5)
+  title = "This is title"
+  tag_id = [1..9]
+  users.each { |user| user.posts.create!(content: content, title: title, tag_id: tag_id) }
+end
+
+# Create following relationships.
+users = User.all
+user = users.first
+following = users[2..20]
+followers = users[3..20]
+following.each { |followed| user.follow(followed) }
+followers.each { |follower| follower.follow(user) }
+
