@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <app-header></app-header>
     <Transition name="viewfade">
       <router-view></router-view>
@@ -21,23 +21,33 @@
         </div>
       </div>
     </Transition>
+    <Transition name="boxchat-fade">
+      <NotifView v-show="notification.status"></NotifView>
+    </Transition>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 // import HeaderViewVue from "./components/HeaderView.vue";
 import FooterViewVue from "./components/FooterView.vue";
+import NotifView from "./components/NotifView.vue";
 
 export default {
   components: {
     // 'app-header': HeaderViewVue,
-    'app-footer': FooterViewVue
-  },
+    "app-footer": FooterViewVue,
+    NotifView,
+},
   data () {
     return {
-      chat: false
+      chat: false,
+      notifStatus: false
     }
   },
+  computed:{
+    ...mapState(['notification'])
+  }
 }
 
 </script>
@@ -45,4 +55,6 @@ export default {
 <style>
 @import url(@/assets/css/style.css);
 @import url(@/assets/css/boxchat.css);
+@import url(@/assets/css/notifBox.css);
+@import url(@/assets/css/mobile.css);
 </style>
