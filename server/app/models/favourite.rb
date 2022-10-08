@@ -16,7 +16,10 @@ class Favourite < ApplicationRecord
   end
 
   def create_ranking
-    # @post = self.post.find_by(:post_id)
+    # @favourite = self.find_by(params[:post_id])
+    # render json: self
+    # @post = self.post
+    # render json: @post.errors.full_messages
     if self.post.created_at <= 1.month.ago
       @ranking = self.post.rankings.find_by(params[:post_id])
       if !@ranking
