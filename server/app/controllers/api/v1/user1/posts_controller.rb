@@ -62,10 +62,6 @@ module Api
           @post = Post.find(params[:id])
         end
 
-        # def set_post
-        #   @post = Post.with_attached_other_images.find(params[:id])
-        # end
-
         def set_user
           @user = User.find(params[:id])
         end
