@@ -25,7 +25,9 @@ module Api
           @tag = Tag.find(params[:tag_id])
           @post = @tag.posts.build(post_params)
           @post.user_id = @current_user.id
-          @post.image.attach(params[:post][:image])
+          @post.month = Time.current.month
+          @post.year = Time.current.year
+          # @post.image.attach(params[:post][:image])
           if @post.save
             render json: {post: @post}, status: :ok
           else

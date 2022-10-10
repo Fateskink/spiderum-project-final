@@ -14,6 +14,7 @@ module Api
           @favourite = @post.favourites.build
           @favourite.user_id = @current_user.id
           if @favourite.save
+            @post.update(favourite_count: @post.favourite_count + 1)
             render json: { favourite: @favourite }, status: :ok
           else
             render json: { message: 'Error' }, status: :unprocessable_entity
