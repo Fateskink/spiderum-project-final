@@ -1,7 +1,7 @@
 <template>
   <div class="content-fix m-t-30 flex">
     <div class="flex-7">
-      <h1>Tất cả bài viết</h1>
+      <h1>Thể loại: Khoa học</h1>
       <!-- <div class="m-t-15 bg-gray " v-for="blog in blogs" :key="blog">
             <router-link v-bind:to="'/showBlog/singleBlog/'+blog.id"><h2>{{blog.title}}</h2></router-link>
             <article v-html="$options.filters.shortArticle(blog.content)"></article>
@@ -122,7 +122,7 @@ export default {
 
     // alert("created")
     try {
-      await axios.get('/api/v1/user1/posts/', {}).then(
+      await axios.get('/api/v1/user1/tags/3', {}).then(
         (data) => {
           var blogArray = data.data.posts;
           console.log(blogArray);
