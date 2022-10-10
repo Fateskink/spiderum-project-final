@@ -6,9 +6,9 @@ class ApplicationController < ActionController::API
     resource = resource.per_page(params[:per_page]) if params[:per_page]
     resource
   end
-  
+
   def encode_token(payload)
-    JWT.encode(payload, 'secret')  
+    JWT.encode(payload, 'secret')
   end
 
   def decode_token
@@ -26,8 +26,8 @@ class ApplicationController < ActionController::API
   def authorized_user
     decoded_token = decode_token()
     if decoded_token
-        user_id = decoded_token[0]['user_id']
-        @current_user = User.find_by(id: user_id)
+      user_id = decoded_token[0]['user_id']
+      @current_user = User.find_by(id: user_id)
     end
   end
 

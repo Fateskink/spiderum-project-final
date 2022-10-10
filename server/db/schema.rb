@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_06_072629) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_06_025541) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -84,14 +84,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_06_072629) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
-  create_table "rankings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "post_id", null: false
-    t.integer "favourite_count", default: 1
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_rankings_on_post_id"
-  end
-
   create_table "relationships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
@@ -144,6 +136,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_06_072629) do
   add_foreign_key "favourites", "users"
   add_foreign_key "posts", "tags"
   add_foreign_key "posts", "users"
-  add_foreign_key "rankings", "posts"
   add_foreign_key "votes", "users"
 end
