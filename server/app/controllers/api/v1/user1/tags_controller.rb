@@ -10,7 +10,7 @@ module Api
         end
 
         def show
-          @tag = Tag.find_by(params[:id])
+          @tag = Tag.find(params[:id])
           @posts = @tag.posts.paginate(page: params[:page], per_page: 20)
           render json: { posts: @posts }, status: :ok
         end

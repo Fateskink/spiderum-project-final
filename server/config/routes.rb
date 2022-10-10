@@ -31,7 +31,7 @@ Rails.application.routes.draw do
         resources :posts
         get '/posts/new', to: 'posts#new'
         get '/posts/edit', to: 'posts#edit'
-        get 'favourites/ranking', to: 'favourites#ranking'
+        # get 'favourites/ranking', to: 'favourites#ranking'
 
 
         resources :users do

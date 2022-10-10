@@ -16,7 +16,6 @@ module Api
               render json: { message1: 'Account not activated.',
                              message2: 'Check your email for the activation link.' }
             end
-
           else
             render json: { message: 'Error' }, status: :unprocessable_entity
           end
