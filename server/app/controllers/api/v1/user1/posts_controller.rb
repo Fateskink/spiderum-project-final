@@ -53,6 +53,12 @@ module Api
           end
         end
 
+        def search
+          @q = Post.ransack(params[:q])
+          @post = @q.result
+          render json: @post, each_serializer: nil
+        end
+
         private
 
         def post_params
@@ -72,16 +78,6 @@ module Api
         def correct_user
           @post = current_user.posts.find_by(id: params[:id])
           render json: { message: 'You have no right' }, status: :unauthorized if @post.nil?
-        end
-
-        def meta_data
-          {
-            total: @pagy.count,
-            page: @pagy.page,
-            from: @pagy.from,
-            to: @pagy.to,
-            pages: @pagy.pages
-          }
         end
       end
     end

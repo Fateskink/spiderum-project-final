@@ -46,4 +46,15 @@ class ApplicationController < ActionController::API
   def log_out
     current_user = nil
   end
+
+
+  def meta_data
+    {
+      total: @pagy.count,
+      page: @pagy.page,
+      from: @pagy.from,
+      to: @pagy.to,
+      pages: @pagy.pages
+    }
+  end
 end

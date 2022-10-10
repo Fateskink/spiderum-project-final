@@ -6,8 +6,8 @@ module Api
         before_action :set_post, only: :create
 
         def index
-          @favourites = Favourite.paginate(page: params[:page], per_page: 20)
-          render json: { favourites: @favourites }, status: :ok
+          @pagy, @favourites = pagy(Favourite.all)
+          render json: { favourites: @favourites , metadata: meta_data}, status: :ok
         end
 
         def create
