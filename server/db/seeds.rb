@@ -37,7 +37,9 @@ users = User.order(:created_at).take(8)
   content = Faker::Lorem.sentence(word_count: 5)
   title = "This is title"
   tag_id = 1
-  users.each { |user| user.posts.create!(content: content, title: title, tag_id: tag_id) }
+  month = Time.current.month
+  year = Time.current.year
+  users.each { |user| user.posts.create!(content: content, title: title, tag_id: tag_id, month: month, year: year) }
 end
 
 # Create following relationships.
