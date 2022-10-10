@@ -1,11 +1,11 @@
 class ApplicationController < ActionController::API
   # include ActionController::Cookies
   include Pagy::Backend
-  def paginate(resource)
-    resource = resource.page(params[:page] || 1)
-    resource = resource.per_page(params[:per_page]) if params[:per_page]
-    resource
-  end
+  # def paginate(resource)
+  #   resource = resource.page(params[:page] || 1)
+  #   resource = resource.per_page(params[:per_page]) if params[:per_page]
+  #   resource
+  # end
 
   def encode_token(payload)
     JWT.encode(payload, 'secret')
