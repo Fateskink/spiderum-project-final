@@ -6,7 +6,6 @@ class Favourite < ApplicationRecord
   validates :post, uniqueness: { scope: :user }
   validates :user, uniqueness: { scope: :post }
   after_create :create_notifications
-  # after_create :create_ranking
 
   private
 
