@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_06_025541) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_10_030358) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -79,6 +79,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_06_025541) do
     t.datetime "updated_at", null: false
     t.integer "view", default: 0
     t.bigint "tag_id", null: false
+    t.integer "favourite_count", default: 0
+    t.integer "month"
+    t.integer "year"
     t.index ["created_at"], name: "index_posts_on_created_at"
     t.index ["tag_id"], name: "index_posts_on_tag_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
