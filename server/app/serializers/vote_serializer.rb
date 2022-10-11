@@ -1,3 +1,4 @@
 class VoteSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :vote_sum
+  
 end
