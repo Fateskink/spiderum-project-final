@@ -3,7 +3,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import HeaderView from '@/components/HeaderView';
-import DiscussView from '@/components/DiscussView';
+import DiscussView from '@/views/DiscussView';
 import NotifView from '@/components/NotifView';
 import LoginView from '@/views/LoginView';
 import VueResource from 'vue-resource';

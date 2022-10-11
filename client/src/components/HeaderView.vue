@@ -68,11 +68,14 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+// import { mapMutations } from 'vuex';
+import { createNamespacedHelpers } from 'vuex';
+const { mapActions, mapState, mapMutations } = createNamespacedHelpers('auth');
 export default {
   computed: mapState(['currentUser', 'notification']),
   methods: {
     ...mapMutations(['signOut']),
+    ...mapActions(['signIn']),
   },
 };
 </script>

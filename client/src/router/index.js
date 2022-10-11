@@ -2,16 +2,16 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 // import HomeView from '../views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue';
-import DiscussView from '@/components/DiscussView';
-import AddPostView from '@/components/AddPostView';
-import showBlog from '@/components/showBlog';
-import singleBlog from '@/components/singleBlog';
+import DiscussView from '@/views/DiscussView';
+import AddPostView from '@/views/AddPostView';
+import showBlog from '@/views/showBlog';
+import singleBlog from '@/views/singleBlog';
 import NotFound from '@/components/NotFound';
 import RegisterView from '@/views/RegisterView';
-import UserProfile from '@/components/UserProfile';
-import EditPost from '@/components/editPost';
-import SciencePosts from '@/components/sciencePosts';
-import InspirePosts from '@/components/inspirePosts';
+import UserProfile from '@/views/UserProfile';
+import EditPost from '@/views/editPost';
+import SciencePosts from '@/views/sciencePosts';
+import InspirePosts from '@/views/inspirePosts';
 
 Vue.use(VueRouter);
 

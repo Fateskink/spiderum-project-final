@@ -12,15 +12,26 @@
 </template>
 
 <script>
-// import axios from 'axios'
-import { mapActions, mapState } from 'vuex';
+// import axios from 'axios';
+// import { mapActions, mapState } from 'vuex';
+import { createNamespacedHelpers } from 'vuex';
+const { mapActions, mapState } = createNamespacedHelpers('auth');
+// const auth1 = createNamespacedHelpers('auth1');
+
 export default {
   data() {
     return {};
   },
-  computed: mapState(['currentUser']),
+  computed: {
+    ...mapState(['currentUser']),
+    // currentUserData() {
+    //   console.log(this.$store.state.currentUser);
+    //   return this.$store.state.currentUser;
+    // },
+  },
   methods: {
     ...mapActions(['signIn']),
+    // ...auth1.mapActions(['signIn']),
     // login(){
     //     if(this.$store.state.token != '' || this.$store.state.token != null || this.$store.state.token.length != 0){
     //         this.$router.push("/discuss")

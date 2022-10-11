@@ -37,7 +37,7 @@ export default {
         password_confirmation: this.users.password_confirmation,
       });
       console.log(respone);
-      alert('Đăng ký thành công! Quay lại trang đăng nhập');
+      alert('Đăng ký thành công! Vui lòng kiểm tra email kích hoạt');
       this.$router.push('/login');
     },
   },

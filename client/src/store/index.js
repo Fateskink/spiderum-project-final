@@ -6,6 +6,8 @@ import router from '@/router';
 
 Vue.use(Vuex);
 
+import auth from '@/store/modules/auth.js';
+
 // const dataState = createPersistedState({
 //   paths: ['currentUser.token','currentUser.name']
 // })
@@ -15,6 +17,10 @@ Vue.use(Vuex);
 // }
 
 export default new Vuex.Store({
+  modules: {
+    auth,
+  },
+  namespaced: true,
   state: {
     currentUser: {
       name: '',
@@ -37,37 +43,8 @@ export default new Vuex.Store({
     },
   },
   getters: {},
-  mutations: {
-    setToken(state, newToken) {
-      state.currentUser.token = newToken;
-    },
-    signOut(state) {
-      state.currentUser.token = null;
-      router.push('/discuss');
-      state.notification.status = false;
-    },
-  },
+  mutations: {},
   actions: {
-    async signIn({ state, commit }) {
-      try {
-        await axios
-          .post('/api/v1/user1/login', {
-            email: state.currentUser.email,
-            password: state.currentUser.password,
-          })
-          .then((response) => {
-            console.log(response.data), commit('setToken', response.data.token);
-            (state.currentUser.email = ''),
-              (state.currentUser.password = ''),
-              (state.currentUser.name = response.data.user.name);
-            alert('Dang nhap thanh cong');
-            router.push('/discuss');
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    },
-
     async upPost({ state }) {
       try {
         await axios
@@ -77,11 +54,10 @@ export default new Vuex.Store({
               title: state.blog.title,
               content: state.blog.content,
               tag_id: state.blog.category,
-              // tag_id: 1
             },
             {
               headers: {
-                Authorization: `Bearer ${this.state.currentUser.token}`,
+                Authorization: `Bearer ${this.state.auth.currentUser.token}`,
               },
             },
           )
@@ -151,5 +127,4 @@ export default new Vuex.Store({
   },
   plugins: [createPersistedState()],
   // plugins: [dataState],
-  modules: {},
 });
