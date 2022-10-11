@@ -1,16 +1,13 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :title, :name, :created_at, :content,  :view, :favourite_count, :vote_sum
+  attributes :title, :created_at, :content,  :view, :favourite_count, :vote_sum
 
-  # belongs_to :user
+  belongs_to :user
   has_many :comments
-  has_many :votes
 
-  def name
-    set_post
-    @name = @post.users.name
+  class UserSerializer < ActiveModel::Serializer
+    attributes :name
   end
-
-  def set_post
-    @post = Post.find(params[:id])
-  end
+  # def name
+  #   object.users.name
+  # end
 end

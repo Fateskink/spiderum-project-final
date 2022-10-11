@@ -9,18 +9,17 @@ module Api
 
         def index
           @pagy, @posts = pagy(Post.all)
-          render json: { posts: @posts, metadata: meta_data}, status: :ok
+          render json: { posts: @posts, metadata: meta_data }, status: :ok
 
-          # feed = { posts: @posts, metadata: meta_data }  
+          # feed = { posts: @posts, metadata: meta_data }
           # alo[:serializer] = PostSerializer.new(@post)
           # # render json:{product_att: @product_att, message: " manh BD", serializer: PrAttributeSerializer} , each_serializer: PrAttributeSerializer
           # render json: feed
-
         end
 
         def show
           @post.update(view: @post.view + 1)
-          render json: { post: @post }, status: :ok
+          render json: @post, each_serializer: nil
         end
 
         def new
