@@ -1,7 +1,7 @@
 class PostSerializer < ActiveModel::Serializer
   attributes :title, :content, :created_at, :view, :name, :favourite_count, :vote_sum
 
-  # belongs_to :user
+  belongs_to :user
   has_many :comments
   has_many :votes
 
