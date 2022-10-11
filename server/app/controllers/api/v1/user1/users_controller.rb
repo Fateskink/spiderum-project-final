@@ -10,12 +10,12 @@ module Api
 
         def index
           @pagy, @users = pagy(User.all)
-          render json: { users: @users, metadata: meta_data}, status: :ok
+          render json: { users: @users, metadata: meta_data }, status: :ok
         end
 
         def show
-          token = encode_token({user_id: @user.id})
-          render json: { user: @user , token: token}, status: :ok
+          token = encode_token({ user_id: @user.id })
+          render json: { user: @user, token: }, status: :ok
         end
 
         def new
@@ -26,7 +26,6 @@ module Api
           @user = User.new(user_params)
           @user.image.attach(params[:user][:image])
           if @user.save
-            # @user.send_activation_email
             SendMailJob.perform_later @user
             render json: { message: 'Please check your email to active account' }, status: :ok
           else
@@ -34,12 +33,11 @@ module Api
           end
         end
 
-        def edit
-        end
+        def edit; end
 
         def update
           if @user.update(user_params)
-            render json: {user: @user}, status: :ok
+            render json: { user: @user }, status: :ok
           else
             render json: @user.errors.full_messages, status: :unprocessable_entity
           end
@@ -74,23 +72,23 @@ module Api
             @user.confirmation_token = nil
             @user.confirmed_at = Time.now.utc
             @user.save
-            render json: {status: 'User confirmed successfully'}, status: :ok
+            render json: { status: 'User confirmed successfully' }, status: :ok
           else
-            render json: {status: 'Invalid token'}, status: :not_found
+            render json: { status: 'Invalid token' }, status: :not_found
           end
         end
 
         # Ban user
         def destroy
           @user.update(banned: true)
-          render json: {message: "User has been banned"}, status: :ok
+          render json: { message: 'User has been banned' }, status: :ok
         end
 
         def following
           @title = 'Following'
           @user = User.find(params[:id])
           @users = @user.following.paginate(page: params[:page])
-          render json:{users: @users}, status: :ok
+          render json: { users: @users }, status: :ok
         end
 
         def followers
@@ -100,7 +98,8 @@ module Api
           render json: { users: @users }
         end
 
-      private
+        private
+
         # set user with params id
         def set_user
           @user = User.find(params[:id])
@@ -119,16 +118,14 @@ module Api
         def validate_email_update
           @new_email = params[:email].to_s.downcase
 
-          if @new_email.blank?
-            return render json: { status: 'Email cannot be blank' }, status: :bad_request
-          end
+          return render json: { status: 'Email cannot be blank' }, status: :bad_request if @new_email.blank?
 
           if @new_email == @current_user.email
             return render json: { status: 'Current Email and New email cannot be the same' }, status: :bad_request
           end
 
           if User.email_used?(@new_email)
-            return render json: { error: 'Email is already in use.' }, status: :unprocessable_entity
+            render json: { error: 'Email is already in use.' }, status: :unprocessable_entity
           end
         end
       end

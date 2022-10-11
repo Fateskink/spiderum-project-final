@@ -33,7 +33,7 @@ module Api
           if @vote.destroy
             @vote.votetable.update(vote_sum: @votetable.vote_sum - 1)
             save
-            render json: { message: 'unvote' }, status: :ok
+            render json: { message: 'Unvote' }, status: :ok
           else
             render json: @vote.errors.full_messages, status: :unprocessable_entity
           end

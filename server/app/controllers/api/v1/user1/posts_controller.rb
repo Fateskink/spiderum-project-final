@@ -10,7 +10,6 @@ module Api
         def index
           @pagy, @posts = pagy(Post.all)
           render json: { posts: @posts, metadata: meta_data }, status: :ok
-
           # feed = { posts: @posts, metadata: meta_data }
           # alo[:serializer] = PostSerializer.new(@post)
           # # render json:{product_att: @product_att, message: " manh BD", serializer: PrAttributeSerializer} , each_serializer: PrAttributeSerializer
@@ -64,6 +63,12 @@ module Api
           # @search.sorts = 'name asc' if @search.sorts.empty?
           # @posts = @search.result.paginate(page: params[:page], per_page: 20)
           render json: @post, each_serializer: nil
+        end
+
+        def feed
+          part_of_feed = "relationships.follower_id = :id or posts.user_id = :id"
+          Post.left_outer_joins(user: :followers).where(part_of_feed, { id: id }).distinct
+              .includes(:user, image_attachment: :blob)
         end
 
         private
