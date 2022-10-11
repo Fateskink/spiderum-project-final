@@ -97,11 +97,10 @@ module Api
           @title = 'Followers'
           @user = User.find(params[:id])
           @users = @user.followers.paginate(page: params[:page])
-          render json: {users: @users}
+          render json: { users: @users }
         end
 
       private
-
         # set user with params id
         def set_user
           @user = User.find(params[:id])
@@ -119,15 +118,15 @@ module Api
 
         def validate_email_update
           @new_email = params[:email].to_s.downcase
-    
+
           if @new_email.blank?
             return render json: { status: 'Email cannot be blank' }, status: :bad_request
           end
-    
-          if  @new_email == @current_user.email
+
+          if @new_email == @current_user.email
             return render json: { status: 'Current Email and New email cannot be the same' }, status: :bad_request
           end
-    
+
           if User.email_used?(@new_email)
             return render json: { error: 'Email is already in use.' }, status: :unprocessable_entity
           end

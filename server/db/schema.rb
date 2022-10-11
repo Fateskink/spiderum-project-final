@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_11_031444) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_11_040958) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -84,6 +84,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_031444) do
     t.integer "month"
     t.integer "year"
     t.integer "vote_sum", default: 0
+    t.integer "comment_count", default: 0
     t.index ["created_at"], name: "index_posts_on_created_at"
     t.index ["tag_id"], name: "index_posts_on_tag_id"
     t.index ["user_id"], name: "index_posts_on_user_id"

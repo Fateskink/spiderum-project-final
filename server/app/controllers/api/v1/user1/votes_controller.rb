@@ -31,6 +31,8 @@ module Api
         def destroy
           @vote = Vote.find_by(params[:vote_id])
           if @vote.destroy
+            @vote.votetable.update(vote_sum: @votetable.vote_sum - 1)
+            save
             render json: { message: 'unvote' }, status: :ok
           else
             render json: @vote.errors.full_messages, status: :unprocessable_entity

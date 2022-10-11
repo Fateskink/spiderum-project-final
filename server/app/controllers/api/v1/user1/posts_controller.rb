@@ -61,6 +61,8 @@ module Api
         def search
           @q = Post.ransack(params[:q])
           @post = @q.result
+          # @search.sorts = 'name asc' if @search.sorts.empty?
+          # @posts = @search.result.paginate(page: params[:page], per_page: 20)
           render json: @post, each_serializer: nil
         end
 
