@@ -32,7 +32,8 @@ module Api
           end
         end
 
-        def edit; end
+        def edit
+        end
 
         def update
           if @user.update(user_params)
@@ -102,9 +103,9 @@ module Api
         def my_favourites
           @title = 'my_favourites'
           @user = User.find(params[:id])
-          @favourite_posts = @user.favourite_posts
-          @pagy, @favourite_posts = pagy(@favourite_posts)
-          render json: @favourite_posts
+          @posts = @user.posts
+          @pagy, @posts = pagy(@posts)
+          render json: @posts
         end
 
         def feed

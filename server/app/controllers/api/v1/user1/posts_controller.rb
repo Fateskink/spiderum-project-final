@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class PostsController < ApplicationController
-        before_action :authorize, only: %i[create update destroy feed]
+        before_action :authorize, only: %i[create update destroy]
         before_action :set_post, only: %i[show edit update destroy]
         # before_action :admin_user, only: :destroy
         before_action :correct_user, only: %i[edit update destroy]
@@ -10,8 +10,8 @@ module Api
         def index
           @pagy, @posts = pagy(Post.all)
           feed = { posts: @posts, metadata: meta_data }
-          # feed[:serializer] = PostSerializer.new(@post)
           render json: feed, status: :ok
+          # feed[:serializer] = PostSerializer.new(@post)
           # feed = { posts: @posts, metadata: meta_data }
           # alo[:serializer] = PostSerializer.new(@post)
           # # render json:{product_att: @product_att, message: " manh BD", serializer: PrAttributeSerializer} , each_serializer: PrAttributeSerializer
@@ -66,11 +66,20 @@ module Api
           render json: { search: @search, metadata: meta_data }, status: :ok
         end
 
-        # def feed
-        #   @user = @current_user
-        #   @posts = Post.where("user_id = ?", params[:user_id])
-        #   render json: @posts, status: :ok
-        # end
+        def feed
+          if !@user.authorize
+            index
+          else
+            users.feed
+            # following_ids = "SELECT followed_id FROM relationships
+            # WHERE follower_id = :user_id"
+            # render json: 
+            # Post.where("user_id IN (#{following_ids})
+            # OR user_id = :user_id", user_id: :id)
+            #             @posts = Post.where('user_id = ?', params[:user_id] )
+            # render json: @posts, status: :ok
+          end
+        end
 
         def top
           @top = Post.where('posts.month' => Time.current.month)

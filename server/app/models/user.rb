@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   has_many :posts, dependent: :destroy
   has_many :favourites, dependent: :destroy
-  has_many :favourite_posts, through: :favourites, source: :user
+  has_many :posts, through: :favourites, source: :user
   has_many :relationships, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :votes, dependent: :destroy
@@ -31,10 +31,9 @@ class User < ApplicationRecord
   end
 
   def feed
-    following_ids = "SELECT followed_id FROM relationships
-                    WHERE follower_id = :user_id"
-    Post.where("user_id IN (#{following_ids})
-    OR user_id = :user_id", user_id: id).includes(:user, image_attachment: :blob)
+    following_ids = "SELECT followed_id FROM relationships WHERE follower_id = :user_id"
+    Post.where("user_id IN (#{following_ids})OR user_id = :user_id", user_id: id)
+        .includes(:user, image_attachment: :blob)
   end
 
   # Follows a user.
@@ -107,7 +106,7 @@ class User < ApplicationRecord
   end
 
   def update_new_email!
-    self.email = self.unconfirmed_email
+    self.email = unconfirmed_email
     self.unconfirmed_email = nil
     mark_as_confirmed!
   end
