@@ -12,7 +12,7 @@ class Post < ApplicationRecord
   has_many :users, through: :votes # new vlidate
   has_many :notifications, as: :notificationable, dependent: :destroy
 
-  default_scope -> { order(created_at: :desc) } # maybe remove when create new sorting
+  # default_scope -> { order(created_at: :desc) } # maybe remove when create new sorting
   validates :user_id, presence: true
   validates :title, presence: true
   validates :content, presence: true

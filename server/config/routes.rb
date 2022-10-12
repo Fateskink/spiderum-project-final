@@ -24,13 +24,13 @@ Rails.application.routes.draw do
         post '/login', to: 'sessions#create'
         delete '/logout', to: 'sessions#destroy'
 
+        get '/feed', to: 'users#feed'
         get '/my_favourites', to: 'favourites#my_favourites'
 
         resources :posts
         get '/posts/new', to: 'posts#new'
         get '/posts/edit', to: 'posts#edit'
         get '/posts', to: 'posts#index'
-        get '/feed', to: 'posts#feed'
         get '/top', to: 'posts#top'
         get '/search', to: 'posts#search'
 

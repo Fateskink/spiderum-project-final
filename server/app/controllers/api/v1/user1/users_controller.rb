@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class UsersController < ApplicationController
-        before_action :authorize, only: %i[index edit update destroy]
+        before_action :authorize, only: %i[index edit update destroy feed]
         before_action :set_user, only: %i[show edit update destroy]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
@@ -107,6 +107,11 @@ module Api
           render json: @favourite_posts
         end
 
+        def feed
+          @user = @current_user
+          @posts = Post.where("user_id = ?", params[:user_id])
+          render json: @user, status: :ok
+        end
 
         private
 

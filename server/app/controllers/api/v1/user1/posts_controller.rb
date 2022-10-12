@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class PostsController < ApplicationController
-        before_action :authorize, only: %i[create update destroy]
+        before_action :authorize, only: %i[create update destroy feed]
         before_action :set_post, only: %i[show edit update destroy]
         # before_action :admin_user, only: :destroy
         before_action :correct_user, only: %i[edit update destroy]
@@ -62,28 +62,20 @@ module Api
         def search
           @q = Post.ransack(params[:q])
           @search = @q.result
-          # @post.sorts = 'name asc' if @post.sorts.empty?
-          # @pagy, @posts = pagy(@post.result)
-          # @posts = @post.result.pagy(page: params[:page], per_page: 20)
-          render json: @search, each_serializer: nil
+          @pagy, @search = pagy(@search)
+          render json: { search: @search, metadata: meta_data }, status: :ok
         end
 
-        def feed
-          following_ids = "SELECT followed_id FROM relationships
-          WHERE follower_id = :user_id"
-          render json: Post.where("user_id IN (#{following_ids})
-          OR user_id = :user_id", user_id: id)
-          .includes(:user, image_attachment: :blob)
-          # part_of_feed = 'relationships.follower_id = :id or posts.user_id = :id'
-          # render json: Post.left_outer_joins(user: :followers).where("part_of_feed" => :id).distinct
-          #                  .includes(:user, image_attachment: :blob)
-
-        end
+        # def feed
+        #   @user = @current_user
+        #   @posts = Post.where("user_id = ?", params[:user_id])
+        #   render json: @posts, status: :ok
+        # end
 
         def top
           @top = Post.where('posts.month' => Time.current.month)
-                     .order('posts.favourite_count DESC')
-                     .limit('10')
+                     .order(favourite_count: :desc)
+                     .limit(10)
           render json: @top, status: :ok
         end
 
@@ -104,7 +96,7 @@ module Api
 
         # in case of somebody try to delete another's post
         def correct_user
-          @post = current_user.posts.find_by(id: params[:id])
+          @post = @current_user.posts.find_by(id: params[:id])
           render json: { message: 'You have no right' }, status: :unauthorized if @post.nil?
         end
       end
