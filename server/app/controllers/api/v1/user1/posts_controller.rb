@@ -61,17 +61,30 @@ module Api
 
         def search
           @q = Post.ransack(params[:q])
-          @post = @q.result
+          @search = @q.result
           # @post.sorts = 'name asc' if @post.sorts.empty?
           # @pagy, @posts = pagy(@post.result)
           # @posts = @post.result.pagy(page: params[:page], per_page: 20)
-          render json: @post, each_serializer: nil
+          render json: @search, each_serializer: nil
         end
 
         def feed
-          part_of_feed = "relationships.follower_id = :id or posts.user_id = :id"
-          render json: Post.left_outer_joins(user: :followers).where(part_of_feed, { id: id }).distinct
-              .includes(:user, image_attachment: :blob)
+          following_ids = "SELECT followed_id FROM relationships
+          WHERE follower_id = :user_id"
+          render json: Post.where("user_id IN (#{following_ids})
+          OR user_id = :user_id", user_id: id)
+          .includes(:user, image_attachment: :blob)
+          # part_of_feed = 'relationships.follower_id = :id or posts.user_id = :id'
+          # render json: Post.left_outer_joins(user: :followers).where("part_of_feed" => :id).distinct
+          #                  .includes(:user, image_attachment: :blob)
+
+        end
+
+        def top
+          @top = Post.where('posts.month' => Time.current.month)
+                     .order('posts.favourite_count DESC')
+                     .limit('10')
+          render json: @top, status: :ok
         end
 
         private

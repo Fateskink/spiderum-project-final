@@ -9,7 +9,7 @@ Rails.application.routes.draw do
             get 'email_update'
           end
         end
-        # get 'email_update', to: 'users#email_update'
+        # get '/email_update', to: 'users#email_update'
         get 'confirm', to: 'users#confirm'
         post 'password/forgot', to: 'password#forgot'
         get 'password/reset', to: 'password#reset'
@@ -24,13 +24,15 @@ Rails.application.routes.draw do
         post '/login', to: 'sessions#create'
         delete '/logout', to: 'sessions#destroy'
 
-        get 'my_favourites', to: 'favourites#my_favourites'
+        get '/my_favourites', to: 'favourites#my_favourites'
 
         resources :posts
         get '/posts/new', to: 'posts#new'
         get '/posts/edit', to: 'posts#edit'
-        get 'posts', to: 'posts#index'
-        get 'feed', to: 'post#feed'
+        get '/posts', to: 'posts#index'
+        get '/feed', to: 'posts#feed'
+        get '/top', to: 'posts#top'
+        get '/search', to: 'posts#search'
 
         resources :users do
           member do

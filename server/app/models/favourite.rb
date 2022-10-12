@@ -1,7 +1,7 @@
 class Favourite < ApplicationRecord
   belongs_to :user
   belongs_to :post
-  # belongs_to :ranking
+  # has_many :favourite_posts, through: :favourites, source: :user
   has_many :notifications, as: :notificationable
   validates :post, uniqueness: { scope: :user }
   validates :user, uniqueness: { scope: :post }

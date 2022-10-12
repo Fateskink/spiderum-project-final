@@ -31,13 +31,9 @@ module Api
         def my_favourites
           @title = 'my_favourites'
           @user = User.find(params[:user_id])
-          render json: @user
-          # @user.id = Favourite.user_id
-          # @favourites = @user.favourites
-          # if @favourites
-          #   @pagy, @favourites = pagy(@favourites)
-          #   render json: { favourites: @favourites, metadata: meta_data }, status: :ok
-          # end
+          @favourite_posts = @user.favourites
+          @pagy, @favourite_posts = pagy(@favourite_posts)
+          render json: @favourite_posts
         end
 
         private
