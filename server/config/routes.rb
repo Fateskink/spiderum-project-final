@@ -25,14 +25,9 @@ Rails.application.routes.draw do
         post '/login', to: 'sessions#create'
         delete '/logout', to: 'sessions#destroy'
 
-        # account activation controller
-        # resource :account_activations, only: %i[edit]
-
         resources :posts
         get '/posts/new', to: 'posts#new'
         get '/posts/edit', to: 'posts#edit'
-        # get 'favourites/ranking', to: 'favourites#ranking'
-
 
         resources :users do
           member do

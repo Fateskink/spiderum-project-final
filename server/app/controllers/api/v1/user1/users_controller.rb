@@ -9,8 +9,8 @@ module Api
         # before_action :validate_email_update
 
         def index
-          @users = User.paginate(page: params[:page], per_page: 20)
-          render json: { users: @users }, status: :ok
+          @pagy, @users = pagy(User.all)
+          render json: { users: @users, metadata: meta_data}, status: :ok
         end
 
         def show

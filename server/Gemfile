@@ -76,3 +76,5 @@ gem 'byebug'
 gem 'active_storage_validations'
 
 gem 'mini_magick'
+
+gem 'pagy'

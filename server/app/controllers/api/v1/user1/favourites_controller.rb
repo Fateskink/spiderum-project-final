@@ -6,14 +6,15 @@ module Api
         before_action :set_post, only: :create
 
         def index
-          @favourites = Favourite.paginate(page: params[:page], per_page: 20)
-          render json: { favourites: @favourites }, status: :ok
+          @pagy, @favourites = pagy(Favourite.all)
+          render json: { favourites: @favourites , metadata: meta_data}, status: :ok
         end
 
         def create
           @favourite = @post.favourites.build
           @favourite.user_id = @current_user.id
           if @favourite.save
+            @post.update(favourite_count: @post.favourite_count + 1)
             render json: { favourite: @favourite }, status: :ok
           else
             render json: { message: 'Error' }, status: :unprocessable_entity

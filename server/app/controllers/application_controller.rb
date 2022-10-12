@@ -1,29 +1,16 @@
 class ApplicationController < ActionController::API
   # include ActionController::Cookies
-
-  def paginate(resource)
-    resource = resource.page(params[:page] || 1)
-    resource = resource.per_page(params[:per_page]) if params[:per_page]
-
-    resource
-  end
-
-  # def current_user
-  #   if (user_id = cookies.encrypted[:user_id])
-  #     user = User.find_by(id: user_id)
-  #     if user && user.authenticated?(:remember, cookies[:remember_token])
-  #       @current_user = user
-  #     end
-  #   else
-  #     @current_user ||= User.find_by(id: params[:id])
-  #   end
+  include Pagy::Backend
+  # def paginate(resource)
+  #   resource = resource.page(params[:page] || 1)
+  #   resource = resource.per_page(params[:per_page]) if params[:per_page]
+  #   resource
   # end
-  
+
   def encode_token(payload)
-    JWT.encode(payload, 'secret')  
+    JWT.encode(payload, 'secret')
   end
 
-  # Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMTIzIn0.AOXUao_6a_LbIcwkaZU574fPqvW6mPvHhwKC7Fatuws
   def decode_token
     auth_header = request.headers['Authorization']
     if auth_header
@@ -39,8 +26,8 @@ class ApplicationController < ActionController::API
   def authorized_user
     decoded_token = decode_token()
     if decoded_token
-        user_id = decoded_token[0]['user_id']
-        @current_user = User.find_by(id: user_id)
+      user_id = decoded_token[0]['user_id']
+      @current_user = User.find_by(id: user_id)
     end
   end
 
@@ -57,7 +44,17 @@ class ApplicationController < ActionController::API
   end
 
   def log_out
-    # forget(current_user)
     current_user = nil
+  end
+
+
+  def meta_data
+    {
+      total: @pagy.count,
+      page: @pagy.page,
+      from: @pagy.from,
+      to: @pagy.to,
+      pages: @pagy.pages
+    }
   end
 end
