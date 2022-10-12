@@ -2,8 +2,8 @@ module Api
   module V1
     module User1
       class UsersController < ApplicationController
-        before_action :authorize, only: %i[index edit update destroy]
-        before_action :set_user, only: %i[show edit update destroy]
+        before_action :authorize, only: %i[index edit update destroy my_favourites]
+        before_action :set_user, only: %i[show edit update destroy my_favourites]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
         # before_action :validate_email_update
@@ -14,8 +14,7 @@ module Api
         end
 
         def show
-          token = encode_token({ user_id: @user.id })
-          render json: { user: @user, token: }, status: :ok
+          render json: @user, status: :ok
         end
 
         def new
@@ -87,15 +86,17 @@ module Api
         def following
           @title = 'Following'
           @user = User.find(params[:id])
-          @users = @user.following.paginate(page: params[:page])
-          render json: { users: @users }, status: :ok
+          @users = @user.following
+          @pagy, @users = pagy(@users)
+          render json: { users: @users, metadata: meta_data}, status: :ok
         end
 
         def followers
           @title = 'Followers'
           @user = User.find(params[:id])
-          @users = @user.followers.paginate(page: params[:page])
-          render json: { users: @users }
+          @users = @user.followers
+          @pagy, @users = pagy(@users)
+          render json: { users: @users, metadata: meta_data}, status: :ok
         end
 
         private

@@ -4,8 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       namespace :user1 do
         resources :users
-
-        resources :users, only: [:create, :update] do
+        resources :users, only: %i[create update] do
           collection do
             get 'email_update'
           end
@@ -25,15 +24,20 @@ Rails.application.routes.draw do
         post '/login', to: 'sessions#create'
         delete '/logout', to: 'sessions#destroy'
 
+        get 'my_favourites', to: 'favourites#my_favourites'
+
         resources :posts
         get '/posts/new', to: 'posts#new'
         get '/posts/edit', to: 'posts#edit'
+        get 'posts', to: 'posts#index'
+        get 'feed', to: 'post#feed'
 
         resources :users do
           member do
             get :following, :followers
           end
         end
+
 
         resource :relationships, only: %i[create destroy]
 

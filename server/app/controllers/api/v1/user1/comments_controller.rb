@@ -11,6 +11,11 @@ module Api
           @comment = Comment.new
         end
 
+        # def show
+        #   @comment = Comment.find(params[:id])
+        #   render json: @comment, status: :ok
+        # end
+
         def create
           @comment = @commentable.comments.build(comment_params)
           @comment.user_id = @current_user.id

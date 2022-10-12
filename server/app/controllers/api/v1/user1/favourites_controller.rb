@@ -3,11 +3,11 @@ module Api
     module User1
       class FavouritesController < ApplicationController
         before_action :authorize
-        before_action :set_post, only: :create
+        before_action :set_post, only: %i[create index]
 
         def index
-          @pagy, @favourites = pagy(Favourite.all)
-          render json: { favourites: @favourites , metadata: meta_data}, status: :ok
+          @pagy, @favourites = pagy(@post.favourites)
+          render json: { favourites: @favourites, metadata: meta_data }, status: :ok
         end
 
         def create
@@ -26,6 +26,18 @@ module Api
             @favourite.destroy
             render json: { message: 'Not favourite any more' }, status: :ok
           end
+        end
+
+        def my_favourites
+          @title = 'my_favourites'
+          @user = User.find(params[:user_id])
+          render json: @user
+          # @user.id = Favourite.user_id
+          # @favourites = @user.favourites
+          # if @favourites
+          #   @pagy, @favourites = pagy(@favourites)
+          #   render json: { favourites: @favourites, metadata: meta_data }, status: :ok
+          # end
         end
 
         private

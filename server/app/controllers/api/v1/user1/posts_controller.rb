@@ -9,7 +9,9 @@ module Api
 
         def index
           @pagy, @posts = pagy(Post.all)
-          render json: { posts: @posts, metadata: meta_data }, status: :ok
+          feed = { posts: @posts, metadata: meta_data }
+          # feed[:serializer] = PostSerializer.new(@post)
+          render json: feed, status: :ok
           # feed = { posts: @posts, metadata: meta_data }
           # alo[:serializer] = PostSerializer.new(@post)
           # # render json:{product_att: @product_att, message: " manh BD", serializer: PrAttributeSerializer} , each_serializer: PrAttributeSerializer
@@ -18,7 +20,7 @@ module Api
 
         def show
           @post.update(view: @post.view + 1)
-          render json: @post, each_serializer: nil
+          render json: @post, status: :ok
         end
 
         def new
@@ -60,14 +62,15 @@ module Api
         def search
           @q = Post.ransack(params[:q])
           @post = @q.result
-          # @search.sorts = 'name asc' if @search.sorts.empty?
-          # @posts = @search.result.paginate(page: params[:page], per_page: 20)
+          # @post.sorts = 'name asc' if @post.sorts.empty?
+          # @pagy, @posts = pagy(@post.result)
+          # @posts = @post.result.pagy(page: params[:page], per_page: 20)
           render json: @post, each_serializer: nil
         end
 
         def feed
           part_of_feed = "relationships.follower_id = :id or posts.user_id = :id"
-          Post.left_outer_joins(user: :followers).where(part_of_feed, { id: id }).distinct
+          render json: Post.left_outer_joins(user: :followers).where(part_of_feed, { id: id }).distinct
               .includes(:user, image_attachment: :blob)
         end
 
