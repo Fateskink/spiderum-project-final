@@ -13,7 +13,8 @@ module Api
         def show
           @notification = Notification.find(params[:id])
           @notification.update(read_at: (@notification.read_at = Time.current))
-          render json: @notification.notificationable, status: :ok
+          @notice = @notification.notificationable
+          render json: @notice, status: :ok
         end
 
       end

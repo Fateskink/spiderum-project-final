@@ -1,5 +1,5 @@
 class CommentSerializer < ActiveModel::Serializer
-  attributes :body, :created_at, :vote_sum, :comment_count
+  attributes :body, :created_at, :vote_sum
 
   belongs_to :post
   belongs_to :user
