@@ -1,9 +1,12 @@
 class FavouriteSerializer < ActiveModel::Serializer
-  belongs_to :user
-  class UserSerializer < ActiveModel::Serializer
-    attributes :name
-    class PostSerializer < ActiveModel::Serializer
-      attributes :title
-    end
-  end
+  attributes :id
+  # belongs_to :user
+  belongs_to :post, serializer: PostSerializer
+
+  # class PostSerializer < ActiveModel::Serializer
+  #   # attributes :title
+  #   # class UserSerializer < ActiveModel::Serializer
+  #   #   attributes :name
+  #   # end
+  # end
 end

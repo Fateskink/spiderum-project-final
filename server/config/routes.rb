@@ -25,7 +25,10 @@ Rails.application.routes.draw do
         delete '/logout', to: 'sessions#destroy'
         
         get '/feed', to: 'posts#feed'
-        get '/my_favourites', to: 'favourites#my_favourites'
+        # get '/my_favourites', to: 'favourites#my_favourites'
+        resource :users do
+          get '/:id/my_favourites', to: 'users#my_favourites'
+        end
 
         resources :posts
         get '/posts/new', to: 'posts#new'

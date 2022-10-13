@@ -30,11 +30,11 @@ module Api
 
         def my_favourites
           @title = 'my_favourites'
-          @user = User.find(params[:user_id])
-          @favourite = @user.favourites
-          @posts = @favourite.posts.find(params[:post_id])
+          @user = Favourite.find_by(params[:user_id])
+          @favourite_posts = @user.posts.find_by(params[:post_id])
+          # @posts = @favourite.posts.find(params[:post_id])
           # @pagy, @posts = pagy(@posts)
-          render json: @favourite, serializer: nil
+          render json: @user, serializer: nil
         end
 
         private

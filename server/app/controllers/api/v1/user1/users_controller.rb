@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class UsersController < ApplicationController
-        before_action :authorize, only: %i[index edit update destroy feed]
+        before_action :authorize, only: %i[index edit update destroy feed my_favourites]
         before_action :set_user, only: %i[show edit update destroy]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
@@ -102,10 +102,9 @@ module Api
 
         def my_favourites
           @title = 'my_favourites'
-          @user = User.find(params[:id])
-          @posts = @user.posts
-          @pagy, @posts = pagy(@posts)
-          render json: @posts
+          @favourite = @current_user.favourites
+          @pagy, @favourite = pagy(@favourite)
+          render json:  @favourite, status: :ok
         end
 
         def feed
