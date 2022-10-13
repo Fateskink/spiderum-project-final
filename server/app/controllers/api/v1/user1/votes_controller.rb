@@ -8,7 +8,7 @@ module Api
         def upvote
           @vote = @votetable.votes.build
           @vote.user_id = @current_user.id
-          @vote.update(vote_score: @vote.vote_score + 1)
+          @vote.votetable.update(vote_sum: @votetable.vote_sum + 1)
           if @vote.save
             render json: { vote: @vote }, status: :ok
           else
@@ -19,8 +19,9 @@ module Api
         def downvote
           @vote = @votetable.votes.build
           @vote.user_id = @current_user.id
-          @vote.update(vote_score: @vote.vote_score - 1)
-          if @vote.save
+          @vote.votetable.update(vote_sum: @votetable.vote_sum - 1)
+          save
+          if @vote
             render json: { vote: @vote }, status: :ok
           else
             render json: @vote.errors.full_messages, status: :unprocessable_entity
@@ -30,42 +31,14 @@ module Api
         def destroy
           @vote = Vote.find_by(params[:vote_id])
           if @vote.destroy
-            render json: { message: 'unvote' }, status: :ok
+            @vote.votetable.update(vote_sum: @votetable.vote_sum - 1)
+            save
+            render json: { message: 'Unvote' }, status: :ok
           else
             render json: @vote.errors.full_messages, status: :unprocessable_entity
           end
         end
-
-        # def upvote
-        #   @vote = @votetable.votes
-        #   if @vote.vote_score == 0
-        #     @vote = @votetable.votes.build
-        #     @vote.user_id = @current_user.id
-        #     @vote.update(vote_score: @vote.vote_score + 1)
-        #     @vote.save
-        #     render json: { messages: 'Upvote' }
-        #   else
-        #     @vote = vote.find_by(params[:id])
-        #     @vote.destroy
-        #     render json: {message:"Unvote"}
-        #   end
-        # end
-
-        # def downvote
-        #   @vote = @votetable.votes
-        #   if @vote.vote_score == 0
-        #     @vote = @votetable.votes.build
-        #     @vote.user_id = @current_user.id
-        #     @vote.update(vote_score: @vote.vote_score - 1)
-        #     @vote.save
-        #     render json: { messages: 'Downvote' }
-        #   else
-        #     @vote = vote.find_by(params[:id])
-        #     @vote.destroy
-        #     render json: { message: 'Unvote' }
-        #   end
-        # end
-
+        
         private
 
         def find_votetable

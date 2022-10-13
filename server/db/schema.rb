@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_06_072629) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_11_093806) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -46,6 +46,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_06_072629) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.integer "vote_sum", default: 0
+    t.integer "comment_count", default: 0
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -79,17 +81,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_06_072629) do
     t.datetime "updated_at", null: false
     t.integer "view", default: 0
     t.bigint "tag_id", null: false
+    t.integer "favourite_count", default: 0
+    t.integer "month"
+    t.integer "year"
+    t.integer "vote_sum", default: 0
+    t.integer "comment_count", default: 0
     t.index ["created_at"], name: "index_posts_on_created_at"
     t.index ["tag_id"], name: "index_posts_on_tag_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
-  end
-
-  create_table "rankings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "post_id", null: false
-    t.integer "favourite_count", default: 1
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_rankings_on_post_id"
   end
 
   create_table "relationships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -130,7 +129,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_06_072629) do
     t.bigint "user_id", null: false
     t.string "votetable_type", null: false
     t.bigint "votetable_id", null: false
-    t.integer "vote_score", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_votes_on_user_id"
@@ -144,6 +142,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_06_072629) do
   add_foreign_key "favourites", "users"
   add_foreign_key "posts", "tags"
   add_foreign_key "posts", "users"
-  add_foreign_key "rankings", "posts"
   add_foreign_key "votes", "users"
 end
