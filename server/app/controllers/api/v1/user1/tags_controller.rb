@@ -11,8 +11,9 @@ module Api
 
         def show
           @tag = Tag.find(params[:id])
-          @posts = @tag.posts.paginate(page: params[:page], per_page: 20)
-          render json: { posts: @posts }, status: :ok
+          # @posts = @tag.posts
+          @pagy, @posts = pagy(@tag.posts)
+          render json: {posts: @posts, metadata: meta_data}, status: :ok
         end
 
         def create
