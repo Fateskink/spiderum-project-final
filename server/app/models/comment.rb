@@ -6,11 +6,25 @@ class Comment < ApplicationRecord
   has_many :users, through: :votes # new vlidate
   has_many :notifications, as: :notificationable, dependent: :destroy
   after_create :create_notifications
+  after_create :increment_count
+  after_destroy :decrement_count
 
   private
 
   def create_notifications
-    Notification.create(recipient: self.commentable.user, actor: self.user,
+    Notification.create(recipient: commentable.user, actor: user,
                         action: 'commented', notificationable: self)
+  end
+
+  def increment_count
+    parent = commentable
+    parent = parent.commentable while parent.is_a? Comment
+    parent.increment! :comment_count
+  end
+
+  def decrement_count
+    parent = commentable
+    parent = parent.commentable while parent.is_a? Comment
+    parent.decrement! :comment_count
   end
 end

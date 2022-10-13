@@ -32,8 +32,7 @@ module Api
           end
         end
 
-        def edit
-        end
+        def edit; end
 
         def update
           if @user.update(user_params)
@@ -89,7 +88,7 @@ module Api
           @user = User.find(params[:id])
           @users = @user.following
           @pagy, @users = pagy(@users)
-          render json: { users: @users, metadata: meta_data}, status: :ok
+          render json: { users: @users, metadata: meta_data }, status: :ok
         end
 
         def followers
@@ -97,20 +96,22 @@ module Api
           @user = User.find(params[:id])
           @users = @user.followers
           @pagy, @users = pagy(@users)
-          render json: { users: @users, metadata: meta_data}, status: :ok
+          render json: { users: @users, metadata: meta_data }, status: :ok
         end
 
         def my_favourites
           @title = 'my_favourites'
           @favourite = @current_user.favourites
           @pagy, @favourite = pagy(@favourite)
-          render json:  @favourite, status: :ok
+          render json: @favourite, status: :ok
         end
 
         def feed
-          @user = @current_user
-          @posts = Post.where("user_id = ?", params[:user_id])
-          render json: @user, status: :ok
+          following_ids = Relationship.select(:followed_id).where('follower_id = ?', params[:id])
+          # @post = Post.where("user_id = ?", params[:id])
+          @post = Post.where(user_id: following_ids)
+          # Post.where(id: [1, 2]).and(Post.where(id: [2, 3]))
+          render json: @post, status: :ok
         end
 
         private
