@@ -3,11 +3,11 @@ module Api
     module User1
       class NotificationsController < ApplicationController
         before_action :authorize
-        
+
         def index
           @notifications = @current_user.notifications
           @pagy, @notifications = pagy(@notifications)
-          render json: {notifications: @notifications, metadata: meta_data}, status: :ok
+          render json: { notifications: @notifications, metadata: meta_data }, status: :ok
         end
 
         def show
@@ -16,7 +16,6 @@ module Api
           @notice = @notification.notificationable
           render json: @notice, status: :ok
         end
-
       end
     end
   end
