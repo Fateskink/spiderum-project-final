@@ -1,0 +1,96 @@
+.boxchat {
+  /* height: 360px; */
+  width: 300px;
+  background: white;
+  /* border: 1px solid #000; */
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  border-radius: 10px;
+  position: fixed;
+  bottom: 60px;
+  right: 60px;
+  z-index: 1;
+  /* background: red; */
+  /* display: none; */
+}
+
+.boxchat-header {
+  height: 30px;
+  background: #2fb5fa;
+  padding: 15px 15px;
+  align-items: center;
+  border-radius: 10px 10px 0 0;
+}
+
+.boxchat-header {
+  cursor: pointer;
+}
+
+.boxchat-output {
+  height: 330px;
+  overflow: scroll;
+  background: rgb(212, 212, 212);
+}
+
+.boxchat-input {
+  height: 30px;
+  justify-content: space-evenly;
+  margin: 15px 0;
+}
+
+.boxchat-input input {
+  border: none;
+  background: rgb(212, 212, 212);
+  border-radius: 5px;
+  width: 70%;
+}
+
+.boxchat-send {
+  cursor: pointer;
+}
+
+.bubble-chat {
+  position: fixed;
+  text-align: center;
+  line-height: 60px;
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  bottom: 60px;
+  right: 60px;
+  background: rgb(192, 173, 214);
+  cursor: pointer;
+}
+
+/* vue only */
+
+.boxchat-fade-enter-active {
+  animation: bounce-in 0.5s;
+}
+.boxchat-fade-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.viewfade-enter-active,
+.viewfade-leave-active {
+  transition: opacity 0.15s ease;
+}
+
+.viewfade-enter-active {
+  transition-delay: 0.15s;
+}
+
+.viewfade-enter, .viewfade-leave-to
+/* .component-fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
