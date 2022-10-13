@@ -69,7 +69,7 @@ Rails.application.routes.draw do
           resources :favourites, only: %i[create index destroy]
         end
 
-        resources :notifications, only: [:index]
+        resources :notifications, only: %i[index show]
       end
     end
   end
