@@ -91,8 +91,8 @@ module Api
         private
 
         def post_params
-          params.permit(:title, :content, :image, :tag)
-          # permit :image for post  |  :images => []
+          params.permit(:title, :content, :tag, :image)
+          # permit :image for post  |  images: []
         end
 
         def set_post
