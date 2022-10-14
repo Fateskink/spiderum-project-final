@@ -111,13 +111,10 @@ module Api
           @post = Post.where('user_id = ?', params[:id])
           @post_following = Post.where(user_id: following_ids)
           new_feed = @post.including(@post_following)
-          # new_feed.sort_by{|e| e[:time_ago]}.reverse
+          # new_feed.order("created_at DESC")
           # @pagy, @tests = pagy(new_feed)
           render json: new_feed, serializer: nil, status: :ok
         end
-        # @pagy, @tests = pagy test.order(:create_at)
-        # @contacts = @paginated_contacts.group_by{ |contact| contact.last_name[0].upcase }
-        # @contact = Contact.new
 
         private
 
