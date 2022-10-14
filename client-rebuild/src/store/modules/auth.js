@@ -1,25 +1,27 @@
 import axios from '@/axios/axios';
 import router from '@/router';
+import { getField, updateField } from 'vuex-map-fields';
 
 export default {
   namespaced: true,
-  state() {
-    return {
-      currentUser: {},
-      loginform: {
-        email: '',
-        password: '',
-      },
-      registerForm: {
-        name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
-      },
-    };
+  state: {
+    currentUser: {},
+    loginform: {
+      email: '',
+      password: '',
+    },
+    registerForm: {
+      name: '',
+      email: '',
+      password: '',
+      password_confirmation: '',
+    },
   },
-  getters: {},
+  getters: {
+    getField,
+  },
   mutations: {
+    updateField,
     setUserToken(state, newToken) {
       state.currentUser.token = newToken;
     },
