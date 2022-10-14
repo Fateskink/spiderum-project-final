@@ -29,6 +29,7 @@ Rails.application.routes.draw do
         resource :users do
           get '/:id/feed', to: 'users#feed'
           get '/:id/my_favourites', to: 'users#my_favourites'
+          get '/:id/search', to: 'users#search'
         end
 
         resources :posts

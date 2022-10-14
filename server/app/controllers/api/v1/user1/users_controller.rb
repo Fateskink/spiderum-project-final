@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class UsersController < ApplicationController
-        before_action :authorize, only: %i[index edit update destroy feed my_favourites]
+        before_action :authorize, only: %i[index edit update destroy feed my_favourites search]
         before_action :set_user, only: %i[show edit update destroy]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
@@ -23,7 +23,7 @@ module Api
 
         def create
           @user = User.new(user_params)
-          @user.image.attach(params[:user][:image])
+          @user.image.attach(params[:image])
           if @user.save
             SendMailJob.perform_later @user
             render json: { message: 'Please check your email to active account' }, status: :ok
@@ -114,6 +114,16 @@ module Api
           # new_feed.order("created_at DESC")
           # @pagy, @tests = pagy(new_feed)
           render json: new_feed, serializer: nil, status: :ok
+        end
+
+        def search
+          @user = User.find(params[:id])
+          @users = @user.following #+ @user.followers
+          @q = @users.ransack(params[:q])
+          @search = @q.result
+          # @pagy, @search = pagy(@search)
+          # render json: { search: @search, metadata: meta_data }, status: :ok
+          render json: @search, status: :ok
         end
 
         private

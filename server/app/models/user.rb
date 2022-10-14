@@ -22,6 +22,9 @@ class User < ApplicationRecord
   before_save :downcase_email
   before_create :generate_confirmation_instructions
 
+  attribute :image_url
+  after_find :set_image_url
+
   validates :image, content_type: { in: %w[image/jpeg image/gif image/png], message: 'must be a valid image format' },
                     size: { less_than: 5.megabytes, message: 'should be less than 5MB' }
 
