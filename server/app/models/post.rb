@@ -25,7 +25,6 @@ class Post < ApplicationRecord
 
   # All users is following the post owner
   def recipients
-    # @recipients = self.user.followers
     self.user.followers
   end
 

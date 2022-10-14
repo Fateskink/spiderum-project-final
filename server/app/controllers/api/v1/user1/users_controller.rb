@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class UsersController < ApplicationController
-        before_action :authorize, only: %i[index edit update destroy feed]
+        before_action :authorize, only: %i[index edit update destroy feed my_favourites]
         before_action :set_user, only: %i[show edit update destroy]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
@@ -32,8 +32,7 @@ module Api
           end
         end
 
-        def edit
-        end
+        def edit; end
 
         def update
           if @user.update(user_params)
@@ -89,7 +88,7 @@ module Api
           @user = User.find(params[:id])
           @users = @user.following
           @pagy, @users = pagy(@users)
-          render json: { users: @users, metadata: meta_data}, status: :ok
+          render json: { users: @users, metadata: meta_data }, status: :ok
         end
 
         def followers
@@ -97,22 +96,28 @@ module Api
           @user = User.find(params[:id])
           @users = @user.followers
           @pagy, @users = pagy(@users)
-          render json: { users: @users, metadata: meta_data}, status: :ok
+          render json: { users: @users, metadata: meta_data }, status: :ok
         end
 
         def my_favourites
           @title = 'my_favourites'
-          @user = User.find(params[:id])
-          @posts = @user.posts
-          @pagy, @posts = pagy(@posts)
-          render json: @posts
+          @favourite = @current_user.favourites
+          @pagy, @favourite = pagy(@favourite)
+          render json: @favourite, status: :ok
         end
 
         def feed
-          @user = @current_user
-          @posts = Post.where("user_id = ?", params[:user_id])
-          render json: @user, status: :ok
+          following_ids = Relationship.select(:followed_id).where('follower_id = ?', params[:id])
+          @post = Post.where('user_id = ?', params[:id])
+          @post_following = Post.where(user_id: following_ids)
+          new_feed = @post.including(@post_following)
+          # new_feed.sort_by{|e| e[:time_ago]}.reverse
+          # @pagy, @tests = pagy(new_feed)
+          render json: new_feed, serializer: nil, status: :ok
         end
+        # @pagy, @tests = pagy test.order(:create_at)
+        # @contacts = @paginated_contacts.group_by{ |contact| contact.last_name[0].upcase }
+        # @contact = Contact.new
 
         private
 

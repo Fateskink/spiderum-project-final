@@ -24,8 +24,12 @@ Rails.application.routes.draw do
         post '/login', to: 'sessions#create'
         delete '/logout', to: 'sessions#destroy'
         
-        get '/feed', to: 'posts#feed'
-        get '/my_favourites', to: 'favourites#my_favourites'
+        # get '/feed', to: 'posts#feed'
+        # get '/my_favourites', to: 'favourites#my_favourites'
+        resource :users do
+          get '/:id/feed', to: 'users#feed'
+          get '/:id/my_favourites', to: 'users#my_favourites'
+        end
 
         resources :posts
         get '/posts/new', to: 'posts#new'
@@ -69,7 +73,7 @@ Rails.application.routes.draw do
           resources :favourites, only: %i[create index destroy]
         end
 
-        resources :notifications, only: [:index]
+        resources :notifications, only: %i[index show]
       end
     end
   end

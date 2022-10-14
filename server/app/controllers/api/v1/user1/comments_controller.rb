@@ -11,15 +11,9 @@ module Api
           @comment = Comment.new
         end
 
-        # def show
-        #   @comment = Comment.find(params[:id])
-        #   render json: @comment, status: :ok
-        # end
-
         def create
           @comment = @commentable.comments.build(comment_params)
           @comment.user_id = @current_user.id
-          @comment.commentable.update(comment_count: @commentable.comment_count + 1)
           if @comment.save
             render json: { comment: @comment }, status: :ok
           else

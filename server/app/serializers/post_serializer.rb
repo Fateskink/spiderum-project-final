@@ -9,7 +9,7 @@ class PostSerializer < ActiveModel::Serializer
   end
 
   class CommentSerializer < ActiveModel::Serializer
-    attributes :id, :body, :created_at, :vote_sum, :comment_count
+    attributes :id, :body, :created_at, :vote_sum
     belongs_to :user
     has_many :comments, serializer: CommentSerializer
 
