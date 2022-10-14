@@ -8,25 +8,21 @@
       </ul>
     </div>
     <div class="artical-list">
-      <div class="artical-box flex m-b-66">
-        <img
-          class="content-img"
-          src="https://images.spiderum.com/sp-thumbnails/e6c9a8e0347f11ed8464d524c8966094.jpg"
-          alt=""
-        />
+      <div v-for="post in posts" :key="post" class="artical-box flex m-b-66">
+        <img class="content-img" src="" alt="" @error="setAltImg" />
         <div class="aside-content">
           <div class="artical-categories flex sp-between align-center p-tb-15">
             <p class="daf">Khoa học - Công nghệ</p>
-            <img class="dfas" src="assets/img/svg-icon/save.svg" alt="" />
+            <img class="dfas" src="@/assets/img/svg-icon/save.svg" alt="" />
           </div>
-          <div>
+          <router-link v-bind:to="'/posts/' + post.id">
             <a href=""
               ><h2 class="artical-title">
-                Hoàn toàn ổn để cảm thấy không ổn định - It is totally fine for being insecured
+                {{ post.title }}
               </h2></a
             >
-            <p class="artical-short-content">Có ổn không khi không ổn định nhỉ?</p>
-          </div>
+            <p class="artical-short-content" v-html="$options.filters.shortArticle(post.content)"></p>
+          </router-link>
           <div class="artical-author flex align-center sp-between p-tb-15">
             <div class="align-center flex">
               <img
@@ -49,7 +45,31 @@
 </template>
 
 <script>
-export default {};
+import axios from '@/axios/axios';
+export default {
+  data() {
+    return {
+      id: this.$route.params.id,
+      posts: {},
+    };
+  },
+  methods: {
+    setAltImg: function (event) {
+      event.target.src = 'https://wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg';
+    },
+  },
+  async created() {
+    await axios.get(`user1/tags/${this.id}`).then((response) => {
+      this.posts = response.data.posts;
+    });
+    console.log(this.posts);
+  },
+  filters: {
+    shortArticle(value) {
+      return value.slice(0, 75) + '...';
+    },
+  },
+};
 </script>
 
 <style>

@@ -4,7 +4,7 @@ import createPersistedState from 'vuex-persistedstate';
 
 import auth from '@/store/modules/auth';
 import createPost from '@/store/modules/createPost';
-
+import comment from '@/store/modules/comment';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -20,6 +20,7 @@ export default new Vuex.Store({
   modules: {
     auth,
     createPost,
+    comment,
   },
   plugins: [createPersistedState()],
 });

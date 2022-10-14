@@ -23,12 +23,12 @@ const routes = [
     component: UserProfile,
   },
   {
-    path: '/blog',
+    path: '/posts/:id',
     name: 'ShowBlog',
     component: ShowBlog,
   },
   {
-    path: '/categories',
+    path: '/categories/:id',
     name: 'PostCatogories',
     component: PostCategories,
   },

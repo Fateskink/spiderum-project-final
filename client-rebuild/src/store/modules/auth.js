@@ -29,6 +29,9 @@ export default {
     clearUserInfo(state) {
       (state.currentUser.token = null), (state.currentUser.name = '');
     },
+    clearUserRegisterInfo(state) {
+      state.registerForm = {};
+    },
   },
   actions: {
     async signIn({ state, commit }) {
@@ -54,7 +57,7 @@ export default {
       router.push('/');
     },
 
-    async register({ state }) {
+    async register({ state, commit }) {
       await axios
         .post('/user1/signup', {
           name: state.registerForm.name,
@@ -65,6 +68,7 @@ export default {
         .then((response) => {
           console.log(response);
           alert('Vui lòng kiểm tra email kích hoạt');
+          commit('clearUserRegisterInfo');
         })
         .catch((error) => console.log(error));
     },

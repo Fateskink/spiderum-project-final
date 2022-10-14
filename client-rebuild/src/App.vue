@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <HeaderView></HeaderView>
-    <router-view></router-view>
+    <Transition name="viewfade">
+      <router-view></router-view>
+    </Transition>
     <FooterView></FooterView>
   </div>
 </template>
