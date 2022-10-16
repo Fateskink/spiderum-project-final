@@ -24,7 +24,7 @@ module Api
         def create
           @user = User.new(user_params)
           @user.image.attach(params[:image])
-          if :password == :password_confirmation
+          if @user.password == @user.password_confirmation
             @user.save
             SendMailJob.perform_later @user
             render json: { message: 'Please check your email to active account' }, status: :ok
@@ -33,7 +33,8 @@ module Api
           end
         end
         # @user.errors.full_messages
-        def edit; end
+        def edit
+        end
 
         def update
           if @user.update(user_params)
