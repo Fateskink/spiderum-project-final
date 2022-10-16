@@ -24,14 +24,15 @@ module Api
         def create
           @user = User.new(user_params)
           @user.image.attach(params[:image])
-          if @user.save
+          if :password == :password_confirmation
+            @user.save
             SendMailJob.perform_later @user
             render json: { message: 'Please check your email to active account' }, status: :ok
           else
-            render json: @user.errors.full_messages, status: :unprocessable_entity
+            render json: {message: "Password incorrect!"} , status: :unprocessable_entity
           end
         end
-
+        # @user.errors.full_messages
         def edit; end
 
         def update
