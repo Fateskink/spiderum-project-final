@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_17_070559) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_17_083125) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -47,7 +47,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_17_070559) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.integer "vote_sum", default: 0
-    t.boolean "show", default: false
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -68,6 +67,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_17_070559) do
     t.bigint "post_id", null: false
     t.index ["post_id"], name: "index_favourites_on_post_id"
     t.index ["user_id"], name: "index_favourites_on_user_id"
+  end
+
+  create_table "friendly_id_slugs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, length: { slug: 70, scope: 70 }
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", length: { slug: 140 }
+    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
   create_table "messages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -132,6 +142,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_17_070559) do
     t.string "tag_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_tags_on_slug", unique: true
     t.index ["tag_name"], name: "index_tags_on_tag_name", unique: true
   end
 
