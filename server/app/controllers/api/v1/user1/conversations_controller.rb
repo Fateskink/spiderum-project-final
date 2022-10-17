@@ -12,18 +12,17 @@ module Api
         end
 
         def show
-          render json: { conversation: @conversation }, status: :ok
+          render json: @conversation, serializer: ConversationSerializer, status: :ok
         end
 
         def create
           @conversation = Conversation.get(@current_user.id, params[:user_id])
           # add_to_conversations unless conversated?
-          # if @conversation.save
-          #   render json: @conversation, status: :ok
-          # else
-          #   render json: @conversation.errors.full_messages, status: :unprocessable_entity
-          # end
-          render json: @conversation
+          if @conversation.save
+            render json: @conversation, status: :ok
+          else
+            render json: @conversation.errors.full_messages, status: :unprocessable_entity
+          end
         end
 
         def destroy
