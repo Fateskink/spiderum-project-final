@@ -9,7 +9,7 @@ module Api
 
         def index
           @pagy, @posts = pagy(Post.all)
-          feed = { metadata: meta_data , posts: @posts}
+          feed = { metadata: meta_data , posts: @posts,}
           render json: feed, status: :ok
           # feed[:serializer] = PostSerializer.new(@post)
           # feed = { posts: @posts, metadata: meta_data }

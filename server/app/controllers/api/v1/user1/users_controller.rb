@@ -113,9 +113,9 @@ module Api
           @post = Post.where('user_id = ?', params[:id])
           @post_following = Post.where(user_id: following_ids)
           new_feed = @post.including(@post_following)
-          # new_feed.order("created_at DESC")
-          @pagy, @tests = pagy(new_feed)
-          render json: @tests, serializer: nil, status: :ok
+          new_feed.sort_by(&:"#{created_at}")
+          # @pagy, @tests = pagy(new_feed)
+          render json: new_feed, serializer: nil, status: :ok
         end
 
         def search
