@@ -46,6 +46,13 @@ Rails.application.routes.draw do
           end
         end
 
+        resources :users do
+          resources :conversations
+        end
+
+        resources :conversations do
+          resources :messages
+        end
 
         resource :relationships, only: %i[create destroy]
 
