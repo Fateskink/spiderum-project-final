@@ -8,7 +8,6 @@
         <p class="comment-content">
           {{ commentParent.body }}
         </p>
-        currentCommentId: {{ currentCommentId }}
         <div class="reply-box">
           <a class="reply-box-btn">Upvote</a>
           <a class="reply-box-btn">Downvote</a>
@@ -36,6 +35,24 @@
             <p class="comment-content">
               {{ commentChild1.body }}
             </p>
+            <div class="reply-box">
+              <a class="reply-box-btn">Upvote</a>
+              <a class="reply-box-btn">Downvote</a>
+              <a class="reply-box-btn" @click="toggleComment(commentChild1.id)">Trả lời</a><br />
+              <div v-if="currentCommentId == commentChild1.id">
+                <textarea
+                  class="replybox"
+                  name=""
+                  id=""
+                  cols="30"
+                  rows="10"
+                  v-model="commentChild1.currentComment"
+                ></textarea>
+                <a class="reply-box-btn" @click="commentOnComment(commentChild1.id, commentChild1.currentComment)"
+                  >Trả lời</a
+                >
+              </div>
+            </div>
             <div
               v-for="commentChild2 in commentChild1.comments"
               :key="commentChild2.id"
@@ -49,6 +66,24 @@
                 <p class="comment-content">
                   {{ commentChild2.body }}
                 </p>
+                <div class="reply-box">
+                  <a class="reply-box-btn">Upvote</a>
+                  <a class="reply-box-btn">Downvote</a>
+                  <a class="reply-box-btn" @click="toggleComment(commentChild2.id)">Trả lời</a><br />
+                  <div v-if="currentCommentId == commentChild2.id">
+                    <textarea
+                      class="replybox"
+                      name=""
+                      id=""
+                      cols="30"
+                      rows="10"
+                      v-model="commentChild2.currentComment"
+                    ></textarea>
+                    <a class="reply-box-btn" @click="commentOnComment(commentChild2.id, commentChild2.currentComment)"
+                      >Trả lời</a
+                    >
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -81,13 +116,11 @@ export default {
         showing: false,
       },
       currentCommentId: null,
+      id: this.$route.params.id,
     };
   },
   async created() {
-    await axios.get('/user1/posts/1').then((res) => {
-      console.log(res.data.comments);
-      this.comments = res.data.comments;
-    });
+    await this.getComments();
   },
   methods: {
     timeAgo: function (date) {
@@ -118,7 +151,10 @@ export default {
         body: commentBody,
       });
       this.currentCommentId = null;
-      await axios.get('/user1/posts/1').then((res) => {
+      this.getComments();
+    },
+    getComments() {
+      axios.get(`/user1/posts/${this.id}`).then((res) => {
         console.log(res.data.comments);
         this.comments = res.data.comments;
       });
