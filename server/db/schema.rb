@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_11_040958) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_17_044154) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -51,6 +51,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_040958) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "conversations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "recipient_id"
+    t.integer "sender_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "mes_count", default: 0
+    t.index ["recipient_id", "sender_id"], name: "index_conversations_on_recipient_id_and_sender_id", unique: true
+  end
+
   create_table "favourites", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -58,6 +67,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_040958) do
     t.bigint "post_id", null: false
     t.index ["post_id"], name: "index_favourites_on_post_id"
     t.index ["user_id"], name: "index_favourites_on_user_id"
+  end
+
+  create_table "messages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.text "mes_content"
+    t.bigint "user_id", null: false
+    t.bigint "conversation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -139,6 +158,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_040958) do
   add_foreign_key "comments", "users"
   add_foreign_key "favourites", "posts"
   add_foreign_key "favourites", "users"
+  add_foreign_key "messages", "conversations"
+  add_foreign_key "messages", "users"
   add_foreign_key "posts", "tags"
   add_foreign_key "posts", "users"
   add_foreign_key "votes", "users"

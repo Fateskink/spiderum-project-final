@@ -16,7 +16,7 @@ User.create!(name: "Admin",
   email: email,
   password: password,
   password_confirmation: password,
-  confirmation_token: :null,
+  confirmation_token: "",
   confirmed_at: Time.zone.now)
 end
 

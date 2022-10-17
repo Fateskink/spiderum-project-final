@@ -3,11 +3,11 @@ module Api
     module User1
       class ConversationsController < ApplicationController
         before_action :authorize
-        before_action :set_conversation % i[show destroy]
+        before_action :set_conversation, only: %i[show destroy]
 
         def index
           @pagy, @conversations = pagy(Conversation.all)
-          list_conver = { conversations: @conversations, metadata: meta_data }
+          list_conver = { metadata: meta_data ,conversations: @conversations }
           render json: list_conver, status: :ok
         end
 
@@ -16,13 +16,14 @@ module Api
         end
 
         def create
-          @conversation = Conversation.get(current_user.id, params[:user_id])
-          add_to_conversations unless conversated?
-          if @conversation.save
-            render json: @conversation, status: :ok
-          else
-            render json: @conversation.errors.full_messages, status: :unprocessable_entity
-          end
+          @conversation = Conversation.get(@current_user.id, params[:user_id])
+          # add_to_conversations unless conversated?
+          # if @conversation.save
+          #   render json: @conversation, status: :ok
+          # else
+          #   render json: @conversation.errors.full_messages, status: :unprocessable_entity
+          # end
+          render json: @conversation
         end
 
         def destroy
@@ -32,7 +33,7 @@ module Api
         private
 
         def set_conversation
-          @conversation = Conversation.find_by(params[:conversation_id])
+          @conversation = Conversation.find(params[:id])
         end
 
         def conversation_params
