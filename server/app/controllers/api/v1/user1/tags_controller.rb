@@ -13,7 +13,7 @@ module Api
           @tag = Tag.find(params[:id])
           # @posts = @tag.posts
           @pagy, @posts = pagy(@tag.posts)
-          render json: {posts: @posts, metadata: meta_data}, status: :ok
+          render json: { metadata: meta_data, posts: @posts }, status: :ok
         end
 
         def create

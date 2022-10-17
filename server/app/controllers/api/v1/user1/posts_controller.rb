@@ -9,7 +9,7 @@ module Api
 
         def index
           @pagy, @posts = pagy(Post.all)
-          feed = { posts: @posts, metadata: meta_data }
+          feed = { metadata: meta_data , posts: @posts}
           render json: feed, status: :ok
           # feed[:serializer] = PostSerializer.new(@post)
           # feed = { posts: @posts, metadata: meta_data }
@@ -63,7 +63,7 @@ module Api
           @q = Post.ransack(params[:q])
           @search = @q.result
           @pagy, @search = pagy(@search)
-          render json: { search: @search, metadata: meta_data }, status: :ok
+          render json: { metadata: meta_data , search: @search }, status: :ok
         end
 
         def feed

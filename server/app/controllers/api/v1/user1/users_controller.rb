@@ -10,7 +10,7 @@ module Api
 
         def index
           @pagy, @users = pagy(User.all)
-          render json: { users: @users, metadata: meta_data }, status: :ok
+          render json: { metadata: meta_data , users: @users }, status: :ok
         end
 
         def show
@@ -124,7 +124,7 @@ module Api
           @q = @users.ransack(params[:q])
           @search = @q.result
           @pagy, @search = pagy(@search)
-          render json: { search: @search, metadata: meta_data }, status: :ok
+          render json: { metadata: meta_data , search: @search }, status: :ok
         end
 
         def search_to_mess
@@ -133,7 +133,7 @@ module Api
           @q = @users.ransack(params[:q])
           @search = @q.result
           @pagy, @search = pagy(@search)
-          render json: { search: @search, metadata: meta_data }, status: :ok
+          render json: { metadata: meta_data , search: @search }, status: :ok
         end
 
         private
