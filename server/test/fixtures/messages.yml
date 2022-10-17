@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  conversation: one
+  mes_content: MyText
+
+two:
+  conversation: two
+  mes_content: MyText

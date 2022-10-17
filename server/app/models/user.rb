@@ -19,6 +19,8 @@ class User < ApplicationRecord
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
 
+  has_and_belongs_to_many :conversations, dependent: :destroy
+
   before_save :downcase_email
   before_create :generate_confirmation_instructions
 
