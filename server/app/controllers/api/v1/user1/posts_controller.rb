@@ -33,7 +33,7 @@ module Api
           @post.user_id = @current_user.id
           @post.month = Time.current.month
           @post.year = Time.current.year
-          # @post.image.attach(params[:post][:image])
+          @post.image.attach(params[:image])
           if @post.save
             render json: { post: @post }, status: :ok
           else
@@ -91,8 +91,8 @@ module Api
         private
 
         def post_params
-          params.require(:post).permit(:title, :content, :image, :tag)
-          # permit :image for post  |  :images => []
+          params.permit(:title, :content, :tag, :image)
+          # permit :image for post  |  images: []
         end
 
         def set_post

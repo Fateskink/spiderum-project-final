@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class UsersController < ApplicationController
-        before_action :authorize, only: %i[index edit update destroy feed my_favourites]
+        before_action :authorize, only: %i[index edit update destroy feed my_favourites search search_to_mess]
         before_action :set_user, only: %i[show edit update destroy]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
@@ -23,16 +23,18 @@ module Api
 
         def create
           @user = User.new(user_params)
-          @user.image.attach(params[:user][:image])
-          if @user.save
+          @user.image.attach(params[:image])
+          if @user.password == @user.password_confirmation
+            @user.save
             SendMailJob.perform_later @user
             render json: { message: 'Please check your email to active account' }, status: :ok
           else
-            render json: @user.errors.full_messages, status: :unprocessable_entity
+            render json: {message: "Password incorrect!"} , status: :unprocessable_entity
           end
         end
-
-        def edit; end
+        # @user.errors.full_messages
+        def edit
+        end
 
         def update
           if @user.update(user_params)
@@ -111,13 +113,28 @@ module Api
           @post = Post.where('user_id = ?', params[:id])
           @post_following = Post.where(user_id: following_ids)
           new_feed = @post.including(@post_following)
-          # new_feed.sort_by{|e| e[:time_ago]}.reverse
-          # @pagy, @tests = pagy(new_feed)
-          render json: new_feed, serializer: nil, status: :ok
+          # new_feed.order("created_at DESC")
+          @pagy, @tests = pagy(new_feed)
+          render json: @tests, serializer: nil, status: :ok
         end
-        # @pagy, @tests = pagy test.order(:create_at)
-        # @contacts = @paginated_contacts.group_by{ |contact| contact.last_name[0].upcase }
-        # @contact = Contact.new
+
+        def search
+          @user = User.find(params[:id])
+          @users = @user.all
+          @q = @users.ransack(params[:q])
+          @search = @q.result
+          @pagy, @search = pagy(@search)
+          render json: { search: @search, metadata: meta_data }, status: :ok
+        end
+
+        def search_to_mess
+          @user = User.find(params[:id])
+          @users = @user.following
+          @q = @users.ransack(params[:q])
+          @search = @q.result
+          @pagy, @search = pagy(@search)
+          render json: { search: @search, metadata: meta_data }, status: :ok
+        end
 
         private
 

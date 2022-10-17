@@ -24,5 +24,7 @@ module SpiderVF
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     config.middleware.use ActionDispatch::Cookies
+
+    Rails.application.routes.default_url_options[:host] = 'localhost:3000'
   end
 end
