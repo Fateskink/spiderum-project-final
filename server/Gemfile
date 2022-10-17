@@ -67,10 +67,6 @@ gem "noticed", "~> 1.5"
 
 gem 'devise'
 
-# gem 'trollop', '~> 2.9', '>= 2.9.10'
-
-gem 'will_paginate'
-
 gem 'byebug'
 
 gem 'active_storage_validations'
@@ -78,3 +74,5 @@ gem 'active_storage_validations'
 gem 'mini_magick'
 
 gem 'pagy'
+
+gem 'friendly_id'
