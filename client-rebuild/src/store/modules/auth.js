@@ -34,6 +34,9 @@ export default {
     clearUserRegisterInfo(state) {
       state.registerForm = {};
     },
+    clearLoginForm(state) {
+      state.loginform = {};
+    },
   },
   actions: {
     async signIn({ state, commit }) {
@@ -51,6 +54,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          commit('clearLoginForm');
         });
     },
 
@@ -72,7 +76,10 @@ export default {
           alert('Vui lòng kiểm tra email kích hoạt');
           commit('clearUserRegisterInfo');
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+          commit('clearUserRegisterInfo');
+        });
     },
   },
   modules: {},

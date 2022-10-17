@@ -2,11 +2,9 @@
   <main class="login flex flex-col">
     <form class="login-box flex flex-col" @submit.prevent="signIn">
       <img src="@/assets/img/log-in-page/spiderum-logo.png" alt="" />
-      <label>Tên đăng nhập</label><input type="email" v-model="loginform.email" />
+      <label>Tên đăng nhập</label><input type="email" v-model="email" />
       <br />
-      {{ currentUser.token }}
-      {{ currentUser.name }}
-      <label>Mật khẩu</label><input type="password" v-model="loginform.password" />
+      <label>Mật khẩu</label><input type="password" v-model="password" />
       <br />
       <input type="submit" value="Đăng Nhập" class="btn-login m-b-15" />
     </form>
@@ -15,13 +13,17 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-const { mapActions, mapState } = createNamespacedHelpers('auth');
+import { mapFields } from 'vuex-map-fields';
+const { mapActions } = createNamespacedHelpers('auth');
 export default {
   data() {
     return {};
   },
   computed: {
-    ...mapState(['currentUser', 'loginform']),
+    ...mapFields('auth', {
+      email: 'loginform.email',
+      password: 'loginform.password',
+    }),
   },
   methods: {
     ...mapActions(['signIn']),

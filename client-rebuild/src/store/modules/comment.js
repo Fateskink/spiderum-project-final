@@ -1,4 +1,5 @@
 import axios from '@/axios/axios';
+import { getField, updateField } from 'vuex-map-fields';
 
 export default {
   namespaced: true,
@@ -9,8 +10,11 @@ export default {
       id: '',
     };
   },
-  getters: {},
+  getters: {
+    getField,
+  },
   mutations: {
+    updateField,
     setComment(state, newCommnent) {
       state.currentComment = newCommnent;
     },

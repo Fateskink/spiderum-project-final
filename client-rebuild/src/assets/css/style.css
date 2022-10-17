@@ -379,3 +379,82 @@ article h3 {
   max-width: 750px;
   margin: 0 auto;
 }
+
+/* Comment box */
+
+.comment-box {
+  background: rgb(218, 218, 218);
+}
+
+.comment-box1 {
+  /* background: rgb(248, 141, 141); */
+  padding-bottom: 15px;
+}
+
+.username {
+  box-sizing: border-box;
+  color: rgb(52, 73, 94);
+  font-family: Noto Sans, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21.5333px;
+}
+
+.time-comment-cal {
+  box-sizing: border-box;
+  color: rgba(113, 128, 150, 0.75);
+  font-family: Noto Sans, sans-serif;
+  font-size: 13.36px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.comment-content {
+  border-bottom-color: rgb(226, 232, 240);
+  box-sizing: border-box;
+  color: rgb(52, 73, 94);
+  font-family: Noto Sans, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21.5333px;
+}
+.comment-1stlayout-wrapper {
+  /* border-left: solid 1px black; */
+  padding-left: 15px;
+  margin: 30px 0;
+  background: rgb(236, 236, 236);
+}
+
+.comment-2ndlayout-wrapper {
+  border-left: solid 1px rgb(160, 160, 160);
+  margin-left: 30px;
+  padding: 15px 15px 0 15px;
+}
+
+.comment-3rdlayout-wrapper {
+  border-left: solid 1px rgb(160, 160, 160);
+  padding: 15px 15px 0 15px;
+  margin-left: 30px;
+}
+
+.replybox {
+  margin: 10px 0;
+  border-radius: 15px;
+  border: none;
+  padding: 5px;
+  width: 90%;
+  height: 75px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.reply-box-btn {
+  padding: 5px 5px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: ease-out(0.075, 0.82, 0.165, 1);
+  transition-duration: 500ms;
+}
+
+.reply-box-btn:hover {
+  color: rgba(45, 55, 72, 0.75);
+}
