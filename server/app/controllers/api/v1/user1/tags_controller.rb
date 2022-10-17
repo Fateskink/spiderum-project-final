@@ -2,6 +2,7 @@ module Api
   module V1
     module User1
       class TagsController < ApplicationController
+        before_action :authorize
         before_action :admin_user, only: %i[create destroy]
 
         def index
@@ -10,8 +11,7 @@ module Api
         end
 
         def show
-          @tag = Tag.find(params[:id])
-          # @posts = @tag.posts
+          @tag = Tag.friendly.find(params[:id])
           @pagy, @posts = pagy(@tag.posts)
           render json: { metadata: meta_data, posts: @posts }, status: :ok
         end
@@ -35,6 +35,10 @@ module Api
         def tag_params
           params.require(:tag).permit(:tag_name)
         end
+
+        # def admin_user
+        #   @current_user.admin?
+        # end
       end
     end
   end
