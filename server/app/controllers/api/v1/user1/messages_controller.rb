@@ -7,7 +7,7 @@ module Api
           @conversation = Conversation.includes(:recipient).find(params[:conversation_id])
           @message = @conversation.messages.create(message_params)
           @conversation.update(mes_count: @conversation.mes_count + 1)
-          render json: @conversation, serializer: ConversationSerializer, status: :ok
+          render json: @conversation, serializer: ::Conversation::ConversationSerializer, status: :ok
         end
       
         def destroy

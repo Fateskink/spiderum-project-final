@@ -13,15 +13,14 @@ module Api
         def show
           @tag = Tag.friendly.find(params[:id])
           @pagy, @posts = pagy(@tag.posts)
-          all_post =  { metadata: meta_data, posts: @posts }
-          all_post[:serializer] = PostLiteSerializer.new(@post)
-          render json: all_post, status: :ok
+          all_post = { metadata: meta_data, posts: @posts }
+          render ({ json: all_post, adapter: :json, serializer: ::Post::PostLiteSerializer }), status: :ok
         end
 
         def create
           @tag = Tag.new(tag_params)
           if @tag.save
-            render json: { tag: @tag }, status: :ok
+            render json: { tag: @tag }, serializer: nil, status: :ok
           else
             render json: { message: 'False to create new tag' }, status: :unprocessable_entity
           end
