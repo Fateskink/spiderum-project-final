@@ -1,6 +1,7 @@
-# Show all current user's post
+# Show short post
+# Use for posts index or new feed
 
-class MyPostsSerializer < ActiveModel::Serializer
+class PostLiteSerializer < ActiveModel::Serializer
   class PostSerializer < ActiveModel::Serializer
     attributes :id, :title, :content, :view, :favourite_count, :vote_sum, :comment_count, :image_url, :created_at
   end

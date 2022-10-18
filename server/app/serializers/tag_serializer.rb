@@ -1,4 +1,4 @@
-# show all post with this tag
+# Show all post with this tag
 
 class TagSerializer < ActiveModel::Serializer
   attributes :tag_name

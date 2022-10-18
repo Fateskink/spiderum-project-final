@@ -1,3 +1,5 @@
+# Show all the current user's favourite posts
+
 class MyFavouritesSerializer < ActiveModel::Serializer
   class FavouriteSerializer < ActiveModel::Serializer
     belongs_to :post
