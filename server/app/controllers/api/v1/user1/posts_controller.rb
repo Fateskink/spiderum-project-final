@@ -66,21 +66,6 @@ module Api
           render json: { metadata: meta_data , search: @search }, status: :ok
         end
 
-        def feed
-          if !@user.authorize
-            index
-          else
-            users.feed
-            # following_ids = "SELECT followed_id FROM relationships
-            # WHERE follower_id = :user_id"
-            # render json: 
-            # Post.where("user_id IN (#{following_ids})
-            # OR user_id = :user_id", user_id: :id)
-            #             @posts = Post.where('user_id = ?', params[:user_id] )
-            # render json: @posts, status: :ok
-          end
-        end
-
         def top
           @top = Post.where('posts.month' => Time.current.month)
                      .order(favourite_count: :desc)
