@@ -15,7 +15,7 @@ module Api
           @comment = @commentable.comments.build(comment_params)
           @comment.user_id = @current_user.id
           if @comment.save
-            render json: { comment: @comment }, status: :ok
+            render json: @comment, serializer: CommentSerializer, status: :ok
           else
             render json: @comment.errors.full_messages, status: :unprocessable_entity
           end
@@ -35,7 +35,7 @@ module Api
         def update
           @comment = Comment.find(params[:id])
           if @comment.update(comment_params)
-            render json: { comment: @comment }, status: :ok
+            render json: @comment, serializer: CommentSerializer, status: :ok
           else
             render json: @comment.errors.full_messages, status: :unprocessable_entity
           end

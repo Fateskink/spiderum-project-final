@@ -8,6 +8,17 @@ class Comment < ApplicationRecord
   after_create :create_notifications
   after_create :increment_count
   after_destroy :decrement_count
+  
+  validate :validate_cmt
+
+  def validate_cmt
+    BlackList.all.each do |w|
+      if body.include?(w.word)
+        errors.add(:body, 'Comment contains obscene content')
+        break
+      end
+    end
+  end
 
   private
 

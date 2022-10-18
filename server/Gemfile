@@ -76,3 +76,5 @@ gem 'mini_magick'
 gem 'pagy'
 
 gem 'friendly_id'
+
+gem 'active_hash'

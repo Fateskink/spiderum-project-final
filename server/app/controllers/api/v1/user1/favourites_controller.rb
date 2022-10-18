@@ -7,7 +7,9 @@ module Api
 
         def index
           @pagy, @favourites = pagy(@post.favourites)
-          render json: { metadata: meta_data , favourites: @favourites }, status: :ok
+          favor = { metadata: meta_data , favourites: @favourites}
+          favor[:serializer] = FavouriteSerializer.new(@favourite)
+          render json: favor, status: :ok
         end
 
         def create

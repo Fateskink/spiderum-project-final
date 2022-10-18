@@ -9,13 +9,9 @@ module Api
 
         def index
           @pagy, @posts = pagy(Post.all)
-          feed = { metadata: meta_data , posts: @posts,}
+          feed = { metadata: meta_data , posts: @posts}
+          feed[:serializer] = PostLiteSerializer.new(@post)
           render json: feed, status: :ok
-          # feed[:serializer] = PostSerializer.new(@post)
-          # feed = { posts: @posts, metadata: meta_data }
-          # alo[:serializer] = PostSerializer.new(@post)
-          # # render json:{product_att: @product_att, message: " manh BD", serializer: PrAttributeSerializer} , each_serializer: PrAttributeSerializer
-          # render json: feed
         end
 
         def show
@@ -35,7 +31,7 @@ module Api
           @post.year = Time.current.year
           @post.image.attach(params[:image])
           if @post.save
-            render json: { post: @post }, status: :ok
+            render json: @post, serializer: PostSerializer, status: :ok
           else
             render json: @post.errors.full_messages, status: :unprocessable_entity
           end
@@ -45,7 +41,7 @@ module Api
 
         def update
           if @post.update(post_params)
-            render json: { post: @post }, status: :ok
+            render json: @post, serializer: PostSerializer, status: :ok
           else
             render json: { error: 'Update false' }, status: :unprocessable_entity
           end
@@ -63,29 +59,16 @@ module Api
           @q = Post.ransack(params[:q])
           @search = @q.result
           @pagy, @search = pagy(@search)
-          render json: { metadata: meta_data , search: @search }, status: :ok
-        end
-
-        def feed
-          if !@user.authorize
-            index
-          else
-            users.feed
-            # following_ids = "SELECT followed_id FROM relationships
-            # WHERE follower_id = :user_id"
-            # render json: 
-            # Post.where("user_id IN (#{following_ids})
-            # OR user_id = :user_id", user_id: :id)
-            #             @posts = Post.where('user_id = ?', params[:user_id] )
-            # render json: @posts, status: :ok
-          end
+          feed = { metadata: meta_data , posts: @search}
+          feed[:serializer] = PostLiteSerializer.new(@post)
+          render json: feed, status: :ok        
         end
 
         def top
           @top = Post.where('posts.month' => Time.current.month)
                      .order(favourite_count: :desc)
                      .limit(10)
-          render json: @top, status: :ok
+          render json: @top, serializer: PostLiteSerializer, status: :ok
         end
 
         private
