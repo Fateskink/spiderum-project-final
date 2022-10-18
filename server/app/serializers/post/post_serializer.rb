@@ -11,13 +11,13 @@ class PostSerializer < ActiveModel::Serializer
     attributes :name
   end
 
-  class CommentSerializer < ActiveModel::Serializer
-    attributes :id, :body, :created_at, :vote_sum, :show
-    belongs_to :user
-    has_many :comments, serializer: CommentSerializer
+  # class CommentSerializer < ActiveModel::Serializer
+  #   attributes :id, :body, :created_at, :vote_sum, :show
+  #   belongs_to :user
+  #   has_many :comments, serializer: CommentSerializer
 
-    class UserSerializer < ActiveModel::Serializer
-      attributes :name
-    end
-  end
+  #   class UserSerializer < ActiveModel::Serializer
+  #     attributes :name
+  #   end
+  # end
 end
