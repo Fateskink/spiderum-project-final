@@ -14,8 +14,7 @@ module Api
         def index
           @comments = @commentable.comments
           all_comments = { metadata: meta_data, comments: @comments }
-          all_comments[:serializer] = CommentSerializer.new(@comment)
-          render json: all_comments, status: :ok
+          render ({ json: all_comments, adapter: :json, serializer: CommentSerializer })
         end
 
         def create

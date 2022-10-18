@@ -12,7 +12,7 @@ module Api
           feed = { metadata: meta_data, posts: @posts }
           # feed[:serializer] = PostLiteSerializer.new(@post)
           # render json: feed, status: :ok
-          render({ json: feed, adapter: :json, serializer: ::Post::PostLiteSerializer })
+          render ({ json: feed, adapter: :json, serializer: ::Post::PostLiteSerializer })
         end
 
         def show
@@ -62,7 +62,7 @@ module Api
           @search = @q.result
           @pagy, @search = pagy(@search)
           feed = { metadata: meta_data, posts: @search }
-          render({ json: feed, adapter: :json, serializer: ::Post::PostLiteSerializer })
+          render ({ json: feed, adapter: :json, serializer: ::Post::PostLiteSerializer })
         end
 
         def top
