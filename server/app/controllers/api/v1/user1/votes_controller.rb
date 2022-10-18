@@ -29,7 +29,7 @@ module Api
         end
 
         def destroy
-          @vote = Vote.find_by(params[:vote_id])
+          @vote = Vote.find_by(params[@current_user.id])
           if @vote.destroy
             @vote.votetable.update(vote_sum: @votetable.vote_sum - 1)
             save

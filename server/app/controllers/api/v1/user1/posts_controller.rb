@@ -10,14 +10,18 @@ module Api
         def index
           @pagy, @posts = pagy(Post.all)
           feed = { metadata: meta_data, posts: @posts }
-          feed[:serializer] = PostLiteSerializer.new(@post)
-          render json: feed, status: :ok
+          # feed[:serializer] = PostLiteSerializer.new(@post)
+          # render json: feed, status: :ok
+          render({ json: feed, adapter: :json, serializer: ::Post::PostLiteSerializer })
+
+
         end
 
         def show
           @post.update(view: @post.view + 1)
-          render json: @post, status: :ok
-          ApplicationController::CommentsController.index
+          render json: { post: @post, comment: @post.comments }, status: :ok
+
+          # ::Api::V1::User1::ApplicationController::CommentsController.index
         end
 
         def new
@@ -60,9 +64,9 @@ module Api
           @q = Post.ransack(params[:q])
           @search = @q.result
           @pagy, @search = pagy(@search)
-          feed = { metadata: meta_data , posts: @search}
+          feed = { metadata: meta_data, posts: @search }
           feed[:serializer] = PostLiteSerializer.new(@post)
-          render json: feed, status: :ok        
+          render json: feed, status: :ok
         end
 
         def top
