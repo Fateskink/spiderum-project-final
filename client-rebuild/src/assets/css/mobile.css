@@ -1,0 +1,39 @@
+@media only screen and (max-width: 1300px) {
+  .content-fix {
+    margin: 0 20px;
+  }
+
+  .nav-logo {
+    display: none;
+  }
+  .top-author {
+    /* display: none; */
+  }
+  .top-banner {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .top-author {
+    display: none;
+  }
+  .right-navbar {
+    display: none;
+  }
+  .right-navbar-option {
+    display: block;
+  }
+  .top-banner {
+    width: 100%;
+  }
+  .side-banner {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  .navbar-categories {
+    display: none;
+  }
+}
