@@ -17,6 +17,7 @@ module Api
         def show
           @post.update(view: @post.view + 1)
           render json: @post, status: :ok
+          ApplicationController::CommentsController::index
         end
 
         def new
