@@ -11,7 +11,7 @@
 <script>
 import SideBanner from '../SideBanner.vue';
 import TopAuthor from './HomeContentWrapper/TopAuthor.vue';
-import TopPostOption from '@/components/PostViaCatagories/TopPostViaOption.vue';
+import TopPostOption from '@/components/HomePage/HomeContentWrapper/TopPostViaOption.vue';
 
 export default {
   components: {

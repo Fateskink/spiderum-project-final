@@ -2,6 +2,22 @@
   <div class="content-fix m-t-15 single-blog">
     <h1 class="m-t-15">{{ post.title }}</h1>
     <article class="m-t-15" v-html="post.content"></article>
+    <div class="post-comment">
+      <h3>Bình luận</h3>
+      <textarea
+        cols="30"
+        rows="10"
+        placeholder="Mời nhập bình lụân của bạn"
+        @keyup="saveComment"
+        v-model="currentComment"
+        class="replybox"
+      ></textarea>
+      {{ currentComment }}
+      <button @click="createComment">Đăng bình luận</button>
+      <div class="user-comment">
+        <h4>User id : <span>fdasfsa</span></h4>
+      </div>
+    </div>
   </div>
 </template>
 

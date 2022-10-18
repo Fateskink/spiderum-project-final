@@ -1,21 +1,5 @@
 <template>
   <div class="m-t-30 comment-box1 m-b-15">
-    <div class="post-comment">
-      <h3>Bình luận</h3>
-      <textarea
-        cols="30"
-        rows="10"
-        placeholder="Mời nhập bình lụân của bạn"
-        @keyup="saveComment"
-        v-model="currentComment"
-        class="replybox"
-      ></textarea>
-      {{ currentComment }}
-      <button @click="createComment">Đăng bình luận</button>
-      <div class="user-comment">
-        <h4>User id : <span>fdasfsa</span></h4>
-      </div>
-    </div>
     <div v-for="commentParent in comments" :key="commentParent.id" class="comment-1stlayout-wrapper">
       <div class="user-comment">
         <p class="username">
@@ -124,8 +108,6 @@
 
 <script>
 import axios from '@/axios/axios';
-import { createNamespacedHelpers } from 'vuex';
-const { mapActions } = createNamespacedHelpers('comment');
 export default {
   data() {
     return {
@@ -135,7 +117,6 @@ export default {
       },
       currentCommentId: null,
       id: this.$route.params.id,
-      currentComment: '',
     };
   },
   async created() {
@@ -177,15 +158,6 @@ export default {
         console.log(res.data.comments);
         this.comments = res.data.comments;
       });
-    },
-    ...mapActions(['createComment']),
-    saveComment() {
-      this.saveId();
-      this.$store.commit('comment/setComment', this.currentComment);
-    },
-    saveId() {
-      //   console.log(this.id);
-      this.$store.commit('comment/setParamId', this.id);
     },
   },
 };

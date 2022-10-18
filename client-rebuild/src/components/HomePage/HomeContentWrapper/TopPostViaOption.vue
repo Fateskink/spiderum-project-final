@@ -12,7 +12,7 @@
         <img class="content-img" src="" alt="" @error="setAltImg" />
         <div class="aside-content">
           <div class="artical-categories flex sp-between align-center p-tb-15">
-            <p class="daf">{{ post.tag_id }}</p>
+            <p class="daf">Khoa học - Công nghệ</p>
             <img class="dfas" src="@/assets/img/svg-icon/save.svg" alt="" />
           </div>
           <router-link v-bind:to="'/posts/' + post.id">
@@ -30,7 +30,7 @@
                 src="https://images.spiderum.com/sp-xs-avatar/a0d1ce20071711ed83a82bc6df79ac6d.jpeg"
                 alt=""
               />
-              <a href="" class="artical-author-name">{{ post.user_id }}</a>
+              <a href="" class="artical-author-name">Minh HD</a>
             </div>
             <div class="flex align-center">
               <img src="@/assets/img/svg-icon/upvote.svg" alt="" />

@@ -21,21 +21,14 @@ export default {
     setParamId(state, newId) {
       state.id = newId;
     },
-    clearComment(state) {
-      state.currentComment = '0';
-    },
   },
   actions: {
-    async createComment({ state, commit }) {
+    async createComment({ state }) {
       await axios
         .post(`user1/posts/${state.id}/comments`, {
           body: state.currentComment,
         })
-        .then((response) => console.log(response), commit('clearComment'));
-      await axios.get(`/user1/posts/${state.id}`).then((res) => {
-        console.log(res.data.comments);
-        this.comments = res.data.comments;
-      });
+        .then((response) => console.log(response));
     },
   },
 };
