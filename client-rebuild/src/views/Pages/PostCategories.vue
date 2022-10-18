@@ -19,7 +19,7 @@
 import FollowBanner from '@/components/PostViaCatagories/FollowBanner.vue';
 import TopBanner from '@/components/TopBanner.vue';
 import RandomPost from '@/components/PostViaCatagories/RandomPost.vue';
-import TopPostOption from '@/components/HomePage/HomeContentWrapper/TopPostViaOption.vue';
+import TopPostOption from '@/components/PostViaCatagories/TopPostViaOption.vue';
 import RulesView from '@/components/PostViaCatagories/RulesView.vue';
 import SideBanner from '@/components/SideBanner.vue';
 

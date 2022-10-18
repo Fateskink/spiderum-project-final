@@ -9,7 +9,7 @@ import SideBanner from '@/components/SideBanner.vue';
 import TopBanner from '@/components/TopBanner.vue';
 import TopTenMonth from '@/components/HomePage/Top10Month.vue';
 import TopAuthor from '@/components/HomePage/HomeContentWrapper/TopAuthor.vue';
-import TopPostOptions from '@/components/HomePage/HomeContentWrapper/TopPostViaOption.vue';
+import TopPostOptions from '@/components/PostViaCatagories/TopPostViaOption.vue';
 import FollowBanner from '@/components/PostViaCatagories/FollowBanner.vue';
 import RandomPost from '@/components/PostViaCatagories/RandomPost.vue';
 import RulesView from '@/components/PostViaCatagories/RulesView.vue';
