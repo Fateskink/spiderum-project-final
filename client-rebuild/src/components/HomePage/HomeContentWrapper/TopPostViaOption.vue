@@ -8,7 +8,7 @@
       </ul>
     </div>
     <div class="artical-list">
-      <div v-for="post in posts" :key="post" class="artical-box flex m-b-66">
+      <div v-for="post in posts" :key="post.id" class="artical-box flex m-b-66">
         <img class="content-img" src="" alt="" @error="setAltImg" />
         <div class="aside-content">
           <div class="artical-categories flex sp-between align-center p-tb-15">
@@ -58,7 +58,7 @@ export default {
       event.target.src = 'https://wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg';
     },
   },
-  async created() {
+  async mounted() {
     await axios.get(`user1/tags/${this.id}`).then((response) => {
       this.posts = response.data.posts;
     });
@@ -67,6 +67,16 @@ export default {
   filters: {
     shortArticle(value) {
       return value.slice(0, 75) + '...';
+    },
+  },
+  watch: {
+    $route: {
+      handler(newValue) {
+        axios.get(`user1/tags/${newValue.params.id}`).then((response) => {
+          this.posts = response.data.posts;
+        });
+      },
+      deep: true,
     },
   },
 };

@@ -4,7 +4,7 @@
       <div>
         <ul class="left-navbar flex flex-align-center">
           <li>
-            <router-link class="p-15" to="/discuss"
+            <router-link class="p-15" to="/"
               ><img class="main-logo" src="@/assets/img/wideLogo.png" alt=""
             /></router-link>
           </li>
@@ -51,11 +51,19 @@
     <div>
       <ul class="flex p-tb-15 navbar-categories content-fix">
         <li>
-          <router-link to="/discuss"><a class="p-r-35 categories-item" href="">Quan điểm - Tranh luận</a></router-link>
+          <router-link to="/categories/quan-diem-tranh-luan"
+            ><a class="p-r-35 categories-item" href="">Quan điểm - Tranh luận</a></router-link
+          >
         </li>
-        <li><router-link to="/inspire" class="p-r-35 categories-item" href="">Truyền cảm hứng</router-link></li>
-        <li><router-link to="/science" class="p-r-35 categories-item" href="">Khoa học công nghệ</router-link></li>
-        <li><a class="p-r-35 categories-item" href="">Thể thao</a></li>
+        <li>
+          <router-link to="/categories/truyen-cam-hung" class="p-r-35 categories-item" href=""
+            >Truyền cảm hứng</router-link
+          >
+        </li>
+        <li>
+          <router-link to="/categories/khoa-hoc" class="p-r-35 categories-item" href="">Khoa học công nghệ</router-link>
+        </li>
+        <li><router-link to="/categories/the-thao" class="p-r-35 categories-item" href="">Thể thao</router-link></li>
         <li><a class="p-r-35 categories-item" href="">Game</a></li>
         <li>
           <router-link to="/showblog"><a class="p-r-35 categories-item" href="">Tất cả bài viết</a></router-link>
