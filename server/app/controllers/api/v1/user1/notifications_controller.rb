@@ -9,7 +9,7 @@ module Api
           @pagy, @notifications = pagy(@notifications)
           notice = { metadata: meta_data , notifications: @notifications }
           notice[:serializer] = NotificationableSerializer.new(@notification)
-          render json: , status: :ok
+          render json: notice, status: :ok
         end
 
         def show

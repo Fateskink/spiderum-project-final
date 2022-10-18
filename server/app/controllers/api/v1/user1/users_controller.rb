@@ -10,7 +10,9 @@ module Api
 
         def index
           @pagy, @users = pagy(User.all)
-          render json: { metadata: meta_data , users: @users }, status: :ok
+          all_user = { metadata: meta_data , users: @users }
+          all_user[:serializer] = UserLiteSerializer.new(@user)
+          render json: all_user, status: :ok
         end
 
         def show
@@ -90,7 +92,9 @@ module Api
           @user = User.find(params[:id])
           @users = @user.following
           @pagy, @users = pagy(@users)
-          render json: { users: @users, metadata: meta_data }, status: :ok
+          all_user = { metadata: meta_data, users: @users }
+          all_user[:serializer] = UserLiteSerializer.new(@user)
+          render json: all_user, status: :ok
         end
 
         def followers
@@ -98,14 +102,18 @@ module Api
           @user = User.find(params[:id])
           @users = @user.followers
           @pagy, @users = pagy(@users)
-          render json: { users: @users, metadata: meta_data }, status: :ok
+          all_user = { metadata: meta_data, users: @users }
+          all_user[:serializer] = UserLiteSerializer.new(@user)
+          render json: all_user, status: :ok
         end
 
         def my_favourites
           @title = 'my_favourites'
           @favourite = @current_user.favourites
           @pagy, @favourite = pagy(@favourite)
-          render json: @favourite, status: :ok
+          all_favor = {metadata: meta_data, favourite: @favourite}
+          all_favor[:serializer] = MyFavouritesSerializer.new(@favourite)
+          render json: all_favor, status: :ok
         end
 
         def feed
@@ -113,7 +121,9 @@ module Api
           # @post = Post.where('user_id = ?', params[:id])
           @post_following = Post.where(user_id: following_ids).order(created_at: :desc)
           @pagy, @feed = pagy(@post_following)
-          render json: {metadata: meta_data, feed: @feed}, status: :ok
+          feed = {metadata: meta_data, feed: @feed}
+          feed[:serializer] = PostLiteSerializer.new(@post)
+          render json: feed, status: :ok
         end
 
         def search
@@ -121,7 +131,9 @@ module Api
           @q = @users.ransack(params[:q])
           @search = @q.result
           @pagy, @search = pagy(@search)
-          render json: { metadata: meta_data , search: @search }, status: :ok
+          find = { metadata: meta_data, search: @search }
+          find[:serializer] = UserLiteSerializer.new(@user)
+          render json: find, status: :ok
         end
 
         def search_to_mess
@@ -129,7 +141,9 @@ module Api
           @q = @users.ransack(params[:q])
           @search = @q.result
           @pagy, @search = pagy(@search)
-          render json: { metadata: meta_data, search: @search }, status: :ok
+          find = { metadata: meta_data, search: @search }
+          find[:serializer] = UserLiteSerializer.new(@user)
+          render json: find, status: :ok
         end
 
         private
