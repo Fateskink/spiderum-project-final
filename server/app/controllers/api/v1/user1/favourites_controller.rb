@@ -7,9 +7,8 @@ module Api
 
         def index
           @pagy, @favourites = pagy(@post.favourites)
-          favor = { metadata: meta_data , favourites: @favourites}
-          favor[:serializer] = FavouriteSerializer.new(@favourite)
-          render json: favor, status: :ok
+          favor = { metadata: meta_data, favourites: @favourites}
+          render ({ json: favor, adapter: :json, serializer: FavouriteSerializer }), status: :ok
         end
 
         def create
@@ -17,7 +16,7 @@ module Api
           @favourite.user_id = @current_user.id
           if @favourite.save
             @post.update(favourite_count: @post.favourite_count + 1)
-            render json: { favourite: @favourite }, status: :ok
+            render json: @post, status: :ok
           else
             render json: { message: 'Error' }, status: :unprocessable_entity
           end
