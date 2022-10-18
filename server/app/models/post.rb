@@ -1,9 +1,11 @@
 class Post < ApplicationRecord
   belongs_to :user
   belongs_to :tag
-  # has_many_attached :images
+  # has_many_attached :images do |attachable|
+  #   attachable.variant :thumb, resize_to_limit: [100, 100]
+  # end
   has_one_attached :image
-  
+
   has_many :favourites
   has_one :ranking, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
@@ -14,9 +16,12 @@ class Post < ApplicationRecord
   validates :user_id, presence: true
   validates :title, presence: true
   validates :content, presence: true
-  validates :image, content_type: { in: %w[image/jpeg image/gif image/png], message: "must be a valid image format" },
-                            size: { less_than: 5.megabytes, message: "should be less than 5MB" }
+  validates :image, content_type: { in: %w[image/jpeg image/gif image/png], message: 'must be a valid image format' },
+                    size: { less_than: 5.megabytes, message: 'should be less than 5MB' }
   after_create :create_notifications
+
+  attribute :image_url
+  after_find :set_image_url
 
   # Returns a resized image for display.
   def display_image
@@ -25,14 +30,13 @@ class Post < ApplicationRecord
 
   # All users is following the post owner
   def recipients
-    # @recipients = self.user.followers
-    self.user.followers
+    user.followers
   end
 
   def create_notifications
     recipients.each do |recipient|
-      Notification.create(recipient: recipient, actor: self.user,
-        action: 'posted', notificationable: self)
+      Notification.create(recipient:, actor: user,
+                          action: 'posted', notificationable: self)
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_11_093806) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_17_083125) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -47,9 +47,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_093806) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.integer "vote_sum", default: 0
-    t.integer "comment_count", default: 0
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "conversations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "recipient_id"
+    t.integer "sender_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "mes_count", default: 0
+    t.index ["recipient_id", "sender_id"], name: "index_conversations_on_recipient_id_and_sender_id", unique: true
   end
 
   create_table "favourites", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -59,6 +67,27 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_093806) do
     t.bigint "post_id", null: false
     t.index ["post_id"], name: "index_favourites_on_post_id"
     t.index ["user_id"], name: "index_favourites_on_user_id"
+  end
+
+  create_table "friendly_id_slugs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, length: { slug: 70, scope: 70 }
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", length: { slug: 140 }
+    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "messages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.text "mes_content"
+    t.bigint "user_id", null: false
+    t.bigint "conversation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -105,6 +134,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_093806) do
     t.string "tag_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_tags_on_slug", unique: true
     t.index ["tag_name"], name: "index_tags_on_tag_name", unique: true
   end
 
@@ -140,6 +171,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_093806) do
   add_foreign_key "comments", "users"
   add_foreign_key "favourites", "posts"
   add_foreign_key "favourites", "users"
+  add_foreign_key "messages", "conversations"
+  add_foreign_key "messages", "users"
   add_foreign_key "posts", "tags"
   add_foreign_key "posts", "users"
   add_foreign_key "votes", "users"

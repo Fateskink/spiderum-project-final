@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class UsersController < ApplicationController
-        before_action :authorize, only: %i[index edit update destroy feed]
+        before_action :authorize, only: %i[index edit update destroy feed my_favourites search search_to_mess]
         before_action :set_user, only: %i[show edit update destroy]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
@@ -10,7 +10,7 @@ module Api
 
         def index
           @pagy, @users = pagy(User.all)
-          render json: { users: @users, metadata: meta_data }, status: :ok
+          render json: { metadata: meta_data , users: @users }, status: :ok
         end
 
         def show
@@ -23,15 +23,16 @@ module Api
 
         def create
           @user = User.new(user_params)
-          @user.image.attach(params[:user][:image])
-          if @user.save
+          @user.image.attach(params[:image])
+          if @user.password == @user.password_confirmation
+            @user.save
             SendMailJob.perform_later @user
             render json: { message: 'Please check your email to active account' }, status: :ok
           else
-            render json: @user.errors.full_messages, status: :unprocessable_entity
+            render json: {message: "Password incorrect!"} , status: :unprocessable_entity
           end
         end
-
+        # @user.errors.full_messages
         def edit
         end
 
@@ -89,7 +90,7 @@ module Api
           @user = User.find(params[:id])
           @users = @user.following
           @pagy, @users = pagy(@users)
-          render json: { users: @users, metadata: meta_data}, status: :ok
+          render json: { users: @users, metadata: meta_data }, status: :ok
         end
 
         def followers
@@ -97,21 +98,42 @@ module Api
           @user = User.find(params[:id])
           @users = @user.followers
           @pagy, @users = pagy(@users)
-          render json: { users: @users, metadata: meta_data}, status: :ok
+          render json: { users: @users, metadata: meta_data }, status: :ok
         end
 
         def my_favourites
           @title = 'my_favourites'
-          @user = User.find(params[:id])
-          @posts = @user.posts
-          @pagy, @posts = pagy(@posts)
-          render json: @posts
+          @favourite = @current_user.favourites
+          @pagy, @favourite = pagy(@favourite)
+          render json: @favourite, status: :ok
         end
 
         def feed
-          @user = @current_user
-          @posts = Post.where("user_id = ?", params[:user_id])
-          render json: @user, status: :ok
+          following_ids = Relationship.select(:followed_id).where('follower_id = ?', params[:id])
+          @post = Post.where('user_id = ?', params[:id])
+          @post_following = Post.where(user_id: following_ids)
+          new_feed = @post.including(@post_following)
+          new_feed.sort_by(&:"#{created_at}")
+          # @pagy, @tests = pagy(new_feed)
+          render json: new_feed, serializer: nil, status: :ok
+        end
+
+        def search
+          @user = User.find(params[:id])
+          @users = @user.all
+          @q = @users.ransack(params[:q])
+          @search = @q.result
+          @pagy, @search = pagy(@search)
+          render json: { metadata: meta_data , search: @search }, status: :ok
+        end
+
+        def search_to_mess
+          @user = User.find(params[:id])
+          @users = @user.following
+          @q = @users.ransack(params[:q])
+          @search = @q.result
+          @pagy, @search = pagy(@search)
+          render json: { metadata: meta_data , search: @search }, status: :ok
         end
 
         private

@@ -16,7 +16,7 @@ User.create!(name: "Admin",
   email: email,
   password: password,
   password_confirmation: password,
-  confirmation_token: :null,
+  confirmation_token: "",
   confirmed_at: Time.zone.now)
 end
 
@@ -32,7 +32,7 @@ Tag.create(tag_name: 'English zone')
 Tag.create(tag_name: 'Skill')
 
 # Generate posts for a subset of users.
-users = User.order(:created_at).take(8)
+users = Post.order(:created_at).take(8)
 10.times do
   content = Faker::Lorem.sentence(word_count: 5)
   title = "This is title"

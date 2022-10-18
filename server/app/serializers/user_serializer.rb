@@ -1,4 +1,4 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :name, :email, :admin, :banned
+  attributes :name, :email
   has_many :posts
 end

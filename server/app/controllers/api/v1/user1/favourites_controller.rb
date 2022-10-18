@@ -7,7 +7,7 @@ module Api
 
         def index
           @pagy, @favourites = pagy(@post.favourites)
-          render json: { favourites: @favourites, metadata: meta_data }, status: :ok
+          render json: { metadata: meta_data , favourites: @favourites }, status: :ok
         end
 
         def create
@@ -26,15 +26,6 @@ module Api
             @favourite.destroy
             render json: { message: 'Not favourite any more' }, status: :ok
           end
-        end
-
-        def my_favourites
-          @title = 'my_favourites'
-          @user = User.find(params[:user_id])
-          @favourite = @user.favourites
-          @posts = @favourite.posts.find(params[:post_id])
-          # @pagy, @posts = pagy(@posts)
-          render json: @favourite, serializer: nil
         end
 
         private
