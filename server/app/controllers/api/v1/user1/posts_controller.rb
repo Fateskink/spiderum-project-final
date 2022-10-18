@@ -13,15 +13,12 @@ module Api
           # feed[:serializer] = PostLiteSerializer.new(@post)
           # render json: feed, status: :ok
           render({ json: feed, adapter: :json, serializer: ::Post::PostLiteSerializer })
-
-
         end
 
         def show
           @post.update(view: @post.view + 1)
-          render json: { post: @post, comment: @post.comments }, status: :ok
-
-          # ::Api::V1::User1::ApplicationController::CommentsController.index
+          render json: @post, serializer: ::Post::PostSerializer, status: :ok
+          ::Api::V1::User1::ApplicationController::CommentsController.index
         end
 
         def new
@@ -36,7 +33,7 @@ module Api
           @post.year = Time.current.year
           @post.image.attach(params[:image])
           if @post.save
-            render json: @post, serializer: PostSerializer, status: :ok
+            render json: @post, serializer: ::Post::PostSerializer, status: :ok
           else
             render json: @post.errors.full_messages, status: :unprocessable_entity
           end
@@ -46,7 +43,7 @@ module Api
 
         def update
           if @post.update(post_params)
-            render json: @post, serializer: PostSerializer, status: :ok
+            render json: @post, serializer: ::Post::PostSerializer, status: :ok
           else
             render json: { error: 'Update false' }, status: :unprocessable_entity
           end
@@ -65,15 +62,14 @@ module Api
           @search = @q.result
           @pagy, @search = pagy(@search)
           feed = { metadata: meta_data, posts: @search }
-          feed[:serializer] = PostLiteSerializer.new(@post)
-          render json: feed, status: :ok
+          render({ json: feed, adapter: :json, serializer: ::Post::PostLiteSerializer })
         end
 
         def top
           @top = Post.where('posts.month' => Time.current.month)
                      .order(favourite_count: :desc)
                      .limit(10)
-          render json: @top, serializer: PostLiteSerializer, status: :ok
+          render json: @top, serializer: ::Post::PostLiteSerializer, status: :ok
         end
 
         private
