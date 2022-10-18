@@ -11,6 +11,13 @@ module Api
           @comment = Comment.new
         end
 
+        def index
+          @comments = @commentable.comments
+          all_comments = { metadata: meta_data, comments: @comments }
+          all_comments[:serializer] = CommentSerializer.new(@comment)
+          render json: all_comments, status: :ok
+        end
+
         def create
           @comment = @commentable.comments.build(comment_params)
           @comment.user_id = @current_user.id
