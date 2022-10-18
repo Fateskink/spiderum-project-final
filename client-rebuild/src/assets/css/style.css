@@ -389,6 +389,8 @@ article h3 {
 .comment-box1 {
   /* background: rgb(248, 141, 141); */
   padding-bottom: 15px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .username {

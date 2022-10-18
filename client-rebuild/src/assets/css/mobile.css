@@ -9,6 +9,9 @@
   .top-author {
     /* display: none; */
   }
+  .top-banner {
+    width: 100%;
+  }
 }
 
 @media only screen and (max-width: 1000px) {
@@ -20,6 +23,12 @@
   }
   .right-navbar-option {
     display: block;
+  }
+  .top-banner {
+    width: 100%;
+  }
+  .side-banner {
+    display: none;
   }
 }
 

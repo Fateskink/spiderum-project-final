@@ -1,5 +1,5 @@
 <template>
-  <div class="m-t-30 comment-box1 m-b-15 content-fix">
+  <div class="m-t-30 comment-box1 m-b-15">
     <div v-for="commentParent in comments" :key="commentParent.id" class="comment-1stlayout-wrapper">
       <div class="user-comment">
         <p class="username">
