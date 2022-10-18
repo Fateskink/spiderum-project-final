@@ -9,7 +9,7 @@ module Api
 
         def index
           @pagy, @posts = pagy(Post.all)
-          feed = { metadata: meta_data , posts: @posts}
+          feed = { metadata: meta_data, posts: @posts }
           feed[:serializer] = PostLiteSerializer.new(@post)
           render json: feed, status: :ok
         end
@@ -17,7 +17,7 @@ module Api
         def show
           @post.update(view: @post.view + 1)
           render json: @post, status: :ok
-          ApplicationController::CommentsController::index
+          ApplicationController::CommentsController.index
         end
 
         def new
