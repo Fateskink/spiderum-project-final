@@ -7,8 +7,8 @@ module Api
 
         def index
           @pagy, @conversations = pagy(Conversation.all)
-          list_conver = { metadata: meta_data ,conversations: @conversations }
-          render json: list_conver, status: :ok
+          list_conver = { metadata: meta_data, conversations: @conversations }
+          render ({ json: list_conver, adapter: :json, serializer: :ConversationSerializer })
         end
 
         def show

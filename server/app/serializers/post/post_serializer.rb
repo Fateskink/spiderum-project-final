@@ -7,7 +7,7 @@ module Post
     belongs_to :tag
     has_many :comments
 
-    class UserSerializer < ActiveModel::Serializer
+    class User::UserSerializer < ActiveModel::Serializer
       attributes :name
     end
 

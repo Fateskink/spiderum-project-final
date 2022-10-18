@@ -3,7 +3,7 @@ class CommentSerializer < ActiveModel::Serializer
 
   belongs_to :post
   belongs_to :user
-  class UserSerializer < ActiveModel::Serializer
+  class User::UserSerializer < ActiveModel::Serializer
     attributes :name
   end
 end
