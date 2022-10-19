@@ -2,8 +2,5 @@
 
 class FavouriteSerializer < ActiveModel::Serializer
   belongs_to :post
-  belongs_to :user
-  class User::UserSerializer < ActiveModel::Serializer
-    attributes :name, :image_url
-  end
+  belongs_to :user, serializer: ::Users::UserLiteSerializer
 end

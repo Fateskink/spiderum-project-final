@@ -1,15 +1,15 @@
 # Show a single post with all details
-module Post
+module Posts
   class PostSerializer < ActiveModel::Serializer
     attributes :id, :title, :content, :view, :favourite_count, :vote_sum, :comment_count, :image_url, :created_at
 
-    belongs_to :user
-    belongs_to :tag
-    has_many :comments
+    belongs_to :user, serializer: ::Users::UserLiteSerializer
+    belongs_to :tag, serializer: ::AttachTagSerializer
+    # has_many :comments, serializer: ::CommentSerializer
 
-    class User::UserSerializer < ActiveModel::Serializer
-      attributes :name
-    end
+    # class User::UserLiteSerializer < ActiveModel::Serializer
+    #   attributes :name, :image_url
+    # end
 
     # class CommentSerializer < ActiveModel::Serializer
     #   attributes :id, :body, :created_at, :vote_sum, :show

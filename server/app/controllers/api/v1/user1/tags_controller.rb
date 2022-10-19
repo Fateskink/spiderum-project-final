@@ -12,9 +12,9 @@ module Api
 
         def show
           @tag = Tag.friendly.find(params[:id])
-          @pagy, @posts = pagy(@tag.posts)
-          all_post = { metadata: meta_data, posts: @posts }
-          render ({ json: all_post, adapter: :json, serializer: ::Post::PostLiteSerializer }), status: :ok
+          all_post = @tag.posts
+          @pagy, @posts = pagy(all_post)
+          render ({ meta: meta_data, json: all_post, adapter: :json, each_serializer: ::Posts::PostLiteSerializer }), status: :ok
         end
 
         def create

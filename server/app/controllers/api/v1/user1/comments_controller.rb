@@ -13,8 +13,8 @@ module Api
 
         def index
           @comments = @commentable.comments
-          all_comments = { metadata: meta_data, comments: @comments }
-          render ({ json: all_comments, adapter: :json, serializer: CommentSerializer })
+          @pagy, all_comments = pagy(@comments)
+          render ({meta: meta_data, json: all_comments, adapter: :json, each_serializer: CommentSerializer })
         end
 
         def create

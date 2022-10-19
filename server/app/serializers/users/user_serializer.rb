@@ -1,7 +1,7 @@
 # show user's profile
-module User
+module Users
   class UserSerializer < ActiveModel::Serializer
     attributes :name, :email, :image_url
-    has_many :posts
+    has_many :posts, serializer: ::Posts::PostLiteSerializer
   end
 end

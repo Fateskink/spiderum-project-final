@@ -8,17 +8,15 @@ module Api
         before_action :correct_user, only: %i[edit update destroy]
 
         def index
-          @pagy, @posts = pagy(Post.all)
-          feed = { metadata: meta_data, posts: @posts }
-          # feed[:serializer] = PostLiteSerializer.new(@post)
-          # render json: feed, status: :ok
-          render ({ json: feed, adapter: :json, serializer: ::Post::PostLiteSerializer })
+          feed = Post.all
+          @pagy, @posts = pagy(feed)
+          render ({meta: meta_data, json: @posts, adapter: :json, each_serializer: ::Posts::PostLiteSerializer })
         end
 
         def show
           @post.update(view: @post.view + 1)
-          render json: @post, serializer: ::Post::PostSerializer, status: :ok
-          ::Api::V1::User1::ApplicationController::CommentsController.index
+          render json: @post, serializer: Posts::PostSerializer, status: :ok
+          # ::CommentsController.index
         end
 
         def new
@@ -33,7 +31,7 @@ module Api
           @post.year = Time.current.year
           @post.image.attach(params[:image])
           if @post.save
-            render json: @post, serializer: ::Post::PostSerializer, status: :ok
+            render json: @post, serializer: ::Posts::PostSerializer, status: :ok
           else
             render json: @post.errors.full_messages, status: :unprocessable_entity
           end
@@ -43,7 +41,7 @@ module Api
 
         def update
           if @post.update(post_params)
-            render json: @post, serializer: ::Post::PostSerializer, status: :ok
+            render json: @post, serializer: ::Posts::PostSerializer, status: :ok
           else
             render json: { error: 'Update false' }, status: :unprocessable_entity
           end
@@ -62,14 +60,14 @@ module Api
           @search = @q.result
           @pagy, @search = pagy(@search)
           feed = { metadata: meta_data, posts: @search }
-          render ({ json: feed, adapter: :json, serializer: ::Post::PostLiteSerializer })
+          render ({ json: feed, adapter: :json, serializer: ::Posts::PostLiteSerializer })
         end
 
         def top
           @top = Post.where('posts.month' => Time.current.month)
                      .order(favourite_count: :desc)
                      .limit(10)
-          render json: @top, serializer: ::Post::PostLiteSerializer, status: :ok
+          render json: @top, serializer: ::Posts::PostLiteSerializer, status: :ok
         end
 
         private
