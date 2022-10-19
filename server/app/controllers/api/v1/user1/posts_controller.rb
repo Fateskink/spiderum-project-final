@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class PostsController < ApplicationController
-        before_action :set_post, only: %i[show edit destroy]
+        before_action :set_post, only: %i[show]
         before_action :authorize, only: %i[create update destroy]
         # before_action :admin_user, only: :destroy
         before_action :correct_user, only: %i[edit update destroy]
@@ -48,6 +48,7 @@ module Api
         end
 
         def destroy
+          @post = Post.find_by(id: params[:id])
           if @post.destroy
             render json: { message: 'Post deleted' }, status: :ok
           else
