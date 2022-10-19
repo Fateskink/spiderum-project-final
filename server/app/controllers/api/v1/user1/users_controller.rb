@@ -16,7 +16,7 @@ module Api
         end
 
         def show
-          render json: @user, serializer: ::Users::UserSerializer , status: :ok
+          render json: @user, serializer: ::Users::UserSerializer, status: :ok
         end
 
         def new
