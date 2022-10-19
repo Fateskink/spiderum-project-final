@@ -8,6 +8,7 @@ import FooterView from '@/components/FooterView.vue';
 import SideBanner from '@/components/SideBanner.vue';
 import TopBanner from '@/components/TopBanner.vue';
 import TopTenMonth from '@/components/HomePage/Top10Month.vue';
+import NewFeed from '@/components/HomePage/NewFeed.vue';
 import TopAuthor from '@/components/HomePage/HomeContentWrapper/TopAuthor.vue';
 import TopPostOptions from '@/components/HomePage/HomeContentWrapper/TopPostViaOption.vue';
 import FollowBanner from '@/components/PostViaCatagories/FollowBanner.vue';
@@ -34,6 +35,7 @@ Vue.component('top-banner', TopBanner);
 Vue.component('content-wrapper', HomeContentWraper);
 //HomePage
 Vue.component('top-10-month', TopTenMonth);
+Vue.component('new-feed', NewFeed);
 Vue.component('top-author', TopAuthor);
 Vue.component('top-post-option', TopPostOptions);
 //PostCategories
