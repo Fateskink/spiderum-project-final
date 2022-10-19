@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class UsersController < ApplicationController
-        before_action :authorize, only: %i[index edit update destroy feed my_favourites search search_to_mess]
+        before_action :authorize, only: %i[index edit update destroy feed my_favourites search search_to_mess my_posts]
         before_action :set_user, only: %i[show edit update destroy search search_to_mess]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
@@ -110,6 +110,13 @@ module Api
           @pagy, @favourite = pagy(@favourite)
           # all_favor = {metadata: meta_data, favourite: @favourite}
           render ({ meta: meta_data, json: @favourite, adapter: :json, each_serializer: ::Users::MyFavouritesSerializer }), status: :ok
+        end
+
+        def my_posts
+          # my_posts = @current_user.posts.all
+          # @pagy, @my_posts = pagy(my_posts)
+          # render ({ meta: meta_data, json: @my_posts, adapter: :json, each_serializer: ::Users::MyPostsSerializer }), status: :ok
+          render json: Post.find_by(user_id: params(@current_user.id))
         end
 
         def feed
