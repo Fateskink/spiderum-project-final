@@ -93,7 +93,7 @@ module Api
           @users = @user.following
           @pagy, @users = pagy(@users)
           # all_user = { metadata: meta_data, users: @users }
-          render ({ meta: meta_data, json: @users, adapter: :json, each_serializer: ::User::UserLiteSerializer }), status: :ok
+          render ({ meta: meta_data, json: @users, adapter: :json, each_serializer: ::Users::UserLiteSerializer }), status: :ok
         end
 
         def followers
@@ -102,7 +102,7 @@ module Api
           @users = @user.followers
           @pagy, @users = pagy(@users)
           # all_user = { metadata: meta_data, users: @users }
-          render ({ meta: meta_data, json: @users, adapter: :json, each_serializer: ::User::UserLiteSerializer }), status: :ok
+          render ({ meta: meta_data, json: @users, adapter: :json, each_serializer: ::Users::UserLiteSerializer }), status: :ok
         end
 
         def my_favourites
@@ -122,21 +122,24 @@ module Api
         end
 
         def search
-          @users = @user.all
+          @users = User.all
           @q = @users.ransack(params[:q])
           @search = @q.result
           @pagy, @search = pagy(@search)
           # find = { metadata: meta_data, search: @search }
-          render ({ meta: meta_data json: @search, adapter: :json, each_serializer: ::Users::UserLiteSerializer }), status: :ok
+          render ({ meta: meta_data, json: @search, adapter: :json, each_serializer: ::Users::UserLiteSerializer }), status: :ok
         end
 
         def search_to_mess
           @users = @user.following
           @q = @users.ransack(params[:q])
           @search = @q.result
-          @pagy, @search = pagy(@search)
-          # find = { metadata: meta_data, search: @search }
-          render ({ meta: meta_data, json: @search, adapter: :json, serializer: ::Users::UserLiteSerializer }), status: :ok
+          if @search
+            @pagy, @search = pagy(@search)
+            render ({ meta: meta_data, json: @search, adapter: :json, serializer: ::Users::UserLiteSerializer }), status: :ok
+          else
+            render json: "You have no relationship with this one", status: :ok
+          end
         end
 
         private

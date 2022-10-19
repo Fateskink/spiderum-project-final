@@ -8,9 +8,9 @@ module Api
         def upvote
           @vote = @votetable.votes.build
           @vote.user_id = @current_user.id
-          @vote.votetable.update(vote_sum: @votetable.vote_sum + 1)
+          @votetable.update(vote_sum: @votetable.vote_sum + 1)
           if @vote.save
-            render json: { vote: @vote }, status: :ok
+            render json: @vote, serializer: nil, status: :ok
           else
             render json: @vote.errors.full_messages, status: :unprocessable_entity
           end
@@ -19,7 +19,7 @@ module Api
         def downvote
           @vote = @votetable.votes.build
           @vote.user_id = @current_user.id
-          @vote.votetable.update(vote_sum: @votetable.vote_sum - 1)
+          @votetable.update(vote_sum: @votetable.vote_sum - 1)
           save
           if @vote
             render json: { vote: @vote }, status: :ok

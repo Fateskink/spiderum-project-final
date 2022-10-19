@@ -63,7 +63,7 @@ module Api
 
         # in case of somebody try to delete another's comment
         def correct_user
-          @comment = current_user.comments.find_by(id: params[:id])
+          @comment = @current_user.comments.find_by(id: params[:id])
           if @comment.nil?
             render json: { message: @comment.errors.full_messages, message: 'You have no right' }, status: :unauthorized
           end

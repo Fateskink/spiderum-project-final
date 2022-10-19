@@ -16,7 +16,6 @@ module Api
         def show
           @post.update(view: @post.view + 1)
           render json: @post, serializer: Posts::PostSerializer, status: :ok
-          # ::CommentsController.index
         end
 
         def new
@@ -41,7 +40,7 @@ module Api
 
         def update
           if @post.update(post_params)
-            render json: @post, serializer: ::Posts::PostSerializer, status: :ok
+            render json: @post#, serializer: ::Posts::PostSerializer, status: :ok
           else
             render json: { error: 'Update false' }, status: :unprocessable_entity
           end
@@ -59,15 +58,14 @@ module Api
           @q = Post.ransack(params[:q])
           @search = @q.result
           @pagy, @search = pagy(@search)
-          feed = { metadata: meta_data, posts: @search }
-          render ({ json: feed, adapter: :json, serializer: ::Posts::PostLiteSerializer })
+          render ({ meta: meta_data, json: @search, adapter: :json, each_serializer: ::Posts::PostLiteSerializer })
         end
 
         def top
           @top = Post.where('posts.month' => Time.current.month)
                      .order(favourite_count: :desc)
                      .limit(10)
-          render json: @top, serializer: ::Posts::PostLiteSerializer, status: :ok
+          render json: @top, each_serializer: ::Posts::PostLiteSerializer, status: :ok
         end
 
         private
@@ -81,14 +79,12 @@ module Api
           @post = Post.find(params[:id])
         end
 
-        def set_user
-          @user = User.find(params[:id])
-        end
-
         # in case of somebody try to delete another's post
         def correct_user
-          @post = @current_user.posts.find_by(id: params[:id])
-          render json: { message: 'You have no right' }, status: :unauthorized if @post.nil?
+          @post = @current_user.posts.find_by(params[:id])
+          if @post.nil?
+            render json: { message: @post.errors.full_messages, message: 'You have no right' }, status: :unauthorized
+          end
         end
       end
     end
