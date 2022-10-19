@@ -21,6 +21,9 @@ export default {
     setParamId(state, newId) {
       state.id = newId;
     },
+    clearCurrentComment(state) {
+      state.currentComment = '';
+    },
   },
   actions: {
     async createComment({ state }) {
@@ -28,7 +31,8 @@ export default {
         .post(`user1/posts/${state.id}/comments`, {
           body: state.currentComment,
         })
-        .then((response) => console.log(response));
+        .then((response) => console.log(response)),
+        alert('Bình luận đã được đăng tải');
     },
   },
 };
