@@ -3,11 +3,12 @@ module Api
     module User1
       class FavouritesController < ApplicationController
         before_action :authorize
-        before_action :set_post, only: %i[create index]
+        before_action :set_post, only: %i[create index destroy]
 
         def index
-          @pagy, @favourites = pagy(@post.favourites)
-          render json: { metadata: meta_data , favourites: @favourites }, status: :ok
+          favor = @post.favourites
+          @pagy, @favourites = pagy(favor)
+          render ({ meta: meta_data, json: favor, adapter: :json, each_serializer: FavouriteSerializer }), status: :ok
         end
 
         def create
@@ -15,7 +16,7 @@ module Api
           @favourite.user_id = @current_user.id
           if @favourite.save
             @post.update(favourite_count: @post.favourite_count + 1)
-            render json: { favourite: @favourite }, status: :ok
+            render json: @post, serializer: ::Posts::PostLiteSerializer, status: :ok
           else
             render json: { message: 'Error' }, status: :unprocessable_entity
           end
@@ -23,6 +24,7 @@ module Api
 
         def destroy
           if @favourite = Favourite.find_by(params[:favourite_id])
+            @post.update(favourite_count: @post.favourite_count - 1 )
             @favourite.destroy
             render json: { message: 'Not favourite any more' }, status: :ok
           end
@@ -31,7 +33,7 @@ module Api
         private
 
         def set_post
-          @post = Post.find_by_id(params[:post_id])
+          @post = Post.find_by(id: params[:post_id])
         end
       end
     end

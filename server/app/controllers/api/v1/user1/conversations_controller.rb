@@ -6,20 +6,20 @@ module Api
         before_action :set_conversation, only: %i[show destroy]
 
         def index
-          @pagy, @conversations = pagy(Conversation.all)
-          list_conver = { metadata: meta_data ,conversations: @conversations }
-          render json: list_conver, status: :ok
+          list_conver = Conversation.all
+          @pagy, @conversations = pagy(list_conver)
+          render ({ meta: meta_data, json: @conversations, adapter: :json, each_serializer: ::Conversations::ConversationLiteSerializer })
         end
 
         def show
-          render json: @conversation, serializer: ConversationSerializer, status: :ok
+          render json: @conversation, serializer: ::Conversations::ConversationSerializer, status: :ok
         end
 
         def create
           @conversation = Conversation.get(@current_user.id, params[:user_id])
           # add_to_conversations unless conversated?
           if @conversation.save
-            render json: @conversation, status: :ok
+            render json: @conversation, serializer: ::Conversations::ConversationSerializer, status: :ok
           else
             render json: @conversation.errors.full_messages, status: :unprocessable_entity
           end

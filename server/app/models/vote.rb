@@ -4,8 +4,8 @@ class Vote < ApplicationRecord
   has_many :notifications, as: :notificationable
 
   # validates :post, uniqueness: { scope: :user }
-  # validates :user, uniqueness: { scope: :post }
-  # validates :user, uniqueness: { scope: :comment }
+  validates :user, uniqueness: { scope: :post }
+  validates :user, uniqueness: { scope: :comment }
   after_create :create_notifications
 
   private

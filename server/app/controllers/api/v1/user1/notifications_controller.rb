@@ -6,8 +6,9 @@ module Api
 
         def index
           @notifications = @current_user.notifications
+          # notice = { metadata: meta_data, notifications: @notifications }
           @pagy, @notifications = pagy(@notifications)
-          render json: { metadata: meta_data , notifications: @notifications }, status: :ok
+          render ({ meta: meta_data, json: @notifications, adapter: :json, each_serializer: NotificationSerializer })
         end
 
         def show
