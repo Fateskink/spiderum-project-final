@@ -8,6 +8,7 @@ module Api
         def upvote
           @vote = @votetable.votes.build
           @vote.user_id = @current_user.id
+          @vote.vote_action = "Upvote"
           if @vote.save
             @votetable.update(vote_sum: @votetable.vote_sum + 1)
             render json: @vote, serializer: nil, status: :ok
@@ -19,9 +20,9 @@ module Api
         def downvote
           @vote = @votetable.votes.build
           @vote.user_id = @current_user.id
-          @votetable.update(vote_sum: @votetable.vote_sum - 1)
-          save
-          if @vote
+          @vote.vote_action = "Downvote"
+          if @vote.save
+            @votetable.update(vote_sum: @votetable.vote_sum - 1)
             render json: { vote: @vote }, status: :ok
           else
             render json: @vote.errors.full_messages, status: :unprocessable_entity
@@ -30,15 +31,17 @@ module Api
 
         def destroy
           @vote = Vote.find_by(params[@current_user.id])
-          if @vote.destroy
+          if @vote.vote_action == "Upvote" && @vote.destroy
             @vote.votetable.update(vote_sum: @votetable.vote_sum - 1)
-            save
+            render json: { message: 'Unvote' }, status: :ok
+          elsif @vote.vote_action == "Downvote" && @vote.destroy
+            @vote.votetable.update(vote_sum: @votetable.vote_sum + 1)
             render json: { message: 'Unvote' }, status: :ok
           else
             render json: @vote.errors.full_messages, status: :unprocessable_entity
           end
         end
-        
+
         private
 
         def find_votetable
