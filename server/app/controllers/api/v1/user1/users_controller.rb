@@ -11,7 +11,6 @@ module Api
         def index
           all_user = User.all
           @pagy, @users = pagy(all_user)
-          
           render ({ meta: meta_data, json: @users, adapter: :json, each_serializer: ::Users::UserLiteSerializer }), status: :ok
         end
 

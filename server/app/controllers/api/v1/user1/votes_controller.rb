@@ -8,8 +8,8 @@ module Api
         def upvote
           @vote = @votetable.votes.build
           @vote.user_id = @current_user.id
-          @votetable.update(vote_sum: @votetable.vote_sum + 1)
           if @vote.save
+            @votetable.update(vote_sum: @votetable.vote_sum + 1)
             render json: @vote, serializer: nil, status: :ok
           else
             render json: @vote.errors.full_messages, status: :unprocessable_entity

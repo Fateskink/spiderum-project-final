@@ -2,15 +2,15 @@ module Api
   module V1
     module User1
       class PostsController < ApplicationController
+        before_action :set_post, only: %i[show edit destroy]
         before_action :authorize, only: %i[create update destroy]
-        before_action :set_post, only: %i[show edit update destroy]
         # before_action :admin_user, only: :destroy
         before_action :correct_user, only: %i[edit update destroy]
 
         def index
           feed = Post.all
           @pagy, @posts = pagy(feed)
-          render ({meta: meta_data, json: @posts, adapter: :json, each_serializer: ::Posts::PostLiteSerializer })
+          render({ meta: meta_data, json: @posts, adapter: :json, each_serializer: ::Posts::PostLiteSerializer })
         end
 
         def show
@@ -39,8 +39,9 @@ module Api
         def edit; end
 
         def update
+          @post = Post.find(params[:id])
           if @post.update(post_params)
-            render json: @post#, serializer: ::Posts::PostSerializer, status: :ok
+            render json: @post, serializer: ::Posts::PostSerializer, status: :ok
           else
             render json: { error: 'Update false' }, status: :unprocessable_entity
           end
@@ -58,7 +59,7 @@ module Api
           @q = Post.ransack(params[:q])
           @search = @q.result
           @pagy, @search = pagy(@search)
-          render ({ meta: meta_data, json: @search, adapter: :json, each_serializer: ::Posts::PostLiteSerializer })
+          render({ meta: meta_data, json: @search, adapter: :json, each_serializer: ::Posts::PostLiteSerializer })
         end
 
         def top
