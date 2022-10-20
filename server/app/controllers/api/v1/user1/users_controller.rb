@@ -113,10 +113,10 @@ module Api
         end
 
         def my_posts
-          # my_posts = @current_user.posts.all
-          # @pagy, @my_posts = pagy(my_posts)
-          # render ({ meta: meta_data, json: @my_posts, adapter: :json, each_serializer: ::Users::MyPostsSerializer }), status: :ok
-          render json: Post.find_by(user_id: params(@current_user.id))
+          my_posts = @current_user.posts
+          @pagy, @my_posts = pagy(my_posts)
+          render ({ meta: meta_data, json: @my_posts, adapter: :json, each_serializer: ::Users::MyPostsSerializer }), status: :ok
+          # render json: my_posts
         end
 
         def feed
