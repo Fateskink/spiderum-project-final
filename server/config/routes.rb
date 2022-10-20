@@ -6,10 +6,11 @@ Rails.application.routes.draw do
         resources :users
         resources :users, only: %i[create update] do
           collection do
-            get 'email_update'
+            post 'email_update'
           end
         end
-        # get '/email_update', to: 'users#email_update'
+        # put '/change_email', to: 'users#change_email'
+        # post 'email_update', to: 'users#email_update'
         get 'confirm', to: 'users#confirm'
         post 'password/forgot', to: 'password#forgot'
         get 'password/reset', to: 'password#reset'
@@ -23,12 +24,11 @@ Rails.application.routes.draw do
         get '/login', to: 'sessions#new'
         post '/login', to: 'sessions#create'
         delete '/logout', to: 'sessions#destroy'
-        
-        # get '/feed', to: 'posts#feed'
-        # get '/my_favourites', to: 'favourites#my_favourites'
+
         resource :users do
           get '/:id/feed', to: 'users#feed'
           get '/:id/my_favourites', to: 'users#my_favourites'
+          get '/:id/my_posts', to: 'users#my_posts'
           get '/:id/search', to: 'users#search'
           get '/:id/search_to_mess', to: 'users#search_to_mess'
         end
@@ -79,6 +79,15 @@ Rails.application.routes.draw do
         end
 
         resources :notifications, only: %i[index show]
+
+        resource :posts do
+          post ':post_id/report', to: 'reports#create'
+        end
+
+        resource :comments do
+          post ':comment_id/report', to: 'reports#create'
+        end
+        get '/reports', to: 'reports#index'
       end
     end
   end
