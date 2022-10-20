@@ -24,7 +24,7 @@ Rails.application.routes.draw do
         get '/login', to: 'sessions#new'
         post '/login', to: 'sessions#create'
         delete '/logout', to: 'sessions#destroy'
-        
+
         resource :users do
           get '/:id/feed', to: 'users#feed'
           get '/:id/my_favourites', to: 'users#my_favourites'
@@ -79,6 +79,15 @@ Rails.application.routes.draw do
         end
 
         resources :notifications, only: %i[index show]
+
+        resource :posts do
+          post ':post_id/report', to: 'reports#create'
+        end
+
+        resource :comments do
+          post ':comment_id/report', to: 'reports#create'
+        end
+        get '/reports', to: 'reports#index'
       end
     end
   end

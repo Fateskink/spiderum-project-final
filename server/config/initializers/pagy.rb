@@ -242,4 +242,5 @@ require 'pagy/extras/headers'
 
 
 # When you are done setting your own default freeze it, so it will not get changed accidentally
-Pagy::DEFAULT.freeze
+# Pagy::DEFAULT.freeze
+Pagy::DEFAULT[:items] = 5

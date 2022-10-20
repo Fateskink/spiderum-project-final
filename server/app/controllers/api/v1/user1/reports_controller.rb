@@ -2,17 +2,24 @@ module Api
   module V1
     module User1
       class ReportsController < ApplicationController
-        before_action :authorize
+        before_action :authorize, only: [:create, :index]
+        before_action :admin_user, only: [:index]
         before_action :find_reportable
+
+        def index
+          reports = Report.all
+          @pagy, @reports = pagy(reports)
+          render ({ meta: meta_data, json: @reports, adapter: :json, each_serializer: ReportSerializer }), status: :ok
+        end
 
         def create
           @report = @reportable.reports.build(report_params)
           @report.user_id = @current_user.id
           if @report.save
-            @current_user.update(report_count: @current_user.report_count + 1)
-            render json: @post, status: :ok
+            @reportable.users.update(report_count: @current_user.report_count + 1)
+            render json: @report, status: :ok
           else
-            render json: @post.errors.full_messages, status: :unprocessable_entity
+            render json: @report.errors.full_messages, status: :unprocessable_entity
           end
         end
 
