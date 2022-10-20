@@ -2,7 +2,8 @@
   <div class="top10-month">
     <div class="content-fix">
       <h2 class="trending-title">10 BÀI VIẾT NỔI BẬT TRONG THÁNG</h2>
-      <button @click="scroll">scr</button>
+      <img class="scroll-btn scroll-left" src="@/assets/img/top10month/icons8-left-67.png" @click="scrollLeft" />
+      <img class="scroll-btn scroll-right" src="@/assets/img/top10month/icons8-right-67.png" @click="scrollRight" />
       <div class="flex top10-list" id="top10-list">
         <div v-for="post in posts" :key="post.id">
           <router-link :to="'/posts/' + post.id">
@@ -49,8 +50,11 @@ export default {
       let time = date.getDay() + ' tháng ' + date.getMonth();
       return time;
     },
-    scroll() {
-      document.getElementById('top10-list').scrollLeft += 45;
+    scrollRight() {
+      document.getElementById('top10-list').scrollLeft += 500;
+    },
+    scrollLeft() {
+      document.getElementById('top10-list').scrollLeft -= 500;
     },
   },
   computed: {},

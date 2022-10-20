@@ -169,7 +169,7 @@ export default {
       this.getComments();
     },
     getComments() {
-      axios.get(`/user1/posts/${this.id}`).then((res) => {
+      axios.get(`/user1/posts/${this.id}/comments`).then((res) => {
         console.log(res.data.comments);
         this.comments = res.data.comments;
       });

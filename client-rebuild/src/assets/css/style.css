@@ -468,6 +468,7 @@ article h3 {
 .top10-list {
   overflow: auto;
   padding-bottom: 40px;
+  scroll-behavior: smooth;
 }
 .top10-month {
   background: #f5f7fa;
@@ -506,4 +507,18 @@ article h3 {
 }
 .none-of-post {
   min-width: 100%;
+}
+
+.scroll-btn {
+  height: 50px;
+  width: 50px;
+}
+
+.scroll-left {
+  position: absolute;
+  left: 0;
+}
+.scroll-right {
+  position: absolute;
+  right: 0;
 }
