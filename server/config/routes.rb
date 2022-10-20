@@ -31,6 +31,7 @@ Rails.application.routes.draw do
           get '/:id/my_posts', to: 'users#my_posts'
           get '/:id/search', to: 'users#search'
           get '/:id/search_to_mess', to: 'users#search_to_mess'
+          put ':id/unban', to: 'users#unban'
         end
 
         resources :posts

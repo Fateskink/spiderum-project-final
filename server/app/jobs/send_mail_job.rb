@@ -3,6 +3,6 @@ class SendMailJob < ApplicationJob
 
   def perform(user)
     @user = user
-    user.send_activation_email
+    user.send_activation_email.perform_later
   end
 end

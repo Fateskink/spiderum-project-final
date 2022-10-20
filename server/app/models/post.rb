@@ -35,7 +35,7 @@ class Post < ApplicationRecord
 
   def create_notifications
     recipients.each do |recipient|
-      Notification.create(recipient:, actor: user,
+      Notification.create(recipient: recipient, actor: user,
                           action: 'đăng bài', notificationable: self)
     end
   end
