@@ -113,10 +113,9 @@ module Api
         end
 
         def my_posts
-          my_posts = @current_user.posts
+          my_posts = Post.where('user_id =  ?', params[:id])
           @pagy, @my_posts = pagy(my_posts)
-          render ({ meta: meta_data, json: @my_posts, adapter: :json, each_serializer: ::Users::MyPostsSerializer }), status: :ok
-          # render json: my_posts
+          render ({ meta: meta_data, json: @my_posts, adapter: :json, each_serializer: ::Posts::PostLiteSerializer }), status: :ok
         end
 
         def feed
