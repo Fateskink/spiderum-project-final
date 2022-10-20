@@ -11,6 +11,7 @@ class Post < ApplicationRecord
   has_many :votes, as: :votetable, dependent: :destroy
   has_many :users, through: :votes # new vlidate
   has_many :notifications, as: :notificationable, dependent: :destroy
+  has_many :reports, as: :reportable, dependent: :destroy
 
   validates :user_id, presence: true
   validates :title, presence: true
