@@ -8,11 +8,13 @@ import FooterView from '@/components/FooterView.vue';
 import SideBanner from '@/components/SideBanner.vue';
 import TopBanner from '@/components/TopBanner.vue';
 import TopTenMonth from '@/components/HomePage/Top10Month.vue';
+import NewFeed from '@/components/HomePage/NewFeed.vue';
 import TopAuthor from '@/components/HomePage/HomeContentWrapper/TopAuthor.vue';
 import TopPostOptions from '@/components/HomePage/HomeContentWrapper/TopPostViaOption.vue';
 import FollowBanner from '@/components/PostViaCatagories/FollowBanner.vue';
 import RandomPost from '@/components/PostViaCatagories/RandomPost.vue';
 import RulesView from '@/components/PostViaCatagories/RulesView.vue';
+import VotesBox from '@/components/ShowPost/VotesBox.vue';
 import CommentsBox from '@/components/ShowPost/CommentsBox.vue';
 import ContentView from '@/components/ShowPost/ContentView.vue';
 import OtherPost from '@/components/ShowPost/OtherPost.vue';
@@ -33,6 +35,7 @@ Vue.component('top-banner', TopBanner);
 Vue.component('content-wrapper', HomeContentWraper);
 //HomePage
 Vue.component('top-10-month', TopTenMonth);
+Vue.component('new-feed', NewFeed);
 Vue.component('top-author', TopAuthor);
 Vue.component('top-post-option', TopPostOptions);
 //PostCategories
@@ -41,6 +44,7 @@ Vue.component('random-post', RandomPost);
 Vue.component('rule-view', RulesView);
 //ShowPost
 Vue.component('comments-box', CommentsBox);
+Vue.component('votes-box', VotesBox);
 Vue.component('content-view', ContentView);
 Vue.component('other-post', OtherPost);
 //UserProfile

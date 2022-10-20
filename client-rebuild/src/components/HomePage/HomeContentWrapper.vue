@@ -1,6 +1,6 @@
 <template>
   <div class="flex m-t-15 content-fix">
-    <top-post-option></top-post-option>
+    <new-feed></new-feed>
     <div>
       <top-author></top-author>
       <side-banner></side-banner>
@@ -11,13 +11,13 @@
 <script>
 import SideBanner from '../SideBanner.vue';
 import TopAuthor from './HomeContentWrapper/TopAuthor.vue';
-import TopPostOption from '@/components/HomePage/HomeContentWrapper/TopPostViaOption.vue';
+import NewFeed from './NewFeed.vue';
 
 export default {
   components: {
     TopAuthor,
     SideBanner,
-    TopPostOption,
+    NewFeed,
   },
 };
 </script>

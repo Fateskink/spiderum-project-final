@@ -11,6 +11,12 @@ module Api
           @comment = Comment.new
         end
 
+        def index
+          @comments = @commentable.comments
+          @pagy, all_comments = pagy(@comments)
+          render ({meta: meta_data, json: all_comments, adapter: :json, each_serializer: CommentSerializer })
+        end
+
         def create
           @comment = @commentable.comments.build(comment_params)
           @comment.user_id = @current_user.id
@@ -57,7 +63,7 @@ module Api
 
         # in case of somebody try to delete another's comment
         def correct_user
-          @comment = current_user.comments.find_by(id: params[:id])
+          @comment = @current_user.comments.find_by(id: params[:id])
           if @comment.nil?
             render json: { message: @comment.errors.full_messages, message: 'You have no right' }, status: :unauthorized
           end

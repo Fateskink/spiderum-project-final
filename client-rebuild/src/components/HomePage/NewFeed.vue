@@ -1,14 +1,7 @@
 <template>
   <div class="artical">
-    <div class="border-b-light-gray">
-      <ul class="flex p-t-15 p-b-15">
-        <li><a class="p-lr-30 artical-item" href="">Mới nhất</a></li>
-        <li><a class="p-lr-30 artical-item" href="">Đang theo dõi</a></li>
-        <li><a class="p-lr-30 artical-item" href="">Top bình luận</a></li>
-      </ul>
-    </div>
+    <h2>Bảng tin của bạn</h2>
     <div class="artical-list">
-      <div class="none-of-post" v-if="checkPost()">Không có bài viết trong mục này. Đóng góp ngay</div>
       <div v-for="post in posts" :key="post.id" class="artical-box flex m-b-66">
         <img class="content-img" src="" alt="" @error="setAltImg" />
         <div class="aside-content">
@@ -50,42 +43,27 @@ import axios from '@/axios/axios';
 export default {
   data() {
     return {
-      id: this.$route.params.id,
       posts: {},
     };
   },
+  async created() {
+    await this.getNewfeed();
+  },
   methods: {
-    checkPost() {
-      if (this.posts.length == 0) {
-        return true;
-      }
+    getNewfeed() {
+      axios.get('user1/users/1/feed').then((res) => {
+        this.posts = res.data.feed;
+      });
     },
     setAltImg: function (event) {
       event.target.src = 'https://wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg';
     },
-  },
-  async mounted() {
-    await axios.get(`user1/tags/${this.id}`).then((response) => {
-      this.posts = response.data.posts;
-    });
-    console.log(this.posts);
   },
   filters: {
     shortArticle(value) {
       return value.slice(0, 75) + '...';
     },
   },
-  watch: {
-    $route: {
-      handler(newValue) {
-        axios.get(`user1/tags/${newValue.params.id}`).then((response) => {
-          this.posts = response.data.posts;
-        });
-      },
-      deep: true,
-    },
-  },
-  computed: {},
 };
 </script>
 

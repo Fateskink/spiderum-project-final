@@ -221,6 +221,9 @@ a {
 .artical {
   flex: 7;
 }
+.aside-content {
+  width: 100%;
+}
 
 .top-author {
   flex: 3;
@@ -248,8 +251,9 @@ a {
 }
 
 .artical-title {
-  line-height: 35px;
-  font-size: 23px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
 }
 
 .artical-short-content {
@@ -459,4 +463,62 @@ article h3 {
 
 .reply-box-btn:hover {
   color: rgba(45, 55, 72, 0.75);
+}
+
+.top10-list {
+  overflow: auto;
+  padding-bottom: 40px;
+  scroll-behavior: smooth;
+}
+.top10-month {
+  background: #f5f7fa;
+  box-sizing: border-box;
+  color: rgb(22, 22, 22);
+  font-family: Noto Sans, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  outline-color: rgb(22, 22, 22);
+  outline-style: none;
+  outline-width: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 24px;
+}
+.trending-title {
+  color: rgb(22, 22, 22);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+}
+.user-card {
+  color: rgb(22, 22, 22);
+  font-family: Noto Sans, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
+  outline-color: rgb(22, 22, 22);
+}
+.timepost-card {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  outline-color: rgb(144, 147, 153);
+}
+.none-of-post {
+  min-width: 100%;
+}
+
+.scroll-btn {
+  height: 50px;
+  width: 50px;
+}
+
+.scroll-left {
+  position: absolute;
+  left: 0;
+}
+.scroll-right {
+  position: absolute;
+  right: 0;
 }
