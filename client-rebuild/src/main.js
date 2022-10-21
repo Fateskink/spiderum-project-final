@@ -27,9 +27,12 @@ import InfoBox from '@/components/UserProfile/InfoBox.vue';
 import UserPostRelevant from '@/components/UserProfile/UserPostsRelevant.vue';
 import CreatePost from '@/components/CreatePost/ContentForm.vue';
 import HomeContentWraper from '@/components/HomePage/HomeContentWrapper.vue';
-
+import PaginationBar from '@/components/PaginationBar.vue';
+import Paginate from 'vuejs-paginate';
+/* eslint-disable */
 Vue.config.productionTip = false;
-
+Vue.component('paginate', Paginate);
+Vue.component('pagy-bar', PaginationBar);
 Vue.component('header-view', HeaderView);
 Vue.component('footer-view', FooterView);
 Vue.component('side-banner', SideBanner);

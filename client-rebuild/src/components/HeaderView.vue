@@ -25,6 +25,12 @@
       </div>
       <div>
         <ul class="right-navbar flex flex-align-center">
+          <li>
+            <input class="search-box" type="text" v-model="searchText" />
+          </li>
+          <li>
+            <a class="nav-icon"><img src="@/assets/img/navbar/icons8-search.svg" alt="" /></a>
+          </li>
           <li class="pos-rel" v-show="currentUser.token != null">
             <router-link to="/userprofile">Xin chào, {{ currentUser.name }} </router-link>
             <notif-view v-show="showNotif"></notif-view>
@@ -32,9 +38,7 @@
           <li v-show="currentUser.token != null" @click="showNotif = !showNotif">
             <a class="nav-icon"><img src="@/assets/img/navbar/icons8-notification-32.png" alt="" /></a>
           </li>
-          <li>
-            <a class="nav-icon"><img src="@/assets/img/navbar/icons8-search.svg" alt="" /></a>
-          </li>
+
           <li v-show="currentUser.token != null">
             <router-link to="/createpost" class="btn-gray">Viết bài</router-link>
           </li>
@@ -84,6 +88,7 @@ export default {
   data() {
     return {
       showNotif: false,
+      searchText: '',
     };
   },
   computed: {
