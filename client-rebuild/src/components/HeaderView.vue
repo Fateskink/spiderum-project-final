@@ -25,19 +25,22 @@
       </div>
       <div>
         <ul class="right-navbar flex flex-align-center">
-          <li>
-            <router-link to="/userprofile">Xin chào, </router-link>
+          <li class="pos-rel" v-show="currentUser.token != null">
+            <router-link to="/userprofile">Xin chào, {{ currentUser.name }} </router-link>
+            <notif-view v-show="showNotif"></notif-view>
           </li>
-          <li>
+          <li v-show="currentUser.token != null" @click="showNotif = !showNotif">
             <a class="nav-icon"><img src="@/assets/img/navbar/icons8-notification-32.png" alt="" /></a>
           </li>
           <li>
             <a class="nav-icon"><img src="@/assets/img/navbar/icons8-search.svg" alt="" /></a>
           </li>
-          <li><router-link to="/createpost" class="btn-gray">Viết bài</router-link></li>
-          <li><router-link to="/signin" class="btn-gray">Đăng Nhập</router-link></li>
-          <li><router-link to="/register" class="btn-gray">Đăng Ký</router-link></li>
-          <li>
+          <li v-show="currentUser.token != null">
+            <router-link to="/createpost" class="btn-gray">Viết bài</router-link>
+          </li>
+          <li v-show="currentUser.token == null"><router-link to="/signin" class="btn-gray">Đăng Nhập</router-link></li>
+          <li v-show="currentUser.token == null"><router-link to="/register" class="btn-gray">Đăng Ký</router-link></li>
+          <li v-show="currentUser.token != null">
             <button class="btn-red" @click="signOut">Đăng Xuất</button>
           </li>
         </ul>
@@ -77,8 +80,11 @@
 import { createNamespacedHelpers } from 'vuex';
 const { mapActions, mapState } = createNamespacedHelpers('auth');
 export default {
+  components: {},
   data() {
-    return {};
+    return {
+      showNotif: false,
+    };
   },
   computed: {
     ...mapState(['currentUser']),

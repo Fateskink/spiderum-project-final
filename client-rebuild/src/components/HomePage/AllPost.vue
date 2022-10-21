@@ -1,6 +1,6 @@
 <template>
   <div class="artical">
-    <h2>Bảng tin của bạn</h2>
+    <h2>Tất cả bài viết</h2>
     <div class="artical-list">
       <div v-for="post in posts" :key="post.id" class="artical-box flex m-b-66">
         <img class="content-img" src="" alt="" @error="setAltImg" />
@@ -37,8 +37,8 @@
     </div>
   </div>
 </template>
-
-<script>
+  
+  <script>
 import axios from '@/axios/axios';
 export default {
   data() {
@@ -47,11 +47,11 @@ export default {
     };
   },
   async created() {
-    await this.getNewfeed();
+    await this.getAllPost();
   },
   methods: {
-    getNewfeed() {
-      axios.get('user1/users/1/feed').then((res) => {
+    getAllPost() {
+      axios.get('/user1/posts').then((res) => {
         this.posts = res.data.posts;
         console.log(this.posts);
       });
@@ -67,6 +67,6 @@ export default {
   },
 };
 </script>
-
-<style>
+  
+  <style>
 </style>

@@ -6,6 +6,10 @@
   font-size: 16px;
 }
 
+.pos-rel {
+  position: relative;
+}
+
 li {
   list-style: none;
 }
@@ -512,13 +516,21 @@ article h3 {
 .scroll-btn {
   height: 50px;
   width: 50px;
+  top: 120px;
+  cursor: pointer;
+  transition: ease-in-out 0.2s;
+}
+
+.scroll-btn:hover {
+  height: 65px;
+  width: 65px;
 }
 
 .scroll-left {
   position: absolute;
-  left: 0;
+  left: -30px;
 }
 .scroll-right {
   position: absolute;
-  right: 0;
+  right: -30px;
 }
