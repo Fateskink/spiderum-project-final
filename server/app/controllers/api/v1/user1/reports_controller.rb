@@ -16,7 +16,7 @@ module Api
           @report = @reportable.reports.build(report_params)
           @report.user_id = @current_user.id
           if @report.save
-            @reportable.user.update(report_count: @current_user.report_count + 1)
+            @reportable.user.update(report_count: @reportable.user.report_count + 1)
             render json: @report, status: :ok
           else
             render json: @report.errors.full_messages, status: :unprocessable_entity
