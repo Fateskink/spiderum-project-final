@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class UsersController < ApplicationController
-        before_action :authorize, only: %i[index edit update destroy feed my_favourites search search_to_mess my_posts]
+        before_action :authorize, only: %i[index edit update destroy feed my_favourites search search_to_mess my_posts change_email]
         before_action :set_user, only: %i[show edit update destroy search search_to_mess]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
@@ -45,9 +45,9 @@ module Api
           end
         end
 
-        # def update
+        # def change_email
         #   if @current_user.update_new_email!(@new_email)
-        #     @user.send_update_email
+        #     @current_user.send_update_email
         #     render json: { status: 'Email Confirmation has been sent to your new Email.' }, status: :ok
         #   else
         #     render json: { errors: @current_user.errors.full_messages }, status: :unprocessable_entity
@@ -61,7 +61,7 @@ module Api
         #   if !@user || !@user.confirmation_token_valid?
         #     render json: {error: 'The email link seems to be invalid / expired. Try requesting for a new one.'}, status: 404
         #   else
-        #     @user.update_new_email!
+        #     @user.update_new_email
         #     render json: {status: 'Email updated successfully'}, status: :ok
         #   end
         # end
@@ -84,6 +84,11 @@ module Api
         def destroy
           @user.update(banned: true)
           render json: { message: 'User has been banned' }, status: :ok
+        end
+
+        def unban
+          @user = User.find(params[:id])
+          @user.update(banned: false)
         end
 
         def following
@@ -166,13 +171,10 @@ module Api
 
         def validate_email_update
           @new_email = params[:email].to_s.downcase
-
           return render json: { status: 'Email cannot be blank' }, status: :bad_request if @new_email.blank?
-
           if @new_email == @current_user.email
             return render json: { status: 'Current Email and New email cannot be the same' }, status: :bad_request
           end
-
           if User.email_used?(@new_email)
             render json: { error: 'Email is already in use.' }, status: :unprocessable_entity
           end

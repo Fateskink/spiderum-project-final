@@ -11,6 +11,7 @@ class Post < ApplicationRecord
   has_many :votes, as: :votetable, dependent: :destroy
   has_many :users, through: :votes # new vlidate
   has_many :notifications, as: :notificationable, dependent: :destroy
+  has_many :reports, as: :reportable, dependent: :destroy
 
   validates :user_id, presence: true
   validates :title, presence: true
@@ -34,8 +35,8 @@ class Post < ApplicationRecord
 
   def create_notifications
     recipients.each do |recipient|
-      Notification.create(recipient:, actor: user,
-                          action: 'posted', notificationable: self)
+      Notification.create(recipient: recipient, actor: user,
+                          action: 'đăng bài', notificationable: self)
     end
   end
 end
