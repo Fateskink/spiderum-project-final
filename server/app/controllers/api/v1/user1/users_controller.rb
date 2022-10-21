@@ -89,6 +89,7 @@ module Api
         def unban
           @user = User.find(params[:id])
           @user.update(banned: false)
+          render json: "Unban"
         end
 
         def following
