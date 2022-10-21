@@ -1,9 +1,17 @@
 <template>
   <div class="top10-month">
-    <div class="content-fix">
+    <div class="content-fix pos-rel">
       <h2 class="trending-title">10 BÀI VIẾT NỔI BẬT TRONG THÁNG</h2>
-      <img class="scroll-btn scroll-left" src="@/assets/img/top10month/icons8-left-67.png" @click="scrollLeft" />
-      <img class="scroll-btn scroll-right" src="@/assets/img/top10month/icons8-right-67.png" @click="scrollRight" />
+      <img
+        class="scroll-btn scroll-left"
+        src="@/assets/img/top10month/icons8-chevron-left-48.png"
+        @click="scrollLeft"
+      />
+      <img
+        class="scroll-btn scroll-right"
+        src="@/assets/img/top10month/icons8-chevron-right-48.png"
+        @click="scrollRight"
+      />
       <div class="flex top10-list" id="top10-list">
         <div v-for="post in posts" :key="post.id">
           <router-link :to="'/posts/' + post.id">
@@ -47,7 +55,8 @@ export default {
     },
     convertTime(jsonISOTime) {
       let date = new Date(jsonISOTime);
-      let time = date.getDay() + ' tháng ' + date.getMonth();
+      let time = date.getDate() + ' tháng ' + (date.getMonth() + 1);
+      // console.log('thang' + date.getMonth());
       return time;
     },
     scrollRight() {

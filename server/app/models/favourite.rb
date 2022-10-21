@@ -12,6 +12,6 @@ class Favourite < ApplicationRecord
 
   def create_notifications
     Notification.create(recipient: self.post.user, actor: self.user,
-                        action: 'favourite', notificationable: self.post)
+                        action: 'thích', notificationable: self.post)
   end
 end

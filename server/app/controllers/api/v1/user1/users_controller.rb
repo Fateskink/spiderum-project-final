@@ -86,6 +86,11 @@ module Api
           render json: { message: 'User has been banned' }, status: :ok
         end
 
+        def unban
+          @user = User.find(params[:id])
+          @user.update(banned: false)
+        end
+
         def following
           @title = 'Following'
           @user = User.find(params[:id])

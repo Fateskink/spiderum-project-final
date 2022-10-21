@@ -12,7 +12,7 @@ class Relationship < ApplicationRecord
 
   def create_notifications
     Notification.create(recipient: self.followed, actor: self.follower,
-                        action: 'followed', notificationable: self.follower)
+                        action: 'theo dõi', notificationable: self.follower)
   end
 
   def increment_follow
