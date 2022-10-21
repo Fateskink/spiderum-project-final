@@ -82,14 +82,8 @@ module Api
 
         # Ban user
         def destroy
-          @user.update(banned: true)
+          @user.update(banned: true, time_ban: Time.now.utc)
           render json: { message: 'User has been banned' }, status: :ok
-        end
-
-        def unban
-          @user = User.find(params[:id])
-          @user.update(banned: false)
-          render json: "Unban"
         end
 
         def following

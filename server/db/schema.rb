@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_20_072130) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_21_020145) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -167,6 +167,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_20_072130) do
     t.integer "follower_count", default: 0
     t.integer "following_count", default: 0
     t.integer "report_count", default: 0
+    t.datetime "time_ban"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

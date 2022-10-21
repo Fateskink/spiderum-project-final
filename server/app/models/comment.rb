@@ -27,7 +27,7 @@ class Comment < ApplicationRecord
     parent = commentable
     parent = parent.commentable while parent.is_a? Comment
     Notification.create(recipient: commentable.user, actor: user,
-                        action: 'bình luận', notificationable: parent)
+                        action: 'commented', notificationable: parent)
   end
 
   def increment_count
