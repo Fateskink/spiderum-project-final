@@ -1,5 +1,5 @@
 class UnbanUserJob
-  include Sidekiq::Job
+  include Sidekiq::Worker
 
   def perform(user)
     @user = user

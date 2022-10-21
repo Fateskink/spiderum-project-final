@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class UsersController < ApplicationController
-        before_action :authorize, only: %i[index edit update destroy feed my_favourites search search_to_mess my_posts change_email]
+        before_action :authorize, only: %i[index edit update destroy feed my_favourites search search_to_mess my_posts]
         before_action :set_user, only: %i[show edit update destroy search search_to_mess]
         before_action :correct_user, only: %i[edit update]
         before_action :admin_user, only: :destroy
@@ -33,7 +33,7 @@ module Api
             render json: {message: "Password incorrect!"} , status: :unprocessable_entity
           end
         end
-        # @user.errors.full_messages
+
         def edit
         end
 
@@ -91,7 +91,6 @@ module Api
           @user = User.find(params[:id])
           @users = @user.following
           @pagy, @users = pagy(@users)
-          # all_user = { metadata: meta_data, users: @users }
           render ({ meta: meta_data, json: @users, adapter: :json, each_serializer: ::Users::UserLiteSerializer }), status: :ok
         end
 
@@ -100,7 +99,6 @@ module Api
           @user = User.find(params[:id])
           @users = @user.followers
           @pagy, @users = pagy(@users)
-          # all_user = { metadata: meta_data, users: @users }
           render ({ meta: meta_data, json: @users, adapter: :json, each_serializer: ::Users::UserLiteSerializer }), status: :ok
         end
 
@@ -108,7 +106,6 @@ module Api
           @title = 'my_favourites'
           @favourite = @current_user.favourites
           @pagy, @favourite = pagy(@favourite)
-          # all_favor = {metadata: meta_data, favourite: @favourite}
           render ({ meta: meta_data, json: @favourite, adapter: :json, each_serializer: ::Users::MyFavouritesSerializer }), status: :ok
         end
 
@@ -131,7 +128,6 @@ module Api
           @q = @users.ransack(params[:q])
           @search = @q.result
           @pagy, @search = pagy(@search)
-          # find = { metadata: meta_data, search: @search }
           render ({ meta: meta_data, json: @search, adapter: :json, each_serializer: ::Users::UserLiteSerializer }), status: :ok
         end
 
