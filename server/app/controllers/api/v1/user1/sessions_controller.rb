@@ -7,11 +7,7 @@ module Api
         def create
           @user = User.find_by(email: params[:email])
           if @user && @user.valid_password?(params[:password])
-            if @user.banned?
-              if @user.time_ban >= Time.now.utc - 7.days
-                render json: { message: 'You fukin bastard has been banned oloo' }, status: :ok
-              elsif @user.update(time_ban: @user.time_ban = nil, banned: @user.banned = 0)
-              end
+            if is_banned?
             elsif !@user.confirmation_token?
               token = encode_token({ user_id: @user.id })
               render json: { user: @user, token: }, status: :ok
@@ -27,6 +23,15 @@ module Api
         def destroy
           @current_user = nil
           render json: { message: 'Logged out' }, status: :ok
+        end
+
+        private
+
+        def is_banned?
+          if @user.banned? && @user.time_ban >= Time.now.utc - 1.minutes
+            render json: { message: 'You fukin bastard has been banned oloo' }, status: :ok
+          elsif @user.update(time_ban: @user.time_ban = nil, banned: @user.banned = 0)
+          end
         end
       end
     end

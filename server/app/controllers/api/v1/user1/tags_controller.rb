@@ -13,7 +13,8 @@ module Api
           @tag = Tag.friendly.find(params[:id])
           all_post = @tag.posts
           @pagy, @posts = pagy(all_post)
-          render ({ meta: meta_data, json: all_post, adapter: :json, each_serializer: ::Posts::PostLiteSerializer }), status: :ok
+          render ({ meta: meta_data, json: all_post, adapter: :json,
+                    each_serializer: ::Posts::PostLiteSerializer }), status: :ok
         end
 
         def create
@@ -35,10 +36,6 @@ module Api
         def tag_params
           params.require(:tag).permit(:tag_name)
         end
-
-        # def admin_user
-        #   @current_user.admin?
-        # end
       end
     end
   end

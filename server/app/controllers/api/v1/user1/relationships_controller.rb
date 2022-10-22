@@ -9,8 +9,8 @@ module Api
           unless @user && @user.followers.find_by(id: params[:id])
             @current_user.follow(@user)
             render json: { message: 'Follow' }, status: :ok
-            @current_user.increment! :following_count
-            @user.increment! :follower_count
+            # @current_user.increment! :following_count
+            # @user.increment! :follower_count
           end
         end
 
@@ -19,8 +19,8 @@ module Api
           if @user.followers.find_by(params[:id])
             @current_user.unfollow(@user)
             render json: { message: 'Unfollow' }, status: :ok
-            @current_user.decrement! :following_count
-            @user.decrement! :follower_count
+            # @current_user.decrement! :following_count
+            # @user.decrement! :follower_count
           end
         end
       end

@@ -5,8 +5,9 @@ class Relationship < ApplicationRecord
 
   validates :follower_id, presence: true
   validates :followed_id, presence: true
-  after_create :create_notifications # , :increment_follow
-  # after_destroy :decrement_follow
+  after_create :create_notifications
+  after_create :increment_follow
+  after_destroy :decrement_follow
 
   private
 

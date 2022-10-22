@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class PostsController < ApplicationController
-        before_action :set_post, only: %i[show]
+        before_action :set_post, only: %i[show update destroy]
         before_action :authorize, only: %i[create update destroy]
         # before_action :admin_user, only: :destroy
         before_action :correct_user, only: %i[edit update destroy]
@@ -10,7 +10,8 @@ module Api
         def index
           feed = Post.all
           @pagy, @posts = pagy(feed)
-          render({ meta: meta_data, json: @posts, adapter: :json, each_serializer: ::Posts::PostLiteSerializer })
+          render({ meta: meta_data, json: @posts, adapter: :json,
+                   each_serializer: ::Posts::PostLiteSerializer })
         end
 
         def show
@@ -39,7 +40,6 @@ module Api
         def edit; end
 
         def update
-          @post = Post.find(params[:id])
           if @post.update(post_params)
             render json: @post, serializer: ::Posts::PostSerializer, status: :ok
           else
@@ -48,7 +48,6 @@ module Api
         end
 
         def destroy
-          @post = Post.find_by(id: params[:id])
           if @post.destroy
             render json: { message: 'Post deleted' }, status: :ok
           else
@@ -60,7 +59,8 @@ module Api
           @q = Post.ransack(params[:q])
           @search = @q.result
           @pagy, @search = pagy(@search)
-          render({ meta: meta_data, json: @search, adapter: :json, each_serializer: ::Posts::PostLiteSerializer })
+          render({ meta: meta_data, json: @search, adapter: :json,
+                   each_serializer: ::Posts::PostLiteSerializer })
         end
 
         def top
@@ -71,7 +71,7 @@ module Api
         end
 
         def upload_image
-          # params: 
+          # params:
           ## image
           ## id
 
@@ -89,7 +89,6 @@ module Api
 
         def post_params
           params.permit(:title, :content, :tag, images: [])
-          # permit :image for post  |  images: []
         end
 
         def set_post
@@ -100,7 +99,8 @@ module Api
         def correct_user
           @post = @current_user.posts.find_by(params[:id])
           if @post.nil?
-            render json: { message: @post.errors.full_messages, message: 'You have no right' }, status: :unauthorized
+            render json: { message: @post.errors.full_messages,
+                           message: 'You have no right' }, status: :unauthorized
           end
         end
       end
