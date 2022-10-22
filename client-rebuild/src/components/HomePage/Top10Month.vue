@@ -13,7 +13,7 @@
         @click="scrollRight"
       />
       <div class="flex top10-list" id="top10-list">
-        <div v-for="post in posts" :key="post.id">
+        <div class="m-l-15" v-for="post in posts" :key="post.id">
           <router-link :to="'/posts/' + post.id">
             <div class="image">
               <img
@@ -70,5 +70,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
