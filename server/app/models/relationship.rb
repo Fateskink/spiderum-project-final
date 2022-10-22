@@ -1,18 +1,17 @@
 class Relationship < ApplicationRecord
-  belongs_to :follower, class_name: "User"
-  belongs_to :followed, class_name: "User"
+  belongs_to :follower, class_name: 'User'
+  belongs_to :followed, class_name: 'User'
   has_many :notifications, as: :notificationable
 
   validates :follower_id, presence: true
   validates :followed_id, presence: true
-  after_create :create_notifications#, :increment_follow
+  after_create :create_notifications # , :increment_follow
   # after_destroy :decrement_follow
 
   private
 
   def create_notifications
-    Notification.create(recipient: self.followed, actor: self.follower,
-                        action: 'followed', notificationable: self.follower)
+    make_notify(followed, follower, 'followed', followed)
   end
 
   def increment_follow

@@ -21,7 +21,7 @@ class User < ApplicationRecord
 
   has_many :messages
   has_many :conversations, foreign_key: :sender_id
-  
+
   before_save :downcase_email
   before_create :generate_confirmation_instructions
 
@@ -37,7 +37,7 @@ class User < ApplicationRecord
   end
 
   def feed
-    following_ids = "SELECT followed_id FROM relationships WHERE follower_id = :user_id"
+    following_ids = 'SELECT followed_id FROM relationships WHERE follower_id = :user_id'
     Post.where("user_id IN (#{following_ids})OR user_id = :user_id", user_id: id)
         .includes(:user, image_attachment: :blob)
   end

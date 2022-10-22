@@ -17,7 +17,7 @@ class Post < ApplicationRecord
   validates :title, presence: true
   validates :content, presence: true
   validates :images, content_type: { in: %w[image/jpeg image/gif image/png], message: 'must be a valid image format' },
-                    size: { less_than: 5.megabytes, message: 'should be less than 5MB' }
+                     size: { less_than: 5.megabytes, message: 'should be less than 5MB' }
   after_create :create_notifications
 
   attribute :images_url
@@ -37,8 +37,7 @@ class Post < ApplicationRecord
 
   def create_notifications
     recipients.each do |recipient|
-      Notification.create(recipient:, actor: user,
-                          action: 'posted', notificationable: self)
+      make_notify(recipient, user, 'posted', self)
     end
   end
 end

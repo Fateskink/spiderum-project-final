@@ -70,6 +70,21 @@ module Api
           render json: @top, each_serializer: ::Posts::PostLiteSerializer, status: :ok
         end
 
+        def upload_image
+          # params: 
+          ## image
+          ## id
+
+          @post = Post.find(params[:id])
+
+          blob = ActiveStorage::Blob.create_and_upload!(
+            io: File.open(file)
+          )
+          @post.images.attach(blob)
+
+          blob.url
+        end
+
         private
 
         def post_params

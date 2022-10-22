@@ -1,4 +1,6 @@
 class Favourite < ApplicationRecord
+  include NotifyConcern
+
   belongs_to :user
   belongs_to :post
   # has_many :posts, source: :user
@@ -11,7 +13,6 @@ class Favourite < ApplicationRecord
   private
 
   def create_notifications
-    Notification.create(recipient: self.post.user, actor: self.user,
-                        action: 'favourited', notificationable: self.post)
+    make_notify(post.user, user, 'favourited', post)
   end
 end

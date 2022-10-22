@@ -1,10 +1,12 @@
-import axios from 'axios'
-import Vue from 'vue'
-import Vuex from 'vuex'
+import axios from 'axios';
+import Vue from 'vue';
+import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
-import router from "@/router"
+import router from '@/router';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
+
+import auth from '@/store/modules/auth.js';
 
 // const dataState = createPersistedState({
 //   paths: ['currentUser.token','currentUser.name']
@@ -15,82 +17,60 @@ Vue.use(Vuex)
 // }
 
 export default new Vuex.Store({
+  modules: {
+    auth,
+  },
+  namespaced: true,
   state: {
     currentUser: {
       name: '',
-      email:'',
+      email: '',
       password: '',
-      password_comfimation:'',
+      password_comfimation: '',
       token: null,
     },
-    blog : {
+    blog: {
       title: '',
       content: '',
-      author:'',
-      category:{},
+      author: '',
+      category: {},
       id: '',
-      nametag:''
+      nametag: '',
     },
-    notification : {
-      status : false,
-      notification_lists:[],
-    }
-  },
-  getters: {
-
-  },
-  mutations: {
-    setToken(state, newToken){
-      state.currentUser.token = newToken
+    notification: {
+      status: false,
+      notification_lists: [],
     },
-    signOut(state) {
-      state.currentUser.token = null;
-      router.push('/discuss');
-      state.notification.status = false;
-    },
-    
   },
+  getters: {},
+  mutations: {},
   actions: {
-    async signIn({state, commit}) {
+    async upPost({ state }) {
       try {
-        await axios.post('/api/v1/user1/login',{
-          email: state.currentUser.email,
-          password: state.currentUser.password,
-        }).then (
-          (response) => {
-            console.log(response.data),
-            commit("setToken", response.data.token);
-            state.currentUser.email='',
-            state.currentUser.password='',
-            state.currentUser.name = response.data.user.name
-            alert('Dang nhap thanh cong')
-            router.push('/discuss')
-          }
-        )
+        await axios
+          .post(
+            '/api/v1/user1/posts',
+            {
+              title: state.blog.title,
+              content: state.blog.content,
+              tag_id: state.blog.category,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${this.state.auth.currentUser.token}`,
+              },
+            },
+          )
+          .then(
+            (response) => {
+              console.log(response);
+            },
+            (state.blog.title = ''),
+            (state.blog.content = ''),
+            router.push('/showblog'),
+          );
       } catch (error) {
-        console.log(error)
-      }
-    },
-
-    async upPost({state}) {
-      try {
-        await axios.post('/api/v1/user1/posts', {
-          title: state.blog.title,
-          content: state.blog.content,
-          tag_id: state.blog.category
-          // tag_id: 1
-        },{
-          headers : {
-            Authorization: `Bearer ${this.state.currentUser.token}`
-          }
-        }).then (
-          (response) => {console.log(response)},
-          state.blog.title = '',
-          state.blog.content = '',
-          router.push('/showblog')
-        )
-      } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
     // async upPost({state}) {
@@ -114,17 +94,19 @@ export default new Vuex.Store({
     //     console.log(error)
     //   }
     // },
-    async showBlog () {
+    async showBlog() {
       try {
-        await axios.get('/api/v1/user1/posts',{
-          headers: {
-            Authorization: `Bearer ${this.state.currentUser.token}`
-          }
-        }).then (
-          (response) => {console.log(response)}
-        ) 
+        await axios
+          .get('/api/v1/user1/posts', {
+            headers: {
+              Authorization: `Bearer ${this.state.currentUser.token}`,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+          });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
     // async signOut () {
@@ -142,10 +124,7 @@ export default new Vuex.Store({
     //     console.log(error)
     //   }
     // }
-  
   },
   plugins: [createPersistedState()],
   // plugins: [dataState],
-  modules: {
-  }
-})
+});

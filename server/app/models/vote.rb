@@ -11,7 +11,6 @@ class Vote < ApplicationRecord
   private
 
   def create_notifications
-    Notification.create(recipient: self.votetable.user, actor: self.user,
-                        action: 'voted', notificationable: self.votetable)
+    make_notify(votetable.user, user, 'voted', votetable)
   end
 end
