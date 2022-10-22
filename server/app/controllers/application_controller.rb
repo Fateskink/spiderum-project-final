@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::API
-  # include ActionController::Cookies
   include Pagy::Backend
   # def paginate(resource)
   #   resource = resource.page(params[:page] || 1)
@@ -24,7 +23,7 @@ class ApplicationController < ActionController::API
   end
 
   def authorized_user
-    decoded_token = decode_token()
+    decoded_token = decode_token
     if decoded_token
       user_id = decoded_token[0]['user_id']
       @current_user = User.find_by(id: user_id)
@@ -32,8 +31,19 @@ class ApplicationController < ActionController::API
   end
 
   def authorize
-    render json: { message: 'You have to log in.'}, status: :unauthorized unless
+    render json: { message: 'You have to log in.' }, status: :unauthorized unless
     authorized_user
+  end
+
+  def upload_image
+    blob = ActiveStorage::Blob.create_and_upload!(io: File.open(params[:file]),
+                                                  filename: params[:file])
+    # @post = Post.find_by(id: params[:id])
+    # @post.images.attach(blob)
+    # ActiveStorage::Current.url_options
+    # image_url = ActiveStorage::Current.url_options
+    # blob.url = ActiveStorage::Blob.url
+    render json: blob
   end
 
   private
@@ -46,7 +56,6 @@ class ApplicationController < ActionController::API
   def log_out
     current_user = nil
   end
-
 
   def meta_data
     {

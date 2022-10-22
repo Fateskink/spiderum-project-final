@@ -11,7 +11,8 @@ module Api
         def index
           all_user = User.all
           @pagy, @users = pagy(all_user)
-          render ({ meta: meta_data, json: @users, adapter: :json, each_serializer: ::Users::UserLiteSerializer }), status: :ok
+          render ({ meta: meta_data, json: @users, adapter: :json, each_serializer: ::Users::UserLiteSerializer }),
+                 status: :ok
         end
 
         def show
@@ -30,12 +31,11 @@ module Api
             SendMailJob.perform_later @user
             render json: { message: 'Please check your email to active account' }, status: :ok
           else
-            render json: {message: "Password incorrect!"} , status: :unprocessable_entity
+            render json: { message: 'Password incorrect!' }, status: :unprocessable_entity
           end
         end
 
-        def edit
-        end
+        def edit; end
 
         def update
           if @user.update(user_params)
@@ -91,7 +91,8 @@ module Api
           @user = User.find(params[:id])
           @users = @user.following
           @pagy, @users = pagy(@users)
-          render ({ meta: meta_data, json: @users, adapter: :json, each_serializer: ::Users::UserLiteSerializer }), status: :ok
+          render ({ meta: meta_data, json: @users, adapter: :json,
+                    each_serializer: ::Users::UserLiteSerializer }), status: :ok
         end
 
         def followers
@@ -99,28 +100,34 @@ module Api
           @user = User.find(params[:id])
           @users = @user.followers
           @pagy, @users = pagy(@users)
-          render ({ meta: meta_data, json: @users, adapter: :json, each_serializer: ::Users::UserLiteSerializer }), status: :ok
+          render ({ meta: meta_data, json: @users, adapter: :json,
+                    each_serializer: ::Users::UserLiteSerializer }), status: :ok
         end
 
         def my_favourites
           @title = 'my_favourites'
           @favourite = @current_user.favourites
           @pagy, @favourite = pagy(@favourite)
-          render ({ meta: meta_data, json: @favourite, adapter: :json, each_serializer: ::Users::MyFavouritesSerializer }), status: :ok
+          render ({ meta: meta_data, json: @favourite, adapter: :json,
+                    each_serializer: ::Users::MyFavouritesSerializer }), status: :ok
         end
 
         def my_posts
           my_posts = Post.where('user_id =  ?', params[:id])
           @pagy, @my_posts = pagy(my_posts)
-          render ({ meta: meta_data, json: @my_posts, adapter: :json, each_serializer: ::Posts::PostLiteSerializer }), status: :ok
+          render ({ meta: meta_data, json: @my_posts, adapter: :json,
+                    each_serializer: ::Posts::PostLiteSerializer }), status: :ok
         end
 
         def feed
-          following_ids = Relationship.select(:followed_id).where('follower_id = ?', params[:id])
+          following_ids = Relationship.select(:followed_id)
+                                      .where('follower_id = ?', params[:id])
           # @post = Post.where('user_id = ?', params[:id])
-          @post_following = Post.where(user_id: following_ids).order(created_at: :desc)
+          @post_following = Post.where(user_id: following_ids)
+                                .order(created_at: :desc)
           @pagy, @feed = pagy(@post_following)
-          render ({ meta: meta_data, json: @feed, adapter: :json, each_serializer: ::Posts::PostLiteSerializer })
+          render({ meta: meta_data, json: @feed, adapter: :json,
+                   each_serializer: ::Posts::PostLiteSerializer })
         end
 
         def search
@@ -128,7 +135,8 @@ module Api
           @q = @users.ransack(params[:q])
           @search = @q.result
           @pagy, @search = pagy(@search)
-          render ({ meta: meta_data, json: @search, adapter: :json, each_serializer: ::Users::UserLiteSerializer }), status: :ok
+          render ({ meta: meta_data, json: @search, adapter: :json,
+                    each_serializer: ::Users::UserLiteSerializer }), status: :ok
         end
 
         def search_to_mess
@@ -137,9 +145,10 @@ module Api
           @search = @q.result
           if @search
             @pagy, @search = pagy(@search)
-            render ({ meta: meta_data, json: @search, adapter: :json, serializer: ::Users::UserLiteSerializer }), status: :ok
+            render ({ meta: meta_data, json: @search, adapter: :json,
+                      serializer: ::Users::UserLiteSerializer }), status: :ok
           else
-            render json: "You have no relationship with this one", status: :ok
+            render json: 'You have no relationship with this one', status: :ok
           end
         end
 
@@ -162,12 +171,18 @@ module Api
 
         def validate_email_update
           @new_email = params[:email].to_s.downcase
-          return render json: { status: 'Email cannot be blank' }, status: :bad_request if @new_email.blank?
-          if @new_email == @current_user.email
-            return render json: { status: 'Current Email and New email cannot be the same' }, status: :bad_request
+          if @new_email.blank?
+            return render json: { status: 'Email cannot be blank' },
+                          status: :bad_request
           end
+          if @new_email == @current_user.email
+            return render json: { status: 'Current Email and New email cannot be the same' },
+                          status: :bad_request
+          end
+
           if User.email_used?(@new_email)
-            render json: { error: 'Email is already in use.' }, status: :unprocessable_entity
+            render json: { error: 'Email is already in use.' },
+                   status: :unprocessable_entity
           end
         end
       end

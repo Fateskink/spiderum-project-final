@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   # devise_for :users
+  post '/upload_image', to: 'application#upload_image'
   namespace :api do
     namespace :v1 do
       namespace :user1 do
