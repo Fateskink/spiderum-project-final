@@ -1,4 +1,6 @@
 class Comment < ApplicationRecord
+  include NotifyConcern
+
   belongs_to :user
   belongs_to :commentable, polymorphic: true
   has_many :comments, as: :commentable, dependent: :destroy
@@ -26,8 +28,8 @@ class Comment < ApplicationRecord
   def create_notifications
     parent = commentable
     parent = parent.commentable while parent.is_a? Comment
-    Notification.create(recipient: commentable.user, actor: user,
-                        action: 'bình luận', notificationable: parent)
+
+    make_notify(commentable.user, user, action, notificationable)
   end
 
   def increment_count
