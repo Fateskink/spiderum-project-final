@@ -1,10 +1,12 @@
 class ApplicationController < ActionController::API
   include Pagy::Backend
+  include ActiveStorage::SetCurrent
   # def paginate(resource)
   #   resource = resource.page(params[:page] || 1)
   #   resource = resource.per_page(params[:per_page]) if params[:per_page]
   #   resource
   # end
+  # before_action :current_option_url, only: :upload_image
 
   def encode_token(payload)
     JWT.encode(payload, 'secret')
@@ -40,9 +42,7 @@ class ApplicationController < ActionController::API
                                                   filename: params[:file])
     # @post = Post.find_by(id: params[:id])
     # @post.images.attach(blob)
-    # ActiveStorage::Current.url_options
-    # image_url = ActiveStorage::Current.url_options
-    # blob.url = ActiveStorage::Blob.url
+    # url_for(blob) == rails_blob_url(blob)
     render json: blob
   end
 
@@ -65,5 +65,9 @@ class ApplicationController < ActionController::API
       to: @pagy.to,
       pages: @pagy.pages
     }
+  end
+
+  def current_option_url
+    ActiveStorage::Current.url_options = { protocol: request.protocol, host: request.host, port: request.port }
   end
 end
