@@ -1,5 +1,8 @@
 {
-  "nuxt.isNuxtApp": false,  
+  "nuxt.isNuxtApp": false,
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[ruby]": {
+    "editor.defaultFormatter": "misogi.ruby-rubocop"
+  }
 }
