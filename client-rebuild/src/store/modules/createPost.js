@@ -8,7 +8,7 @@ export default {
       contentForm: {
         title: '',
         content: '',
-        tagid: 1,
+        tagid: '',
       },
     };
   },
@@ -26,16 +26,6 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-    },
-    handleImageAdded(file) {
-      var formData = new FormData();
-      formData.append('file', file);
-
-      return axios({
-        url: 'http://localhost:3000/upload_image',
-        method: 'POST',
-        data: formData,
-      });
     },
   },
 };

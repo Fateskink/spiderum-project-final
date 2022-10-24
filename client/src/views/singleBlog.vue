@@ -43,7 +43,7 @@ export default {
       },
       id: this.$route.params.id,
     };
-    cod;
+    // cod;
   },
   methods: {
     showData: function () {

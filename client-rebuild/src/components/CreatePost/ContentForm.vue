@@ -3,11 +3,11 @@
     <form class="flex flex-col flex-gaps-30" @submit.prevent="createPost">
       <h2>Tạo bài viết của bạn</h2>
       <input type="text" placeholder="Tiêu đề bài viết" v-model="contentForm.title" />
-      <VueEditor v-model="contentForm.content" useCustomImageHandler @image-added="onHandleImageAdded" />
+      <VueEditor v-model="contentForm.content" useCustomImageHandler @image-added="uploadImage" />
       <div class="flex sp-between">
         <div class="flex flex-col">
           <label for="carte">Thể loại</label>
-          <select>
+          <select v-model="contentForm.tagid">
             <option :value="index + 1" v-for="(category, index) in categories" :key="category + index">
               {{ category }}
             </option>
@@ -24,6 +24,7 @@
 
 <script>
 // import axios from '@/axios/axios';
+import uploadImage from '@/function/uploadImage';
 import { VueEditor } from 'vue2-editor';
 import { createNamespacedHelpers } from 'vuex';
 const { mapState, mapActions } = createNamespacedHelpers('createPost');
@@ -32,20 +33,26 @@ export default {
     VueEditor,
   },
   data() {
-    return {};
+    return {
+      categories: [
+        'Truyền cảm hứng',
+        'Quan điểm - tranh luận',
+        'Khoa học',
+        'Thể thao',
+        'Sáng tạo nội dung',
+        'Phim',
+        'Âm nhạc',
+        'English Zone',
+        'Skill',
+      ],
+    };
   },
   computed: {
     ...mapState(['currentUser', 'contentForm']),
   },
   methods: {
-    ...mapActions(['createPost', 'handleImageAdded']),
-    async onHandleImageAdded(file, Editor, cursorLocation, resetUploader) {
-      const res = await this.handleImageAdded(file);
-      console.log(res);
-      const url = res.data.image_url;
-      Editor.insertEmbed(cursorLocation, 'image', url);
-      resetUploader();
-    },
+    ...mapActions(['createPost']),
+    uploadImage,
   },
 };
 </script>

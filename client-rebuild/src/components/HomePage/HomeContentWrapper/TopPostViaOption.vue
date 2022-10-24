@@ -52,13 +52,12 @@ export default {
     return {
       id: this.$route.params.id,
       posts: {},
+      currentPage: 1,
     };
   },
   methods: {
     checkPost() {
-      if (this.posts.length == 0) {
-        return true;
-      }
+      this.posts.length == 0 ? true : false;
     },
     setAltImg: function (event) {
       event.target.src = 'https://wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg';
@@ -78,7 +77,7 @@ export default {
   watch: {
     $route: {
       handler(newValue) {
-        axios.get(`user1/tags/${newValue.params.id}`).then((response) => {
+        axios.get(`user1/tags/${newValue.params.id}?page=${this.currentPage}`).then((response) => {
           this.posts = response.data.posts;
         });
       },
