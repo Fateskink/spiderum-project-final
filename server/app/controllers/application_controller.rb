@@ -42,8 +42,7 @@ class ApplicationController < ActionController::API
                                                   filename: params[:file])
     # @post = Post.find_by(id: params[:id])
     # @post.images.attach(blob)
-    # url_for(blob) == rails_blob_url(blob)
-    render json: blob.url
+    render json: { image_url: blob.url }
   end
 
   private
