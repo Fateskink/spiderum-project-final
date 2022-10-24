@@ -3,7 +3,7 @@
     <form class="flex flex-col flex-gaps-30" @submit.prevent="createPost">
       <h2>Tạo bài viết của bạn</h2>
       <input type="text" placeholder="Tiêu đề bài viết" v-model="contentForm.title" />
-      <VueEditor v-model="contentForm.content" />
+      <VueEditor v-model="contentForm.content" useCustomImageHandler @image-added="onHandleImageAdded" />
       <div class="flex sp-between">
         <div class="flex flex-col">
           <label for="carte">Thể loại</label>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+// import axios from '@/axios/axios';
 import { VueEditor } from 'vue2-editor';
 import { createNamespacedHelpers } from 'vuex';
 const { mapState, mapActions } = createNamespacedHelpers('createPost');
@@ -37,7 +38,14 @@ export default {
     ...mapState(['currentUser', 'contentForm']),
   },
   methods: {
-    ...mapActions(['createPost']),
+    ...mapActions(['createPost', 'handleImageAdded']),
+    async onHandleImageAdded(file, Editor, cursorLocation, resetUploader) {
+      const res = await this.handleImageAdded(file);
+      console.log(res);
+      const url = res.data.image_url;
+      Editor.insertEmbed(cursorLocation, 'image', url);
+      resetUploader();
+    },
   },
 };
 </script>

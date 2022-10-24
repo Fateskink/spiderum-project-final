@@ -159,7 +159,12 @@ export default {
       return `vài giây trước`;
     },
     toggleComment(commentId) {
-      this.currentCommentId = this.currentCommentId == commentId ? null : commentId;
+      // this.currentCommentId = this.currentCommentId == commentId ? null : commentId;
+      if (this.currentCommentId == commentId) {
+        this.currentCommentId = null;
+      } else {
+        this.currentCommentId = commentId;
+      }
     },
     async commentOnComment(commentID, commentBody) {
       await axios.post(`/user1/comments/${commentID}/comments`, {
