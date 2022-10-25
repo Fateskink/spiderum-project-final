@@ -11,7 +11,7 @@ class Comment < ApplicationRecord
   after_create :create_notifications
   after_create :increment_count
   after_destroy :decrement_count
-  
+
   validate :validate_cmt
 
   def validate_cmt
@@ -28,7 +28,7 @@ class Comment < ApplicationRecord
   def create_notifications
     parent = commentable
     parent = parent.commentable while parent.is_a? Comment
-    make_notify(commentable.user, user, "commented", patent)
+    make_notify(commentable.user, user, 'commented', parent)
   end
 
   def increment_count

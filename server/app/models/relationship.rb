@@ -6,13 +6,15 @@ class Relationship < ApplicationRecord
   validates :follower_id, presence: true
   validates :followed_id, presence: true
   after_create :create_notifications
-  after_create :increment_follow
-  after_destroy :decrement_follow
+  # after_create :increment_follow
+  # after_destroy :decrement_follow
 
   private
 
   def create_notifications
-    make_notify(followed, follower, 'followed', followed)
+    # make_notify(followed, follower, 'followed', follower)
+    Notification.create(recipient: followed, actor: follower,
+                        action: 'followed', notificationable: follower)
   end
 
   def increment_follow

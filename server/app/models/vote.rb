@@ -9,6 +9,8 @@ class Vote < ApplicationRecord
   private
 
   def create_notifications
-    make_notify(votetable.user, user, 'voted', votetable)
+    parent = votetable
+    parent = parent.votetable while parent.is_a? Vote
+    make_notify(votetable.user, user, 'voted', parent)
   end
 end
