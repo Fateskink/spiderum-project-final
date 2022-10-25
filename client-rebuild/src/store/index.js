@@ -5,6 +5,7 @@ import createPersistedState from 'vuex-persistedstate';
 import auth from '@/store/modules/auth';
 import createPost from '@/store/modules/createPost';
 import comment from '@/store/modules/comment';
+import pagy from '@/store/modules/pagy';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     auth,
     createPost,
     comment,
+    pagy,
   },
   plugins: [createPersistedState()],
 });

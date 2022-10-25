@@ -33,6 +33,8 @@
               />
               <a href="" class="artical-author-name">{{ post.user_id }}</a>
             </div>
+            <button @click="consolelogmeta">fdaf</button>
+            {{ meta }}
             <div class="flex align-center">
               <img src="@/assets/img/svg-icon/upvote.svg" alt="" />
               <p>Upvote</p>
@@ -53,6 +55,7 @@ export default {
       id: this.$route.params.id,
       posts: {},
       currentPage: 1,
+      meta: {},
     };
   },
   methods: {
@@ -62,12 +65,35 @@ export default {
     setAltImg: function (event) {
       event.target.src = 'https://wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg';
     },
+    setCurrentPage(pageNum) {
+      this.currentPage = pageNum;
+    },
+    setMeta(payload) {
+      this.meta = payload;
+    },
+    consolelogmeta() {
+      console.log(this.meta.total);
+    },
+    goToPage(pageNum) {
+      this.setCurrentPage(pageNum);
+      this.setMeta;
+      this.getPosts();
+    },
+    async getPosts() {
+      await axios.get(`user1/tags/${this.id}?page${this.currentPage}`).then((response) => {
+        this.posts = response.data.posts;
+      });
+      console.log(this.posts);
+    },
   },
-  async mounted() {
-    await axios.get(`user1/tags/${this.id}`).then((response) => {
-      this.posts = response.data.posts;
-    });
-    console.log(this.posts);
+  // async mounted() {
+  //   await axios.get(`user1/tags/${this.id}?page${this.currentPage}`).then((response) => {
+  //     this.posts = response.data.posts;
+  //   });
+  //   console.log(this.posts);
+  // },
+  mounted() {
+    this.getPosts();
   },
   filters: {
     shortArticle(value) {
@@ -79,6 +105,7 @@ export default {
       handler(newValue) {
         axios.get(`user1/tags/${newValue.params.id}?page=${this.currentPage}`).then((response) => {
           this.posts = response.data.posts;
+          this.meta = response.data.meta;
         });
       },
       deep: true,
