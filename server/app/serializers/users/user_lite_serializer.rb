@@ -1,5 +1,7 @@
 module Users
   class UserLiteSerializer < ActiveModel::Serializer
-      attributes :image_url, :name
+    attributes :id,
+               :image_url,
+               :name
   end
 end
