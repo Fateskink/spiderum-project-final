@@ -4,7 +4,7 @@
       <li v-if="meta.page > 1" @click="goToPage(meta.page - 1)">&laquo;</li>
       <li v-else class="disabled">{{ meta.page }}</li>
 
-      <li v-for="page in meta.pages" :class="{ active: currentPage == page }" @click="goToPage(page)">{{ page }}</li>
+      <!-- <li v-for="page in meta.pages" :class="{ active: currentPage == page }" @click="goToPage(page)">{{ page }}</li> -->
 
       <li v-if="meta.page < meta.pages" @click="goToPage(meta.page + 1)">&raquo;</li>
       <li v-else class="disabled">&raquo;</li>

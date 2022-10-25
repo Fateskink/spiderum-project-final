@@ -11,6 +11,7 @@
       ></textarea>
       <button @click="createNewComment">Đăng bình luận</button>
     </div>
+    <h1>{{ id }}</h1>
     <div v-for="commentParent in comments" :key="commentParent.id" class="comment-1stlayout-wrapper">
       <div class="user-comment">
         <p class="username">
@@ -162,12 +163,13 @@ export default {
       });
     },
     ...mapActions(['createComment']),
-    // saveComment() {
-    //   this.saveId();
-    //   this.$store.commit('comment/setComment', this.currentComment);
-    // },
+    saveComment() {
+      this.saveId();
+      this.$store.commit('comment/setComment', this.currentComment);
+    },
     createNewComment() {
       this.$store.commit('comment/setComment', this.currentComment);
+      this.saveId();
       this.createComment();
       this.currentComment = null;
       this.getComments();
