@@ -18,7 +18,7 @@ module Api
         private
 
         def message_params
-          params.require(:message).permit(:user_id, :mes_content)
+          params.require(:message).permit(:mes_content)
         end
       end
     end
