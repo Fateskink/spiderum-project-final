@@ -8,16 +8,16 @@ class ApplicationController < ActionController::API
   # end
   # before_action :current_option_url, only: :upload_image
 
-  def encode_token(payload)
-    JWT.encode(payload, 'secret')
-  end
+  # def encode_token(payload)
+  #   JWT.encode(payload, 'secret')
+  # end
 
   def decode_token
     auth_header = request.headers['Authorization']
     if auth_header
-      token = auth_header.split(' ')[1]
+      token = auth_header.split.last
       begin
-        JWT.decode(token, 'secret', true, algorithm: 'HS256')
+        JWT.decode(token, Rails.application.secrets.secret_key_base).first
       rescue JWT::DecodeError
         nil
       end
@@ -27,7 +27,7 @@ class ApplicationController < ActionController::API
   def authorized_user
     decoded_token = decode_token
     if decoded_token
-      user_id = decoded_token[0]['user_id']
+      user_id = decoded_token['id']
       @current_user = User.find_by(id: user_id)
     end
   end
