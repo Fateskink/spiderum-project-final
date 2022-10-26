@@ -15,7 +15,8 @@ class ApplicationController < ActionController::API
   def decode_token
     auth_header = request.headers['Authorization']
     if auth_header
-      token = auth_header.split.last
+      return nil unless token
+
       begin
         JWT.decode(token, Rails.application.secrets.secret_key_base).first
       rescue JWT::DecodeError
@@ -40,8 +41,6 @@ class ApplicationController < ActionController::API
   def upload_image
     blob = ActiveStorage::Blob.create_and_upload!(io: File.open(params[:file]),
                                                   filename: params[:file])
-    # @post = Post.find_by(id: params[:id])
-    # @post.images.attach(blob)
     render json: { image_url: blob.url }
   end
 
@@ -66,7 +65,10 @@ class ApplicationController < ActionController::API
     }
   end
 
-  def current_option_url
-    ActiveStorage::Current.url_options = { protocol: request.protocol, host: request.host, port: request.port }
+  def token
+    authen, token = request.headers['Authorization'].to_s.split(' ')
+    return unless authen == BEARER_AUTHORIZATION
+
+    token
   end
 end
