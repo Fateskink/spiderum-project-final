@@ -35,11 +35,6 @@ class User < ApplicationRecord
             },
             size: { less_than: 5.megabytes, message: 'should be less than 5MB' }
 
-  # Returns a resized image for display.
-  # def display_image
-  #   image.variant(resize_to_limit: [200, 200]) # maybe change image size, dependent on future feature
-  # end
-
   TOKEN_EXPIRE = 15.days.from_now.to_i
 
   def create_token
