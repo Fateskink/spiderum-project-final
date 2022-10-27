@@ -18,6 +18,7 @@ import RandomPost from '@/components/PostViaCatagories/RandomPost.vue';
 import RulesView from '@/components/PostViaCatagories/RulesView.vue';
 import VotesBox from '@/components/ShowPost/VotesBox.vue';
 import CommentsBox from '@/components/ShowPost/CommentsBox.vue';
+import ShowComments from '@/components/ShowPost/ShowComments.vue';
 import ContentView from '@/components/ShowPost/ContentView.vue';
 import OtherPost from '@/components/ShowPost/OtherPost.vue';
 import OwnerPost from '@/components/UserProfile/PostList/OwnerPost';
@@ -53,6 +54,7 @@ Vue.component('comments-box', CommentsBox);
 Vue.component('votes-box', VotesBox);
 Vue.component('content-view', ContentView);
 Vue.component('other-post', OtherPost);
+Vue.component('show-comment', ShowComments);
 //UserProfile
 Vue.component('owner-post', OwnerPost);
 Vue.component('saved-post', SavedPost);

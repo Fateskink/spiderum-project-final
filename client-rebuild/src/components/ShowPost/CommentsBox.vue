@@ -11,8 +11,8 @@
       ></textarea>
       <button @click="createNewComment">Đăng bình luận</button>
     </div>
-    <h1>{{ id }}</h1>
-    <div v-for="commentParent in comments" :key="commentParent.id" class="comment-1stlayout-wrapper">
+    <ShowComment :comment="comments" @abc="getComments()"></ShowComment>
+    <!-- <div v-for="commentParent in comments" :key="commentParent.id" class="comment-1stlayout-wrapper">
       <div class="user-comment">
         <p class="username">
           {{ commentParent.user.name }} <span class="time-comment-cal">{{ timeAgo(commentParent.created_at) }}</span>
@@ -101,36 +101,25 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
-<!-- <template>
-  <div class="comment-box content-fix">
-    <div v-for="commentParent in comments" :key="commentParent.id">
-      <p>{{ commentParent.user.name }}: {{ commentParent.body }}</p>
-      <div v-for="commentChild1 in commentParent.comments" :key="commentChild1.id">
-        <p>--------{{ commentChild1.user.name }}: {{ commentChild1.body }}</p>
-        <div v-for="commentChild2 in commentChild1.comments" :key="commentChild2.id">
-          <p>--------------{{ commentChild2.user.name }}: {{ commentChild2.body }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</template> -->
 
 <script>
-import timeAgo from '@/function/timeAgo';
 import axios from '@/axios/axios';
 import { createNamespacedHelpers } from 'vuex';
+import ShowComment from '@/components/ShowPost/ShowComments.vue';
 const { mapActions } = createNamespacedHelpers('comment');
 export default {
+  components: {
+    ShowComment,
+  },
   data() {
     return {
       comments: {},
       commentParent: {
         showing: false,
       },
-      currentCommentId: null,
       id: this.$route.params.id,
       post: {},
       currentComment: '',
@@ -139,8 +128,11 @@ export default {
   async created() {
     await this.getComments();
   },
+
   methods: {
-    timeAgo,
+    call() {
+      console.log('jr');
+    },
     toggleComment(commentId) {
       // this.currentCommentId = this.currentCommentId == commentId ? null : commentId;
       if (this.currentCommentId == commentId) {
