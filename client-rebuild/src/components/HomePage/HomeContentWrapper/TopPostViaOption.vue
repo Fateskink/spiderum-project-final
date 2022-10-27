@@ -33,7 +33,7 @@
               />
               <a href="" class="artical-author-name">{{ post.user_id }}</a>
             </div>
-            <button @click="consolelogmeta">fdaf</button>
+            <!-- <button @click="consolelogmeta">ConsoleLog</button> -->
             <div class="flex align-center">
               <img src="@/assets/img/svg-icon/upvote.svg" alt="" />
               <p>Upvote</p>
