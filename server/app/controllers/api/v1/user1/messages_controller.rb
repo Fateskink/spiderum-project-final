@@ -2,6 +2,8 @@ module Api
   module V1
     module User1
       class MessagesController < ApplicationController
+        before_action :authorize
+
         def create
           @conversation = Conversation.includes(:recipient).find(params[:conversation_id])
           @message = @conversation.messages.create(message_params)

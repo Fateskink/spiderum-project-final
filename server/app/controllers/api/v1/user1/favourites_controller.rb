@@ -2,7 +2,7 @@ module Api
   module V1
     module User1
       class FavouritesController < ApplicationController
-        before_action :authorize
+        before_action :authorize, only: %i[create destroy]
         before_action :set_post, only: %i[create index destroy]
 
         def index

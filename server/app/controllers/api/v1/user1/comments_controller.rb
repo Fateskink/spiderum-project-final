@@ -3,7 +3,7 @@ module Api
     module User1
       class CommentsController < ApplicationController
         before_action :find_commentable
-        before_action :authorize
+        before_action :authorize, only: %i[create destroy update edit]
         before_action :correct_user, only: %i[edit update destroy]
         # before_action :admin_user, only: :destroy
 
@@ -14,7 +14,7 @@ module Api
         def index
           @comments = @commentable.comments
           @pagy, all_comments = pagy(@comments)
-          render ({meta: meta_data, json: all_comments, adapter: :json, each_serializer: CommentSerializer })
+          render({ meta: meta_data, json: all_comments, adapter: :json, each_serializer: CommentSerializer })
         end
 
         def create
