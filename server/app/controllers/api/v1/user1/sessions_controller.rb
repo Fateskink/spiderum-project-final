@@ -3,14 +3,14 @@ module Api
     module User1
       class SessionsController < ApplicationController
         before_action :authorize, only: :destroy
-
+        require 'date'
         def create
           @user = User.find_by(email: params[:email])
           if @user && @user.valid_password?(params[:password])
             if is_banned?
             elsif !@user.confirmation_token?
               token = encode_token(id: @user.id)
-              render json: { user: @user, token: }, status: :ok
+              render json: { user: @user, token:, date: }, status: :ok
             else
               render json: { message1: 'Account not activated.',
                              message2: 'Check your email for the activation link.' }
