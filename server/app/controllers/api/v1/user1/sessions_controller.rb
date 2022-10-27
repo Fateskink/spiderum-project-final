@@ -9,7 +9,7 @@ module Api
           if @user && @user.valid_password?(params[:password])
             if is_banned?
             elsif !@user.confirmation_token?
-              token = @user.create_token
+              token = encode_token(id: @user.id)
               render json: { user: @user, token: }, status: :ok
             else
               render json: { message1: 'Account not activated.',

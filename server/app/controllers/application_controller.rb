@@ -13,6 +13,11 @@ class ApplicationController < ActionController::API
   # end
   BEARER_AUTHORIZATION = 'Bearer'
 
+  def encode_token(payload, exp = 24.hours.from_now)
+    payload[:exp] = exp.to_i
+    JWT.encode(payload, Rails.application.secrets.secret_key_base)
+  end
+
   def decode_token
     auth_header = request.headers['Authorization']
     if auth_header
